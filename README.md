@@ -27,9 +27,9 @@ data/YYYY-MM-DD.json  # 해당 날짜의 브리핑 항목 배열
 | `id` | 항목 고유 ID |
 | `date` | 브리핑 날짜 (`YYYY-MM-DD`) |
 | `category` | `incident`(국내 침해·유출) · `vuln`(취약점·PoC·KISA) · `global`(글로벌·공급망) |
-| `severity` | `critical` · `incident` · `advisory` (배지 색상) |
+| `severity` | `critical` · `high` · `info` (2026-11-16 이후) · `critical` · `incident` · `advisory` (이전 데이터, 배지 색상) |
 | `severityLabel` | 배지에 표시할 문구 (예: `CVSS 9.8 · 긴급`) |
-| `pocStatus` | `wild`(실제 악용) · `yes`(PoC 공개) · `none`(없음/미확인) |
+| `pocStatus` | `exploited`(실제 악용) · `poc`(PoC 공개) · `none`(없음/미확인) — 이전 데이터의 `wild` · `yes`도 함께 지원 |
 | `pocLabel` | PoC 배지 문구 |
 | `title` | 제목 |
 | `summary` | 요약 |

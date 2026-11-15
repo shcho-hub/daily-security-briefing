@@ -253,8 +253,8 @@
       font-weight: 700;
     }
     .badge.critical { background: var(--danger-soft); color: var(--danger); }
-    .badge.incident { background: var(--warn-soft); color: var(--warn); }
-    .badge.advisory { background: var(--blue-soft); color: var(--blue); }
+    .badge.high, .badge.incident { background: var(--warn-soft); color: var(--warn); }
+    .badge.info, .badge.advisory { background: var(--blue-soft); color: var(--blue); }
     .badge.poc-yes { background: var(--pink-soft); color: var(--pink-dark); }
     .badge.poc-wild { background: var(--danger-soft); color: var(--danger); }
     .badge.poc-none { background: #f3f4f6; color: #6b7280; }
@@ -467,16 +467,30 @@
       });
     }
 
+    // severity: critical|high|info (현재) · critical|incident|advisory (이전 데이터)
+    function getSeverityClass(severity) {
+      if (severity === "high") return "high";
+      if (severity === "incident") return "incident";
+      if (severity === "info") return "info";
+      if (severity === "advisory") return "advisory";
+      return "critical";
+    }
+
+    // pocStatus: exploited|poc|none (현재) · wild|yes|none (이전 데이터)
     function getPocBadgeClass(status) {
-      if (status === "wild") return "poc-wild";
-      if (status === "yes") return "poc-yes";
+      if (status === "wild" || status === "exploited") return "poc-wild";
+      if (status === "yes" || status === "poc") return "poc-yes";
       return "poc-none";
+    }
+
+    function hasPocSign(status) {
+      return status === "wild" || status === "yes" || status === "exploited" || status === "poc";
     }
 
     function renderStats(list) {
       const total = list.length;
       const crit = list.filter(i => i.severity === "critical").length;
-      const poc = list.filter(i => i.pocStatus === "yes" || i.pocStatus === "wild").length;
+      const poc = list.filter(i => hasPocSign(i.pocStatus)).length;
       const days = indexDates.length;
       document.getElementById("stats").innerHTML = `
         <div class="stat-card"><div class="label">표시 중인 이슈</div><div class="value">${total}건</div></div>
@@ -499,7 +513,7 @@
           <div>
             <div class="card-top">
               <div class="badge-group">
-                <span class="badge ${item.severity}">${item.severityLabel}</span>
+                <span class="badge ${getSeverityClass(item.severity)}">${item.severityLabel}</span>
                 <span class="badge ${getPocBadgeClass(item.pocStatus)}">${item.pocLabel}</span>
               </div>
               <span class="date-tag">${item.date}</span>

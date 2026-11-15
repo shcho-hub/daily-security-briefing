@@ -1,0 +1,167 @@
+[
+  {
+    "id": "2026-11-16-fsec-audit",
+    "date": "2026-11-16",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "특정감사 개시 · 후속",
+    "pocStatus": "exploited",
+    "pocLabel": "공격 수법 확인",
+    "title": "금융위, 금융보안원 특정감사 오늘(11/16) 착수…원인은 '유동 IP 허용'",
+    "summary": "금융위원회가 11/9 침해사고를 당한 금융보안원을 상대로 16일부터 전문가·유관기관 합동 특정감사에 들어간다. 48개사 파일 130여 개, 행정서식 200건·개인정보 300건·이용자 정보 350건 유출. 금보원은 12일까지 공격에 쓰인 246개 IP 차단을 마쳤고, 2022년 감사 뒤 고정 IP로 묶었던 접속을 금융사 요구로 유동 IP까지 다시 열어준 것이 원인으로 지목됐다.",
+    "pocDetail": "9일 10:50 비정상 접근 인지 → 13:54 웹셸 시도(파일 암호화 정책으로 실패) → 14:11 비인가 로그인 이상징후 → 14:19 서비스 중단 → 15:50 유출 확인. 수법은 회원가입 SMS 인증 우회 + 금감원 사칭 계정 생성 + '상시평가자용 운영 점검 기능' 권한 검증 미흡으로 파일 다운로드. 공격 IP 국적은 한국(경유 가능성 열어둠), 경찰청 사이버테러수사대 수사 중.",
+    "action": "노출된 평가·관리자 기능의 서버단 권한검증과 파일 ID 직접참조 차단, 접속 허용 IP 예외 승인 절차 도입, 유동 IP·해외 IP 접속 정책 재점검",
+    "links": [
+      {
+        "label": "뉴스핌(감사 착수)",
+        "url": "https://www.newspim.com/news/view/20261113001347"
+      },
+      {
+        "label": "보안뉴스(246개 IP·유동 IP 원인)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147263"
+      },
+      {
+        "label": "연합뉴스(사고 타임라인)",
+        "url": "https://www.yna.co.kr/view/AKR20261113169000002"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-coinone",
+    "date": "2026-11-16",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "수탁사 침해 · 5번째 거래소",
+    "pocStatus": "none",
+    "pocLabel": "경로 조사 중",
+    "title": "코인원, 상담 수탁사 메타엠 서버 침해…주민번호·계좌번호 유출 가능",
+    "summary": "코인원이 15일 공지로 고객 상담 수탁업체 메타엠 서버가 11/12 오전 4시경 외부 공격을 받아 상담 정보가 조회·유출됐다고 밝혔다. 이름·이메일·전화번호·생년월일뿐 아니라 계좌번호·주민등록번호·신분증 발급일자·가상자산 지갑주소·TXID까지 유출 가능 항목에 올랐고, 정확한 범위는 조사 중이다. 빗썸·한양증권·플라이빗에 이은 거래소 연쇄 침해 5번째 사례다.",
+    "pocDetail": "코인원은 12일 09:20 수탁사로부터 사고를 보고받고 공격 IP와 고객센터 간 접근을 차단, 관계기관에 신고했다고 설명. 회원 계정·거래·지갑 시스템은 수탁사 서버와 분리돼 직접 침입 정황은 없다고 밝혔으나, 상담 과정에서 고객이 직접 제공한 고유식별정보가 포함돼 2차 피해(스미싱·명의도용) 위험이 크다.",
+    "action": "상담·CS 위탁사 인벤토리와 접근권한 즉시 점검, 상담 스크립트에서 주민번호·계좌번호 수집 중단(마스킹·대체식별자), 위탁사 사고 통보 SLA와 침해 탐지 로그 요구",
+    "links": [
+      {
+        "label": "파이낸셜뉴스",
+        "url": "https://www.fnnews.com/news/202611151139446503"
+      },
+      {
+        "label": "데이터넷(공급망 확산 정리)",
+        "url": "https://www.datanet.co.kr/news/articleView.html?idxno=300168"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-lazarus-php2shell",
+    "date": "2026-11-16",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVE-2026-109618·109619 · 표적화",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 · 표적 목록",
+    "title": "北 연계 조직, PHP2Shell로 韓 서버 30곳 표적…216→581대로 확대",
+    "summary": "싱가포르 사이버마(CYFIRMA)가 라자루스 생태계 연계로 추정되는 한국어 사용 조직이 PHP 코어 RCE(PHP2Shell, CVE-2026-109618·CVE-2026-109619)로 10개국 216개 노출 서버를 1차 표적화했고 이 중 한국이 30곳이라고 밝혔다. 정부·금융·통신·핵심인프라·물류항공·제조·온라인거래 7대 산업군이 우선 대상이며, 침투 후 관리자 자격증명 탈취로 내부망 수평이동해 범위를 581개 호스트로 넓혔다.",
+    "pocDetail": "표적 목록은 10/24 작성분으로, 사전 감염시킨 21개 스캔 노드로 인터넷 스캔을 돌려 선별. 인증 없이 웹셸을 올려 서버 제어권을 잡는 방식이며 목록에 올랐다는 것이 곧 침해를 뜻하지는 않는다. PHP 8.4.14/8.3.27 등 10월 21일 긴급 패치 이후 악용 시도가 본격화됐고, 웹앱만 갱신해서는 막을 수 없어 PHP 코어 패치 후 웹 워커 프로세스 완전 재시작이 필요하다.",
+    "action": "노출된 PHP 자산 인벤토리 작성 후 코어 최신 버전 패치·워커 재시작 검증, 웹셸 흔적과 관리자 계정·키 재발급, 대외 노출 PHP 서버 아웃바운드 차단",
+    "links": [
+      {
+        "label": "전자신문",
+        "url": "https://www.etnews.com/20261115000093"
+      },
+      {
+        "label": "데이터넷(사이퍼마 분석)",
+        "url": "https://www.datanet.co.kr/news/articleView.html?idxno=300168"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-kev-deadline",
+    "date": "2026-11-16",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CISA KEV · 기한 11/16",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 (KEV)",
+    "title": "CISA KEV 2건, 오늘(11/16)이 조치 기한…Check Point·UnrealIRCd",
+    "summary": "CISA가 11/13 KEV에 올린 Check Point(CVE-2026-123039, CVSS 7.8)와 UnrealIRCd(CVE-2026-114713, CVSS 8.6)의 연방기관 조치 기한이 16일이다. 11/13 이후 KEV 신규 등재는 없어(카탈로그 버전 2026.11.13, 1,781건) 이 2건이 현재 최신이며, Check Point는 '수십 곳 고객사' 대상 실제 악용을 확인했다고 공지했다.",
+    "pocDetail": "Gaia OS DynamicCLI 데몬이 root로 0777 로컬 소켓(/tmp/dynamic_socket)을 인증 없이 열어 로컬 사용자가 root 명령 실행 가능. 실제 공격은 Mobile Access 포털의 PHP2Shell(CVE-2026-109618·109619)로 침투 → 이 결함으로 권한상승 → 웹셸·TSGA 백도어·TSProxy 설치 → ESXi 호스트로 이동해 와이퍼 destroy_v6 실행까지 확인됐다. UnrealIRCd는 labeled-response 모듈이 IRCv3 label 태그를 이스케이프하지 않아 2대 이상 링크된 네트워크에서 일반 사용자가 서버 권한 명령을 주입할 수 있다.",
+    "action": "Gaia OS 11월 Jumbo Hotfix 적용(불가 시 dynamic_server 중지·재기동 차단) 및 소켓 권한 0660 점검, UnrealIRCd 6.2.7.1 이상 업그레이드, 게이트웨이→내부 SSH·ESXi 접근 로그 추적",
+    "links": [
+      {
+        "label": "CISA KEV 공지",
+        "url": "https://www.cisa.gov/news-events/alerts/2026/11/13/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "label": "Security Affairs",
+        "url": "https://securityaffairs.com/203040/hacking/u-s-cisa-adds-check-point-and-unrealircd-flaws-to-its-known-exploited-vulnerabilities-catalog.html"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-cursor",
+    "date": "2026-11-16",
+    "category": "global",
+    "severity": "critical",
+    "severityLabel": "공급망 · 확장 마켓 침해",
+    "pocStatus": "exploited",
+    "pocLabel": "악성 확장 배포 확인",
+    "title": "Cursor 확장 마켓 침해…악성 'Claude Code' 확장이 SSH 백도어 심어",
+    "summary": "코드 에디터 Cursor가 자사 확장 마켓 침해로 공격자가 악성 확장을 배포할 수 있었다고 확인했다. Anthropic Claude Code 확장을 사칭한 2.1.312 이후 버전이 약 11시간 노출됐고, 설치 시 공격자 SSH 키와 지속 실행 설정을 남겼다. 공식 마켓 신뢰 자체가 공격 경로가 된 개발 생태계 공급망 사고다.",
+    "pocDetail": "확장을 지워도 authorized_keys에 남은 키로 접근이 유지되고, 시작프로그램·스케줄 작업·셸 설정에 남은 지속성 설정은 재부팅 후에도 살아남는다. Microsoft도 해당 SSH 백도어의 탐지·제거 안내를 냈다.",
+    "action": "Cursor에 설치된 Claude Code 확장 버전·설치 시점 대조 후 공식 배포판으로 재설치, ~/.ssh/authorized_keys와 신규 키·지속성 항목 점검, 노출 의심 단말의 저장소 자격증명 재발급",
+    "links": [
+      {
+        "label": "BleepingComputer(침해 확인)",
+        "url": "https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension"
+      },
+      {
+        "label": "BleepingComputer(SSH 백도어)",
+        "url": "https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-modoo",
+    "date": "2026-11-16",
+    "category": "incident",
+    "severity": "info",
+    "severityLabel": "정부 지원사업 · 후속 대책",
+    "pocStatus": "none",
+    "pocLabel": "수법 확인 (SQL 인젝션)",
+    "title": "중기부, '모두의 창업' 2차 유출 후속…업체 제재 검토·49곳 긴급점검",
+    "summary": "중기부가 15일 아미쿠스렉스(로폼) 유출 사고와 관련해 사업 선정 취소·1년 이내 참여 제한 등 제재를 검토하고, 나머지 AI 솔루션 공급업체 49곳을 20일까지 민간 보안업체와 합동 점검한다고 밝혔다. 이번 사고로 이용자 2만28명(모두의 창업 참가자 818명)의 이름·전화번호·이메일이 유출됐고, 1차 사업 사고(약 5,000명) 이후 5개월 만의 재발이다.",
+    "pocDetail": "업체 신고서에는 '관리자 페이지 SQL 인젝션 공격으로 일부 정보 탈취 시도가 확인돼 취약한 API 코드를 삭제했다'고 기재됐다. 발생 11/11 05:38 → 인지 08:30 → KISA 신고 15:45 → 중기부 공개 13일 17:08로, 사고 60시간·신고 49시간 뒤 공개된 점이 늑장 대응 논란으로 남았다. 1차는 공식 플랫폼 API·크롤링, 2차는 참여 민간기업 자체 시스템이 침해 지점이라는 차이가 있다.",
+    "action": "정부·지자체 지원사업 위탁·참여 업체의 API 권한검증(BOLA)과 관리자 페이지 입력 검증 점검, 사고 통보·공개 기한을 계약 조항에 명시",
+    "links": [
+      {
+        "label": "연합뉴스(제재·49곳 점검)",
+        "url": "https://www.yna.co.kr/view/AKR20261115029100030"
+      },
+      {
+        "label": "보안뉴스(API 침해)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147261"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-chak",
+    "date": "2026-11-16",
+    "category": "incident",
+    "severity": "info",
+    "severityLabel": "공공기관 · 정보 조회",
+    "pocStatus": "none",
+    "pocLabel": "경로 조사 중",
+    "title": "한국조폐공사 '착' 3,083명 정보 조회…KISA 합동조사",
+    "summary": "모바일 지역사랑상품권 플랫폼 '착(chak)'에서 외부 비인가 접근으로 3,083명의 개인정보가 조회됐다. 성명·생년월일·휴대전화번호·계좌번호·CI·이메일·암호화된 카드번호 등 7종이며, 2개 이하 항목 노출이 3,072명·3~4개 항목은 11명이다. 공사는 의심 IP와 해외 IP를 차단하고 대상 서버를 중단한 뒤 긴급 조치했고, KISA 등과 합동 조사 중이다.",
+    "pocDetail": "13일 09:30 비정상 접속 시도 최초 포착, 14일 06시 집계 기준 3,083명. 공격 수법과 유입 경로는 아직 공개되지 않았고 KISA 합동조사에서 규명 중이다. 계좌번호·연락처가 포함돼 스미싱·보이스피싱 2차 피해 우려가 제기된다.",
+    "action": "공공 앱·웹의 해외 IP 정책과 이상 접속 탐지 임계치 재설정, 조회 기능의 건별 인가·감사로그 기록, 대상자 대상 2차 피해 예방 안내",
+    "links": [
+      {
+        "label": "연합뉴스",
+        "url": "https://www.yna.co.kr/view/AKR20261114043100063"
+      },
+      {
+        "label": "보안뉴스",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147268"
+      }
+    ]
+  }
+]
