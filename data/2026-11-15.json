@@ -1,0 +1,140 @@
+[
+  {
+    "id": "2026-11-15-apache",
+    "date": "2026-11-15",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 · 긴급",
+    "pocStatus": "yes",
+    "pocLabel": "PoC 공개 (크래시 재현)",
+    "title": "Apache HTTP Server mod_http2 RCE (CVE-2026-119618)",
+    "summary": "mod_http2의 assign_headers() 동기화 미흡으로 힙 손상 및 비인증 원격 코드 실행(RCE) 가능. HTTP/2가 활성화된 Apache 2.4.55~2.4.70 및 별도 mod_h2 2.0.8~2.0.42 영향.",
+    "pocDetail": "공개 PoC는 메모리 손상·프로세스 크래시 단계까지 재현됨. Red Hat은 안정적 RCE 시연 주장, Wiz는 야생 악용 보고 없음.",
+    "action": "Apache 2.4.71 즉시 패치 (별도 mod_h2는 지원 종료로 Protocols에서 h2/h2c 제거 권고)",
+    "links": [
+      {
+        "label": "보안뉴스",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147236"
+      },
+      {
+        "label": "Apache 공식 권고",
+        "url": "https://httpd.apache.org/security/vulnerabilities_24"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-checkpoint",
+    "date": "2026-11-15",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CISA KEV",
+    "pocStatus": "wild",
+    "pocLabel": "실제 악용 · PoC 체인 확인",
+    "title": "Check Point Gaia OS (CVE-2026-123039) & UnrealIRCd KEV",
+    "summary": "Gaia OS 로컬 권한상승이 PHP2Shell과 연쇄로 백도어(TSGA/TSProxy) 및 와이퍼(destroy_v6) 악용 확인. UnrealIRCd(CVE-2026-114713, CVSS 8.6)도 실제 악용 중으로 11/13 KEV 등재.",
+    "pocDetail": "로컬 소켓(/tmp/dynamic_socket, 0777 권한) 무인증 접근 악용 → zz*.tpl 웹셸·백도어 설치 체인 분석 공개.",
+    "action": "Gaia OS 11월 Jumbo Hotfix 적용 및 소켓 권한(0660) 점검 / UnrealIRCd 6.2.7.1 패치",
+    "links": [
+      {
+        "label": "Check Point 분석",
+        "url": "https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/"
+      },
+      {
+        "label": "CISA KEV 공지",
+        "url": "https://www.cisa.gov/news-events/alerts/2026/11/13/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-cpguard",
+    "date": "2026-11-15",
+    "category": "global",
+    "severity": "critical",
+    "severityLabel": "공급망 공격",
+    "pocStatus": "wild",
+    "pocLabel": "침해 지표(IoC) 공개",
+    "title": "리눅스 보안툴 cPGuard 업데이트 오염 & 머스크 데이터 도난",
+    "summary": "옵스실드 배포 인프라 침해로 cPGuard 5.88.12~19 업데이트에 악성 스크립트가 실려 /etc/shadow, DB·SSH 키 탈취. 머스크는 인수사 LF로지스틱스 데이터 도난 인정(500만 달러 요구).",
+    "pocDetail": "IoC 확인: cpguard-v58812-i91511.sh, /var/tmp/.cpg91511_sh 및 install_log 내 업데이트 이력.",
+    "action": "cPGuard 5.88.25 이상 업데이트 후 서버 내 자격증명·SSH 키 전면 교체",
+    "links": [
+      {
+        "label": "cPGuard 상세",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=146988"
+      },
+      {
+        "label": "머스크 보도",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147207"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-univ",
+    "date": "2026-11-15",
+    "category": "incident",
+    "severity": "incident",
+    "severityLabel": "국내 침해",
+    "pocStatus": "none",
+    "pocLabel": "유출 샘플 일부 게시",
+    "title": "한국 대학 31곳 해킹 주장 및 경일대·인제대 피해 확인",
+    "summary": "해커 'KimJEN'이 포럼에 한국 대학 31곳(식별 28곳) 탈취 주장을 게시. 실제 피해 확인은 경일대(교직원 전자문서시스템)와 인제대(플립러닝 서버, 24,011건 유출) 2곳.",
+    "pocDetail": "텔레그램 채널에 경일대 메일·설정·DB 추정 파일(약 1GB) 게시. 11/19 수능 앞두고 관제 주의.",
+    "action": "교육·공공 웹서버 접근통제 및 수능 전후 이상 접속 모니터링",
+    "links": [
+      {
+        "label": "데일리시큐 보도",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209522"
+      },
+      {
+        "label": "인제대·경일대 상세",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209515"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-yellow",
+    "date": "2026-11-15",
+    "category": "incident",
+    "severity": "incident",
+    "severityLabel": "유출 의심",
+    "pocStatus": "none",
+    "pocLabel": "공격 기법 미공개",
+    "title": "노란우산(중기중앙회) 개인정보 제3자 조회 의심 공지",
+    "summary": "11/11 외부 비인가자의 홈페이지 비정상 접근으로 재적 가입자(192만 명) 중 일부의 성명·주민번호 앞 7자리·연락처·이메일 등 7종 조회 의심 정황 확인.",
+    "pocDetail": "구체적 공격 벡터는 미공개, 웹 조회 기능 악용 정황으로 공격 IP 차단 및 KISA 신고 완료.",
+    "action": "대민 웹 조회 화면 인가 검증(IDOR 등) 및 대량 조회 탐지 점검",
+    "links": [
+      {
+        "label": "연합뉴스",
+        "url": "https://www.yna.co.kr/view/AKR20261114037551030"
+      },
+      {
+        "label": "전자신문",
+        "url": "https://www.etnews.com/20261114000032"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-fsec",
+    "date": "2026-11-15",
+    "category": "incident",
+    "severity": "incident",
+    "severityLabel": "후속 감사",
+    "pocStatus": "wild",
+    "pocLabel": "공격 수법 확인",
+    "title": "금융보안원·미래에셋 연기금투자풀 침해 후속 조치",
+    "summary": "금보원 상시평가 시스템 침해(48개사 파일 130여 개·650여 건 유출) 관련 내일(11/16) 금융위 특정감사 착수. 미래에셋 연기금투자풀(331명·960MB) 및 MGIS(2,281명·280MB) 유출 확인.",
+    "pocDetail": "금보원: SMS 인증 우회 + 금감원 사칭 계정 생성 + 유동 IP 접속. 미래에셋: 첨부파일 번호 1~2,592 순차 대입.",
+    "action": "관리자·평가 시스템의 유동 IP 제한, SMS 인증 우회 및 파일 ID 순차 대입(IDOR) 차단",
+    "links": [
+      {
+        "label": "뉴스핌(금보원)",
+        "url": "https://www.newspim.com/news/view/20261113001347"
+      },
+      {
+        "label": "파이낸셜뉴스(미래에셋)",
+        "url": "https://www.fnnews.com/news/202611131200516293"
+      }
+    ]
+  }
+]

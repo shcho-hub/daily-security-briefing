@@ -1,0 +1,44 @@
+[
+  {
+    "id": "2026-11-14-kisa-vates",
+    "date": "2026-11-14",
+    "category": "vuln",
+    "severity": "advisory",
+    "severityLabel": "KISA 권고",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC 없음",
+    "title": "KISA 제2633호: Vates Xen Orchestra 인증 결함 업데이트",
+    "summary": "부적절한 인증(Improper Authentication) 취약점으로 Xen Orchestra 6.10.1 미만 및 6.9.2 미만 버전 영향.",
+    "pocDetail": "현재까지 공개 PoC는 없으나 가상화 관리 플랫폼 특성상 선제적 패치 권고.",
+    "action": "6.10.1 이상 또는 6.9.2 이상으로 즉시 업데이트",
+    "links": [
+      {
+        "label": "KISA 보호나라",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&menuNo=205023&nttId=72306"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-14-domestic-wave",
+    "date": "2026-11-14",
+    "category": "incident",
+    "severity": "incident",
+    "severityLabel": "국내 침해",
+    "pocStatus": "none",
+    "pocLabel": "조사 진행 중",
+    "title": "카카오워크·NHN두레이·쏘카·플라이빗 연쇄 침해 공표",
+    "summary": "카카오워크(고객사 44곳·메일 본문/첨부 유출), NHN두레이(API 키 전량 폐기 및 중단), 쏘카(내부 인증 도용), 플라이빗(다우그룹웨어 경유 40명 유출) 등 11/13~14 공표 이어짐.",
+    "pocDetail": "내부 인증정보 도용 및 API 키 비정상 호출 등 계정·키 탈취형 침해가 주류.",
+    "action": "협업툴·그룹웨어 API 키 주기적 로테이션 및 외부 접속 이상징후 모니터링",
+    "links": [
+      {
+        "label": "IT조선(카카오워크)",
+        "url": "https://it.chosun.com/news/articleView.html?idxno=3000000000991"
+      },
+      {
+        "label": "보안뉴스(쏘카)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147260"
+      }
+    ]
+  }
+]

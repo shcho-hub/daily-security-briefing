@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>일일 보안 동향</title>
+  <style>
+    :root {
+      --bg: #fffcfd;
+      --bg-grad: linear-gradient(180deg, #fff5f8 0%, #fffcfd 42%, #f9fafc 100%);
+      --panel: #ffffff;
+      --panel-soft: #fff7f9;
+      --panel-cool: #f6f8fc;
+      --border: #f0e3e8;
+      --border-strong: #e4cdd6;
+      --text: #1e2430;
+      --muted: #6b7280;
+      --pink: #ff6b8b;
+      --pink-dark: #e6496d;
+      --pink-soft: #ffeaf0;
+      --danger: #d92d4b;
+      --danger-soft: #ffe8ec;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --blue: #2563eb;
+      --blue-soft: #eaf2ff;
+      --ok: #059669;
+      --ok-soft: #e6f9f1;
+      --shadow: 0 8px 24px rgba(30, 36, 48, 0.05);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+      background: var(--bg-grad);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 72px;
+    }
+
+    header {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-pill {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffd1dc 0%, #ff9eb5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      box-shadow: 0 6px 14px rgba(255, 107, 139, 0.25);
+      flex-shrink: 0;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.42rem;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+    button:hover {
+      border-color: var(--pink);
+      background: var(--panel-soft);
+    }
+    button.primary {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(255, 107, 139, 0.25);
+    }
+    button.primary:hover {
+      background: var(--pink-dark);
+      border-color: var(--pink-dark);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 15px 18px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .stat-card .value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-top: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tab {
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 15px;
+      font-size: 0.84rem;
+      border: 1px solid var(--border);
+    }
+    .tab.active {
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      border-color: #ffb8c9;
+      font-weight: 700;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      max-width: 360px;
+      min-width: 230px;
+    }
+
+    input[type="search"], select {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 13px;
+      border-radius: 12px;
+      font-size: 0.86rem;
+      outline: none;
+    }
+    input[type="search"]:focus, select:focus {
+      border-color: var(--pink);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.16s ease, border-color 0.16s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-strong);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .badge.critical { background: var(--danger-soft); color: var(--danger); }
+    .badge.incident { background: var(--warn-soft); color: var(--warn); }
+    .badge.advisory { background: var(--blue-soft); color: var(--blue); }
+    .badge.poc-yes { background: var(--pink-soft); color: var(--pink-dark); }
+    .badge.poc-wild { background: var(--danger-soft); color: var(--danger); }
+    .badge.poc-none { background: #f3f4f6; color: #6b7280; }
+
+    .date-tag {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .card h3 {
+      margin: 10px 0 6px;
+      font-size: 1.04rem;
+      line-height: 1.4;
+      letter-spacing: -0.015em;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.89rem;
+      color: #4b5563;
+    }
+
+    .info-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .meta-box {
+      border-radius: 13px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .meta-box.poc {
+      background: var(--panel-soft);
+      border: 1px solid #f7d9e2;
+      color: #4a2c35;
+    }
+    .meta-box.action {
+      background: var(--panel-cool);
+      border: 1px solid #e5ebf5;
+      color: #334155;
+    }
+    .meta-box strong {
+      display: inline-block;
+      margin-right: 4px;
+      color: var(--text);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #f3eaee;
+      flex-wrap: wrap;
+    }
+
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    a {
+      color: var(--pink-dark);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    a:hover { text-decoration: underline; }
+
+    .notice-card {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .notice-card strong { color: var(--text); }
+    .notice-card code {
+      font-size: 0.8rem;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px 6px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: #fff;
+      padding: 11px 18px;
+      border-radius: 14px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: all 0.2s ease;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand-row">
+        <div class="logo-pill">🛡️</div>
+        <div class="brand">
+          <h1>일일 보안 동향</h1>
+          <p>매일 아침 07:00 수집 · 침해사고, 취약점(CVE), PoC·악용 정황 아카이브</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button onclick="copySummary()">📋 요약 텍스트 복사</button>
+        <button onclick="exportMarkdown()">📝 마크다운</button>
+        <button class="primary" onclick="exportJson()">📦 JSON 내보내기</button>
+      </div>
+    </header>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="controls">
+      <div class="tabs" id="categoryTabs">
+        <button class="tab active" data-cat="all">전체</button>
+        <button class="tab" data-cat="incident">국내 침해·유출</button>
+        <button class="tab" data-cat="vuln">취약점·PoC·KISA</button>
+        <button class="tab" data-cat="global">글로벌·공급망</button>
+      </div>
+      <div class="search-box">
+        <select id="dateFilter" style="max-width: 138px;">
+          <option value="all">모든 날짜</option>
+        </select>
+        <input type="search" id="searchInput" placeholder="CVE, PoC, 키워드 검색..." />
+      </div>
+    </section>
+
+    <section class="grid" id="cardsGrid"></section>
+  </div>
+
+  <div class="toast" id="toast">복사되었어요!</div>
+
+  <script>
+    const DATA_DIR = "data/";
+
+    let indexDates = [];      // data/index.json (최신순)
+    let items = [];           // 현재 선택된 날짜(들)에서 불러온 항목
+    let activeCat = "all";
+    let isLoading = false;
+
+    const dateCache = new Map();
+
+    // 캐시된 응답을 쓰지 않도록 매 요청에 타임스탬프를 붙인다.
+    async function fetchJson(path) {
+      const res = await fetch(`${path}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`${path} → HTTP ${res.status}`);
+      return res.json();
+    }
+
+    async function loadDateFile(date) {
+      if (dateCache.has(date)) return dateCache.get(date);
+      const data = await fetchJson(`${DATA_DIR}${date}.json`);
+      const list = Array.isArray(data) ? data : [];
+      dateCache.set(date, list);
+      return list;
+    }
+
+    function buildDateOptions(dates) {
+      return `<option value="all">모든 날짜</option>` +
+        dates.map(d => `<option value="${d}">${d}</option>`).join("");
+    }
+
+    function setLoading(text) {
+      document.getElementById("cardsGrid").innerHTML =
+        `<div class="card notice-card"><strong>${text}</strong></div>`;
+      document.getElementById("stats").innerHTML = "";
+    }
+
+    function renderError(err) {
+      document.getElementById("stats").innerHTML = "";
+      document.getElementById("cardsGrid").innerHTML = `
+        <div class="card notice-card">
+          <strong>보안 동향 데이터를 불러오지 못했어요.</strong>
+          <div>잠시 후 새로고침해 주세요. 계속 같은 문제가 보이면 <code>data/index.json</code> 경로와 배포 상태를 확인해 주세요.</div>
+          <div style="margin-top:6px;font-size:0.78rem;">(${err && err.message ? err.message : "unknown error"})</div>
+        </div>`;
+    }
+
+    function getFiltered() {
+      const dateVal = document.getElementById("dateFilter").value;
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      return items.filter(item => {
+        if (activeCat !== "all" && item.category !== activeCat) return false;
+        if (dateVal !== "all" && item.date !== dateVal) return false;
+        if (q) {
+          const blob = `${item.title} ${item.summary} ${item.pocDetail} ${item.action}`.toLowerCase();
+          if (!blob.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function getPocBadgeClass(status) {
+      if (status === "wild") return "poc-wild";
+      if (status === "yes") return "poc-yes";
+      return "poc-none";
+    }
+
+    function renderStats(list) {
+      const total = list.length;
+      const crit = list.filter(i => i.severity === "critical").length;
+      const poc = list.filter(i => i.pocStatus === "yes" || i.pocStatus === "wild").length;
+      const days = indexDates.length;
+      document.getElementById("stats").innerHTML = `
+        <div class="stat-card"><div class="label">표시 중인 이슈</div><div class="value">${total}건</div></div>
+        <div class="stat-card"><div class="label">긴급 패치 · 공급망</div><div class="value" style="color:var(--danger)">${crit}건</div></div>
+        <div class="stat-card"><div class="label">PoC·악용 정황 확인</div><div class="value" style="color:var(--pink-dark)">${poc}건</div></div>
+        <div class="stat-card"><div class="label">누적 브리핑 일수</div><div class="value" style="color:var(--ok)">${days}일</div></div>
+      `;
+    }
+
+    function render() {
+      const list = getFiltered();
+      renderStats(list);
+      const grid = document.getElementById("cardsGrid");
+      if (!list.length) {
+        grid.innerHTML = `<div class="card notice-card">조건에 맞는 보안 동향이 없어요.</div>`;
+        return;
+      }
+      grid.innerHTML = list.map(item => `
+        <article class="card">
+          <div>
+            <div class="card-top">
+              <div class="badge-group">
+                <span class="badge ${item.severity}">${item.severityLabel}</span>
+                <span class="badge ${getPocBadgeClass(item.pocStatus)}">${item.pocLabel}</span>
+              </div>
+              <span class="date-tag">${item.date}</span>
+            </div>
+            <h3>${item.title}</h3>
+            <p>${item.summary}</p>
+            <div class="info-stack">
+              <div class="meta-box poc"><strong>🔍 PoC · 정황:</strong> ${item.pocDetail}</div>
+              <div class="meta-box action"><strong>🛡️ 실무 대응:</strong> ${item.action}</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="links">
+              ${(item.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a>`).join("")}
+            </div>
+            <button onclick="copyOne('${item.id}')">복사</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2000);
+    }
+
+    function copyText(text, msg) {
+      navigator.clipboard.writeText(text)
+        .then(() => showToast(msg))
+        .catch(() => showToast("복사에 실패했어요. 직접 선택해 주세요."));
+    }
+
+    function copyOne(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      const urls = (item.links || []).map(l => `- ${l.url}`).join("\n");
+      copyText(`[${item.severityLabel}] ${item.title}\n- 요약: ${item.summary}\n- PoC/정황: ${item.pocDetail}\n- 대응: ${item.action}\n${urls}`, "항목이 복사되었어요!");
+    }
+
+    function copySummary() {
+      const list = getFiltered();
+      if (!list.length) {
+        showToast("복사할 항목이 없어요.");
+        return;
+      }
+      const lines = list.map((item, idx) => {
+        const urls = (item.links || []).map(l => `- ${l.url}`).join("\n");
+        return `${idx + 1}. ${item.title}\n- 요약: ${item.summary}\n- PoC/정황: ${item.pocDetail}\n- 대응: ${item.action}\n${urls}`;
+      }).join("\n\n");
+      copyText(`[📢 일일 보안 동향 요약]\n\n${lines}`, "공유용 요약이 복사되었어요!");
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function exportJson() {
+      downloadFile("daily-security-briefing.json", JSON.stringify(getFiltered(), null, 2), "application/json");
+      showToast("JSON 파일을 내보냈어요!");
+    }
+
+    function exportMarkdown() {
+      const list = getFiltered();
+      if (!list.length) {
+        showToast("내보낼 항목이 없어요.");
+        return;
+      }
+      const md = list.map(i =>
+        `## [${i.date}] ${i.title}\n- 분류: ${i.severityLabel} (${i.pocLabel})\n- 요약: ${i.summary}\n- PoC/정황: ${i.pocDetail}\n- 대응: ${i.action}\n` +
+        (i.links || []).map(l => `- [${l.label}](${l.url})`).join("\n")
+      ).join("\n\n");
+      downloadFile("daily-security-briefing.md", md, "text/markdown");
+      showToast("Markdown 파일을 내보냈어요!");
+    }
+
+    async function selectDate(date) {
+      if (isLoading) return;
+      isLoading = true;
+      setLoading("보안 동향을 불러오는 중이에요...");
+      try {
+        if (date === "all") {
+          const lists = await Promise.all(indexDates.map(d => loadDateFile(d)));
+          items = lists.flat();
+        } else {
+          items = await loadDateFile(date);
+        }
+        render();
+      } catch (err) {
+        items = [];
+        renderError(err);
+      } finally {
+        isLoading = false;
+      }
+    }
+
+    async function init() {
+      setLoading("보안 동향을 불러오는 중이에요...");
+      try {
+        const idx = await fetchJson(`${DATA_DIR}index.json`);
+        indexDates = (Array.isArray(idx) ? idx : [])
+          .filter(d => typeof d === "string" && d)
+          .sort((a, b) => b.localeCompare(a));
+
+        const select = document.getElementById("dateFilter");
+        select.innerHTML = buildDateOptions(indexDates);
+
+        if (!indexDates.length) {
+          document.getElementById("stats").innerHTML = "";
+          document.getElementById("cardsGrid").innerHTML =
+            `<div class="card notice-card"><strong>아직 등록된 브리핑이 없어요.</strong></div>`;
+          return;
+        }
+
+        select.value = indexDates[0];
+        await selectDate(indexDates[0]);
+      } catch (err) {
+        renderError(err);
+      }
+    }
+
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeCat = btn.dataset.cat;
+        render();
+      });
+    });
+    document.getElementById("dateFilter").addEventListener("change", (e) => selectDate(e.target.value));
+    document.getElementById("searchInput").addEventListener("input", () => render());
+
+    init();
+  </script>
+</body>
+</html>
