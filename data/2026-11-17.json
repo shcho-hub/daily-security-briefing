@@ -875,5 +875,221 @@
       }
     ],
     "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-fugaku-breach",
+    "category": "global",
+    "severity": "critical",
+    "severityLabel": "국가 핵심 인프라 침해·가동 중단",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(리켄 공식)",
+    "title": "日 슈퍼컴 '후가쿠' 해킹…최대 4,597명 정보·SSH키·연구데이터 유출 가능성, 가동 중단",
+    "summary": "일본 이화학연구소(리켄)가 11월 16일 슈퍼컴퓨터 '후가쿠'와 '리큐(理究)' 운영계 시스템에 외부 침입이 있었다고 공식 발표했다. 11월 12일 불상의 통신을 탐지한 뒤 13일 오후 4시 33분 침입 사실을 확인했고, 14일 오전 4시 30분 후가쿠 운영을 멈추고 외부 접속을 차단했다. 침입자는 인터넷에 공개된 후가쿠 가동현황 대시보드 웹페이지를 발판으로 내부 운영망에 들어왔고, 내부 여러 서버를 무단 조작하며 일부 서버에 악성 프로그램을 설치한 것으로 확인됐다. 유출됐거나 유출됐을 가능성이 있는 정보는 후가쿠 이용자 최대 4,222명과 리큐 이용자 최대 375명(합계 최대 4,597명)의 이름·메일주소·ID, 그리고 이용자 홈디렉터리에 있던 파일(리켄 외부 슈퍼컴·서비스 접속용 SSH 개인키·액세스 키, 연구데이터)이다.",
+    "pocDetail": "리켄은 11월 15일 오후 4시 18분 이용자에게 메일을 보내고 전 이용자의 로그인 공개키를 무효화했으며, 침입에 쓰인 시스템 격리(13일 22:07)와 관리키 교체(14일 20:20), 실행·대기 중 계산 작업 전면 중단을 진행했다. 개인정보보호위원회(16일 17:55), 문부과학성(13일 20:59), HPCI 관계기관(15일 10:51)에 보고했다. 침입자가 훔친 인증정보 일부로 다른 시스템 접속을 시도한 정황도 확인돼 2차 피해 여부를 조사 중이다. 다만 연구성과가 외부로 나갔다는 구체적 사실은 아직 확인되지 않았고, 대상 파일에 제3자 개인정보가 섞였는지도 확인 중이다. 도요타·일본제철 등이 비공개 연구개발에 후가쿠를 써온 만큼 첨단기술 유출 우려가 제기된다.",
+    "action": "리켄 외부 시스템에 접속하는 SSH 키·클라우드 액세스 키는 폐기 후 재발급, 연구·공공 인프라의 상태 대시보드처럼 외부에 열린 모니터링 페이지를 최소 노출·별도 망으로 분리, 이용자 홈디렉터리에 개인 키·자격증명 보관 금지",
+    "links": [
+      {
+        "label": "리켄 공식 발표(2026-11-16)",
+        "url": "https://www.riken.jp/pr/news/2026/20261116_2/index.html"
+      },
+      {
+        "label": "리켄 계산과학연구센터(R-CCS) 공지",
+        "url": "https://www.r-ccs.riken.jp/outreach/topics/20261116-1/index.html"
+      },
+      {
+        "label": "ITmedia NEWS(침해 경위·조치)",
+        "url": "https://www.itmedia.co.jp/news/article/2611/17/2000003253/"
+      },
+      {
+        "label": "파이낸셜뉴스(국내 보도·기업 활용)",
+        "url": "https://busan.fnnews.com/news/202611171518357967"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-checkpoint-93616-tracking",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 · 악용 추적(956개 IP)",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 단계(10/30~)",
+    "title": "Check Point 관리서버 CVE-2026-93616(9.8) 여전히 스캔·악용…956개 IP가 패치 여부 확인 중",
+    "summary": "9월 22일 공개된 Check Point 관리 서버 사전 인증 경로순회 결함(CVE-2026-93616, CVSS 9.8)이 여전히 대규모 스캔·악용 대상이다. CrowdSec은 11월 16일 추적 보고서에서 10월 21일~11월 15일 자사 네트워크에 이 결함의 악용 패턴과 일치하는 요청이 1,839건(하루 평균 71건, 최다 10월 23일 283건), 추적 목록 기준 유니크 IP 956개(11월 16일)를 확인했고 10월 30일부터 '실제 악용' 단계로 분류했다고 밝혔다. 이 취약점은 관리 웹서비스(TCP 19009)에서 인증 없이 파일을 올려 실행하고 임의 자바 클래스를 로드해 관리 서버를 루트 권한으로 장악하는 유형으로, 체크포인트는 수정판 공개와 함께 7월 23일 실제 표적 공격이 있었다고 밝혔고 CISA는 9월 22일 KEV에 등재했다(연방 조치기한 9월 25일).",
+    "pocDetail": "영향: Security Management/Multi-Domain Management·Log Server·SmartEvent의 R82.20, R82.10 Jumbo Take 44 이하, R82 Take 126 이하, R81.20 Take 166 이하, R81.10 Take 190 이하(EoS), R80.x·R81(EoS). Smart-1 Cloud와 방화벽 어플라이언스·Spark는 영향 없음. 수정: R82.20 Security Hotfix 또는 Jumbo Take 10, R82.10 Take 45, R82 Take 127, R81.20 Take 170, R81.10 Take 192 — LivePatch 28/29로는 해결되지 않는다. 완화: 관리 서버를 게이트웨이 뒤에 두고 TCP 19009를 신뢰 IP로만 허용, SmartConsole의 Trusted Clients 제한. 침해 확인: cpm.elg에서 경로순회·업로드 흔적(예: CPupgrade-tools- 경로, 인코딩된 구분자)과 비정상 CPconfigdaemon 프로세스를 점검. 공개 익스플로잇 코드는 아직 없고, Bishop Fox가 10월 1일 외부 패치 확인 도구를, 10월 14일 Nuclei 탐지 템플릿이 나왔다. CrowdSec이 관측한 트래픽은 대부분 패치 여부를 확인하는 요청으로 공격 대상 목록을 만드는 단계다.",
+    "action": "R81.20·R82.10 이하 관리 서버는 즉시 Jumbo 핫픽스 적용, 외부에 열린 TCP 19009 차단·신뢰 IP 제한, 7월 이후 cpm.elg 경로순회·업로드 흔적과 비정상 프로세스 점검",
+    "links": [
+      {
+        "label": "CrowdSec 추적 보고서(2026-11-16)",
+        "url": "https://www.crowdsec.net/vulntracking-report/cve-2026-93616-check-point-management-rce-exploitation"
+      },
+      {
+        "label": "Check Point 권고 sk1000171",
+        "url": "https://support.checkpoint.com/results/sk/sk1000171"
+      },
+      {
+        "label": "Check Point 보안 블로그(최초 공개·악용)",
+        "url": "https://blog.checkpoint.com/security/security-advisory-action-required-active-exploitation-of-cve-2026-85102-and-a-management-pre-authentication-vulnerability-cve-2026-93616/"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-nable-ncentral-hf3",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "신규 17개 CVE · 긴급 핫픽스",
+    "pocStatus": "exploited",
+    "pocLabel": "4EverAble2Shell 악용 중(채굴기 유포)",
+    "title": "N-able N-central 2026.4 HF3 긴급 배포…신규 17개 CVE·레거시 API 제거, 4EverAble2Shell 악용은 계속",
+    "summary": "N-able이 11월 16일 N-central 2026.4 핫픽스 3(2026.4.1.39)을 긴급 보안 업데이트로 배포했다. 지난주 공개된 4EverAble2Shell·Agent2Shell 계열 결함에 이어 신규 17개 CVE(CVE-2026-129271~129287)를 함께 고쳤다. 인증 없이 악용 가능한 항목이 다수다 — MMS3 어플라이언스의 예측 가능한 패스코드 인증 우회(129272), 감사 로그 syslog 인젝션으로 root 명령 실행(129273), ServerUI SOAP 인가 누락(129280), SIS 저장소 파서 경로순회 RCE(129286)·XXE(129287), 테스트 메일 sendmail 인자 인젝션(129282), Report Manager·데이터 내보내기 SSRF(129284) 등이다. 취약점의 출발점이었던 레거시 API 설정은 이번 버전에서 아예 제거됐고, 현재 원격 제어와 Intune 연동은 차단 상태다.",
+    "pocDetail": "4EverAble2Shell은 레거시 API가 켜져 있을 때만 성립하는데 이번 릴리스가 그 경로를 없앴다. 다만 이미 실제 악용이 확인돼 공격자들이 취약 서버에 암호화폐 채굴기를 설치했고, 미국·남아공·캐나다·영국·독일·프랑스·스웨덴에서 21대 서버 침해가 보고됐다. Rapid7은 별도로 Apache Axis 결함(CVE-2026-90436, 9.8)이 N-central에서 11월 13일 실제 악용됐다며 정기 패치 주기와 무관한 긴급 조치를 권고했고, 레거시 API를 끄는 것만으로도 이 공격면이 줄어든다고 밝혔다. 호스팅형은 서버 측 패치가 자동 적용되지만 온프레미스는 관리자가 직접 올려야 하고, 호스팅·온프레미스 모두 에이전트·프로브를 최신 버전으로 올리지 않으면 사칭(impersonation) 공격에 노출된다. 이 결함들을 공개한 연구자는 24개 CVE 상세를 추가 공개하며 최신 패치에서는 동작하지 않는다고 밝혔다.",
+    "action": "온프레미스 N-central은 HF3 즉시 적용, 모든 에이전트·프로브 최신화, 레거시 API 비활성 상태 유지, 채굴기·비정상 배포 흔적 점검",
+    "links": [
+      {
+        "label": "The Hacker News(17개 CVE·HF3)",
+        "url": "https://thehackernews.com/2026/11/n-able-patches-17-n-central-flaws-as.html"
+      },
+      {
+        "label": "N-able HF3 릴리스 노트",
+        "url": "https://status.n-able.com/2026/11/16/n-central-2026-4-hf3-release-notes/"
+      },
+      {
+        "label": "Rapid7 분석(CVE-2026-90436 악용·HF3 권고)",
+        "url": "https://www.rapid7.com/blog/post/etr-rapid7-detected-exploitation-of-cve-2026-90436-against-atlassian-confluence-data-center-n-able-n-central-also-exploited/"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-screenconnect-sckit-update",
+    "category": "vuln",
+    "severity": "high",
+    "severityLabel": "후속 · 파트너 확장 5종 차단",
+    "pocStatus": "exploited",
+    "pocLabel": "추가 공격 계속(41개 조직 205대)",
+    "title": "ConnectWise \"ScreenConnect 공격 계속\"…제3자 확장 5종 차단·26.6.5 적용, SCKit은 41개 조직 205대 타격",
+    "summary": "ConnectWise가 파트너 ScreenConnect 환경 무단 접근 사고 조사 결과를 11월 16일 마무리하고, 기술자 클라이언트를 26.6.5 이상으로 올리라고 권고했다. 제3자 확장이 켜져 있고 최신 버전으로 올리지 않은 온프레미스 환경에서 추가 공격 활동이 계속 보고되고 있다. 회사는 Labtech Plus, RMM Plus, RMM+, RMM Plus Password Link, RMM+ Password Link 등 5개 확장을 파트너 환경 400곳에서 비활성화했고, 추가 안내 전까지 재활성화·재설치하지 말라고 당부했다. 26.6.5는 활성 원격 세션에서 호스트 확인 없이 파일 전송·실행이 가능한 CVE-2026-84869(CVSS 9.9)를 막는 버전이다.",
+    "pocDetail": "헌트리스는 11월 13일 SCKit 관련 활동이 다시 급증해 41개 조직 205개 호스트에 영향을 줬다고 밝혔다. 침해 사례에서는 새 ScreenConnect 클라이언트가 185.241.211[.]197(불릿프루프 호스팅 업체 1337 Services GmbH)에서 배포됐고, 한 사례에서는 위장 ScreenConnect 클라이언트가 'Windows Update Agent' 서비스(C:\\ProgramData\\Windows Update Agent\\…\\UpdateConnect.ClientService.exe, LocalSystem)로 지속성을 확보했다. SCKit은 RMM+ 1.0.31·1.0.32의 인증 결함을 이용하고, 감염된 고객 단말에서 조사에 나선 MSP 기술자 PC로 옮겨가는 웜형 전파 모듈(RelayTrap, C#)을 갖췄으나 이번 캠페인에서 전파 성공 증거는 아직 없다. ConnectWise는 확장 비활성화와 최신화만으로는 이미 침투한 접근·지속성이 제거되지 않는다고 강조했다.",
+    "action": "온프레미스 파트너는 5개 확장 비활성화 유지·ScreenConnect 26.6.5 이상 적용, 기술자 PC의 비정상 서비스·원격제어 클라이언트 설치 이력 점검, 185.241.211.197 접속 차단",
+    "links": [
+      {
+        "label": "The Hacker News(ConnectWise 공식 입장)",
+        "url": "https://thehackernews.com/2026/11/connectwise-warns-screenconnect-attacks.html"
+      },
+      {
+        "label": "ConnectWise 보안 공지",
+        "url": "https://www.connectwise.com/company/trust/advisories"
+      },
+      {
+        "label": "Huntress 분석(SCKit 웜)",
+        "url": "https://www.huntress.com/blog/sckit-worm-rogue-screenconnect"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-uber-fireworks-breach",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "유출 14만9,346명",
+    "pocStatus": "exploited",
+    "pocLabel": "위탁사 자격증명 탈취",
+    "title": "Uber, 드라이버 14만9,346명 정보 유출 통지…AI 인프라 'Fireworks' 침해 여파",
+    "summary": "Uber가 11월 10일 드라이버 약 14만9천 명에게 개인정보 유출을 통지했다. 10월 9일 한 서비스 제공업체가 자사 내부 자격증명이 탈취돼 Uber 계정 접근에 쓰였다고 알려왔고, Uber는 즉시 해당 업체와의 데이터 연결을 끊고 조사해 10월 13일 실제 Uber 데이터 접근을 확인했다. 메인주 법무장관청 신고서 기준 피해자는 149,346명이며, 유출 항목은 이름·운전면허번호·생년월일·주소다.",
+    "pocDetail": "Uber는 업체명을 밝히지 않았지만 테크크런치 보도대로 AI 학습 인프라 기업 Fireworks의 침해가 발단이다. Fireworks는 이 공격을 대규모 언어모델 탈취(LLMjacking) 계열의 금전 동기 범죄조직 소행으로 보고 있다. 같은 침해로 AI 코딩 플랫폼 Cursor(악성 Claude Code 확장 배포)와 Notion(고객 AI 채팅 기록)도 피해를 봤다. 운전면허번호·주소 같은 식별정보가 포함돼 있어 본인 확인을 요구하는 보이스피싱·계정 복구 사칭에 악용될 수 있다.",
+    "action": "AI·데이터 위탁사에 발급한 자격증명의 접근 범위와 회전 주기 점검, 위탁사 침해 통지 시 데이터 연결 즉시 차단하는 절차 마련, 운전면허번호·주소를 보관하는 계정의 추가 인증 강화",
+    "links": [
+      {
+        "label": "BleepingComputer(신고서·경위)",
+        "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
+      },
+      {
+        "label": "SecurityWeek",
+        "url": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/"
+      },
+      {
+        "label": "TechCrunch(Fireworks 연계 보도)",
+        "url": "https://techcrunch.com/2026/11/16/uber-confirms-hackers-stole-thousands-of-drivers-license-information-in-data-breach/"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-univ28-artex-forensics",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "후속 분석 · ARTEX 흔적",
+    "pocStatus": "exploited",
+    "pocLabel": "유포 데이터 분석(공격자 주장 기반)",
+    "title": "28개 대학 유출 데이터에 ARTEX·Prtseek 흔적…rERP 17개교 폴더서 반복조회 스크립트 확인",
+    "summary": "28개 대학 데이터를 유출했다고 주장한 'KimJEN'의 압축파일 31개(ac.kr.zip)를 다크웹 연구그룹 다크넷즈가 전수 분석한 결과, 공격자가 AI 기반 침투 도구 '아르텍스(ARTEX)'와 'Prtseek'를 썼을 가능성과 함께 국내 대학 산학협력단 공통 연구행정시스템 'rERP'를 집중 표적한 정황이 확인됐다. 파일 내 파이썬 코드에서 ARTEX 관련 디렉터리·입출력 경로 문자열이 다수 발견됐고, 일부 파일에는 Prtseek 언급과 '테스트 후 변조 콘텐츠·스크립트를 삭제하라'는 중국어 주석도 있었다.",
+    "pocDetail": "28개 대학명으로 나뉜 폴더 중 17개에서 rERP에서 빼낸 정보가 확인됐다. rERP 사용자 정보와 DB 설정, 자동 수집 스크립트 작성·병합 흔적이 있었고, 일부 폴더에는 개인정보 목록과 함께 서버·애플리케이션 설정 파일 등 민감한 자격증명 접근 정황도 있었다. 조회를 500행으로 제한한 대학에서는 공격자가 500행을 기본값으로 두고 조건을 바꿔가며 빠르게 반복 조회했다. 다크넷즈는 도구 사용은 확증이 아니라 가능성이며, rERP 공급사가 침해됐다고 단정하기 어렵고 유포 데이터의 진위도 100% 신뢰하긴 이르다고 선을 그었다. 텔레그램 프로필에 김정은 사진을 쓴 점만으로 배후를 단정할 수 없다는 설명도 함께였다.",
+    "action": "rERP 등 공통 연구행정 솔루션 이용 기관은 대량 조회 패턴 탐지(행 수 제한 우회·조건 반복 조회), DB 설정·애플리케이션 설정 파일 접근 권한 분리, 연구행정 계정 MFA·세션 만료 강화",
+    "links": [
+      {
+        "label": "보안뉴스(다크넷즈 분석, 2026-11-17 16:24)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147326"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-ivanti-epm-121653",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 · 공개 PoC·악용 보고",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC 확인 · VulnCheck 악용 등재",
+    "title": "Ivanti EPM CVE-2026-121653(9.8) 공개 PoC·악용 보고…인터넷 노출 6.9만 대, 수정은 2024 SU8",
+    "summary": "Ivanti Endpoint Manager(EPM) 코어의 SQL 인젝션 결함(CVE-2026-121653, CVSS 9.8)에 공개 PoC와 실제 악용 보고가 나왔다. 인증 없이 원격에서 SQL을 주입해 코어 서버에서 코드를 실행할 수 있고, 코어는 관리 대상 PC 전체에 소프트웨어·스크립트를 배포하는 서버라 장악되면 전사 단말이 위험해진다. Ivanti는 11월 10일 2024 SU8에서 이 결함과 에이전트 평문 전송 결함(CVE-2026-18128, 6.8)을 함께 고쳤고, 자사가 확인한 고객 피해는 없다고 밝혔다.",
+    "pocDetail": "네덜란드 NCSC가 11월 13일 공개 PoC가 나왔다고 알렸고, VulnCheck는 11월 15일 이 CVE를 알려진 악용 목록에 올렸다(보험사 Coalition의 11월 15일 경보를 근거로 인용). CISA KEV에는 11월 16일 저녁까지 등재되지 않았다. 섀도서버 기준 인터넷에 노출된 EPM 서버는 최소 6.9만 대(11월 17일), EU만 6,455대로 집계됐고 실제로는 더 많을 것으로 보인다. 영향은 2024 SU7 이하, 수정은 2024 SU8이며 벤더가 제시한 우회 설정은 없고 침해 지표도 아직 공개되지 않았다. 전문가들은 악용 주체·피해 규모·공격 방식이 확인되지 않았다는 점을 함께 짚었다.",
+    "action": "EPM 코어를 2024 SU8로 즉시 업데이트, 인터넷 노출 제거(관리 단말·VPN·허용목록만), 11월 10일 이후 신규 관리자 계정·예약 작업·배포 패키지·웹 디렉터리 신규 파일과 SQL 오류 로그 점검, 에이전트도 함께 업데이트",
+    "links": [
+      {
+        "label": "Ivanti 보안 권고(2026-11 EPM)",
+        "url": "https://hub.ivanti.com/s/article/Security-Advisory-Ivanti-Endpoint-Manager-EPM-November-2026?language=en_US"
+      },
+      {
+        "label": "NCSC-NL 권고(NCSC-2026-0493, PoC 확인)",
+        "url": "https://advisories.ncsc.nl/2026/ncsc-2026-0493-1.pdf"
+      },
+      {
+        "label": "VulnCheck 등재 정리·노출 규모",
+        "url": "https://watchtower.prociso.com/ivanti-endpoint-manager-sql-injection-cve-2026-121653-and-cleartext-agent"
+      },
+      {
+        "label": "Duggan(악용 보고·CISA 미등재 확인)",
+        "url": "https://www.dugganusa.com/post/ivanti-epm-cve-2026-121653-sqli-rce"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-telegram-widgets-webrat",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "악성코드 유포 의심 · 위젯 기능",
+    "pocStatus": "exploited",
+    "pocLabel": "WebRAT 유포 관측(카스퍼스키)",
+    "title": "텔레그램 새 '위젯' 기능 악용 의심…WebRAT 유포, 카스퍼스키 \"수정 전까지 위젯 실행 말라\"",
+    "summary": "텔레그램이 11월 9일 봇 API 10.4로 메시지 안에서 도는 HTML 위젯 기능을 연 뒤 나흘 만에 악성코드 유포 통로로 의심되는 정황이 나왔다. 카스퍼스키는 11월 13일 자사 텔레그램 채널에서 특정 채널을 방문할 때 사용자 모르게 PowerShell 스크립트가 실행돼 WebRAT(일명 Salat Stealer)을 내려받아 실행하는 활동을 관측했고, 위젯 결함 악용을 의심한다고 밝혔다. WebRAT은 러스트로 작성된 원격제어 악성코드로 가상자산 지갑과 텔레그램 계정 정보를 훔친다.",
+    "pocDetail": "위젯은 샌드박스된 QuickJS 엔진에서 자바스크립트를 실행하는 구조인데, V12 연구진은 11월 11일 안드로이드에서, 13일에는 윈도우용 텔레그램 데스크톱 7.4.3에서 임의 코드 실행 시연을 공개했다. 텔레그램은 안드로이드 문제를 13.2.2에서 고쳤고 11월 13일 서버 측에서 일반 봇의 위젯 전송을 차단했지만, 이미 받은 위젯은 계속 동작한다. 파벨 두로프는 '메시지를 받는 것만으로 해킹될 수 없다'며 이용자가 먼저 제3자 서비스를 시작해야 하는 시나리오라고 반박했다. 카스퍼스키는 수정 전까지 위젯 실행을 피하고 낯선 봇의 시작 버튼을 누르지 말라고 권고했으며, 이번 캠페인의 침해 지표는 아직 공개하지 않았다.",
+    "action": "텔레그램 안드로이드 13.2.2 이상 업데이트, 낯선 봇·채널의 위젯 실행 자제, 윈도우 단말에서 Telegram.exe가 powershell.exe를 실행하는지 탐지, 의심 시 텔레그램 세션 전체 폐기·지갑 자산 이동",
+    "links": [
+      {
+        "label": "SecurityWeek(카스퍼스키 경고·텔레그램 반박)",
+        "url": "https://www.securityweek.com/telegram-widgets-hit-by-rce-demos-malware-warning-days-after-launch/"
+      },
+      {
+        "label": "kod.ru(카스퍼스키 발표 원문 보도)",
+        "url": "https://kod.ru/telegram-widgets-trojan-webrat"
+      },
+      {
+        "label": "ThreatRoundup(기술 정리·대응)",
+        "url": "https://threatroundup.com/news/webrat-telegram-html-widgets-kaspersky/"
+      }
+    ],
+    "date": "2026-11-17"
   }
 ]
