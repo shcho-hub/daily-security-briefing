@@ -1,0 +1,355 @@
+[
+  {
+    "id": "2026-11-18-java4shell-cve-2026-114938",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.2 · 인증 없는 RCE (Java4Shell)",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC(메모리 덮어쓰기) · 야생 악용 미확인",
+    "title": "오라클 11월 CSPU 652건 긴급 패치…자바 'Java4Shell'(CVE-2026-114938) 인증 없이 원격 코드 실행, 국정원 사전 권고",
+    "summary": "오라클이 11/18 06시(KST) 11월 중요 보안 패치 업데이트(CSPU)로 652건을 배포했다. 자바 관련 11건 가운데 CVE-2026-114938(통칭 Java4Shell)은 OpenJDK Base64 디코더의 경계 밖 쓰기(CWE-787)로, 'A' 64개 뒤에 '=' 하나를 붙인 짧은 문자열만으로 출력 버퍼 62바이트를 넘겨 쓸 수 있다(구형 17 빌드는 128개). 연구기업 Calif가 찾았고 CVSS v4.0 9.2(오라클 자체 평가는 v3.1 8.1)다. x86-64의 AVX-512 VBMI 명령이 있어야 성립해 ARM64는 영향이 없으며, 영향 버전은 Java 17.0.6 이상을 포함한 17·21·25·27 계열과 GraalVM이다.",
+    "pocDetail": "Calif는 11/17 21:11 UTC(18일 06:11 KST) 기술 분석과 함께 메모리 덮어쓰기만 재현하는 PoC를 공개했고, 제품별 익스플로잇은 보류했다. 무인증 RCE 시연 대상은 Keycloak·Atlassian Jira·Confluence·JFrog Artifactory·Jenkins·PingFederate의 기본 설정이며, 인증 후에는 Apache Kafka·Solr·Elasticsearch·Gerrit·Spinnaker에서 성립한다. TLS로 악성 서버에 접속하는 자바 클라이언트를 노리는 클라이언트측 공격도 있다. 국정원 국가사이버안보센터가 11/17 공공기관에 'Java 취약점 발표 대비 제반 사항 준비 권고'를 보냈고, KISA는 11/18 Oracle 제품 보안 업데이트 권고로 8u513(1.8.0_513-b04)·17.0.21.1·21.0.13.1·25.0.5.1·27.0.1.1 적용을 안내했다. 11/18 06:50 기준 야생 악용 보고는 없다.",
+    "action": "자산별 자바 런타임(애플리케이션 내장·컨테이너 이미지 포함) 버전을 인벤토리화하고 11월 빌드로 즉시 교체. 즉시 불가하면 -XX:-UseBASE64Intrinsics 또는 x86-64에 한해 -XX:UseAVX=2로 임시 완화하고, /proc/cpuinfo에 avx512f·avx512bw·avx512vbmi·bmi2가 모두 있는지 확인. 패치 공개 직후가 역분석 위험 구간이므로 인터넷 노출 Jira·Confluence·Jenkins·Artifactory·Keycloak부터 72시간 내 적용",
+    "links": [
+      {
+        "label": "오라클 11월 CSPU 공지",
+        "url": "https://www.oracle.com/security-alerts/cspunov2026.html"
+      },
+      {
+        "label": "KISA Oracle 제품 보안 업데이트 권고(2026-11-18)",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&categoryCode=&menuNo=205023&pageIndex=1&nttId=72313"
+      },
+      {
+        "label": "CyberSIXT(Calif 분석·완화 옵션)",
+        "url": "https://cybersixt.com/originals/oracle-java-security-update-11-flaws-exploitable-without-login"
+      },
+      {
+        "label": "한국경제(국정원 권고·영향 범위)",
+        "url": "https://www.hankyung.com/article/202611173069Y"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-rakuten-sec-test-env",
+    "category": "global",
+    "severity": "critical",
+    "severityLabel": "日 대형 증권사 · 최대 1,125만 계좌",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해·유출 가능성 확인",
+    "title": "日 라쿠텐증권 테스트 환경 침해…최대 1,125만 계좌 ID·447만 계좌 개인정보(연봉·출금계좌) 유출 가능성",
+    "summary": "라쿠텐증권이 11/17 자사 시스템에 대한 제3자 부정 접근으로 고객 정보 일부가 유출됐을 가능성을 확인해 공지했다. 11/16 일부 시스템에서 부정 접근 가능성을 탐지해 차단·수정했고, 조사 결과 5일 전인 11/11 테스트 환경 시스템에서 관리하던 정보가 외부로 나갔을 가능성이 확인됐다. 최대 약 447만 계좌는 부점·고객코드, 로그인ID, 성명·카나, 생년월일, 주소, 전화번호, 이메일, 근무처, 출금계좌(금융기관·계좌번호·명의인), 자기신고 연봉·금융자산, 상품별 자산정보, 최종 로그인일까지 포함한다. 별도로 최대 약 1,125만 계좌는 부점·고객코드와 로그인ID만 노출됐다. 퇴회 고객도 대상이며, 로그인 비밀번호·암호번호와 거래 정보는 유출이 확인되지 않았고 부정거래 정황도 없다.",
+    "pocDetail": "11/11 테스트 환경에서 유출 → 11/16 이상 탐지·차단 → 11/17 공표. 침입 경로와 원인은 조사 중이며, 실제 거래를 처리하는 본번 시스템과 분리된 개발·검증 환경에 실제 고객 데이터가 있었던 점이 핵심 쟁점이다. 라쿠텐증권은 매일 로그인하는 고객 9할 이상이 패스키 인증을 쓰고 있다고 밝혔고, 거래·출금 일시정지 설정도 안내했다.",
+    "action": "금융사는 개발·검증·테스트 환경에 실고객 데이터 반입 금지와 마스킹·가명처리를 강제하고 대외 노출을 차단. 출금계좌·연봉·보유자산이 결합된 유출은 표적 사칭에 바로 쓰이므로 해당 고객 대상 사칭 메일·전화 경보와 거래 이상탐지 임계값 강화",
+    "links": [
+      {
+        "label": "라쿠텐증권 공지 원문(PDF)",
+        "url": "https://www.rakuten-sec.co.jp/web/company/newsrelease/pdf/press2026111702.pdf"
+      },
+      {
+        "label": "NHK(약 447만 계좌 유출 가능성)",
+        "url": "https://news.web.nhk/newsweb/na/nd-20261117de77397"
+      },
+      {
+        "label": "ZDNET Japan(테스트 환경 침해·1,125만 계좌)",
+        "url": "https://japan.zdnet.com/article/35255025/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-karte-francfranc-cubtour",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "공급망 유출 확산 · 수백만 건",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(각사 공표)",
+    "title": "KARTE(PLAID) 침해 파장 확산…프랑프랑 최대 598만·클럽투어리즘 406만·아인즈앤톨페 260만 건 추가 확인",
+    "summary": "고객경험 플랫폼 KARTE(운영사 PLAID) 침해로 이용 기업의 유출 규모가 잇따라 확정됐다. JINS 약 1,829만 건(17일)에 이어, 프랑프랑이 회원정보 최대 약 598만 건과 공식 EC 구매이력 최대 약 400만 건(성별·생년월일·우편번호·연대)을, 클럽투어리즘이 인터넷 회원 약 406만 건(암호화된 회원번호·고객번호·성별·연령·생년월일)을 공표했다. 아인즈앤톨페·아유라는 성명·이메일 최대 약 260만 건, 모리사와 'Morisawa Fonts' 23,957건, subsclife 29,194건도 확인됐다. 어느 사례도 카드 정보와 비밀번호 유출은 확인되지 않았다.",
+    "pocDetail": "PLAID는 11/13 새벽 서버 취약점 악용으로 시스템·DB 자격증명과 직원 계정이 탈취돼 관리자 화면까지 접근당했다고 설명했고, 같은 날 14:27부터 KARTE 전 서비스를 중단했다. 11/17 밤 기준 재개 일정은 잡히지 않았고 PLAID는 이용 기업에 유출 데이터 전송을 시작했다. 연동 secret key·access token이 함께 유출돼 KARTE를 쓰던 기업의 다른 SaaS로 2차 접근이 이뤄질 수 있다는 지적이 나온다.",
+    "action": "KARTE 연동 기업은 연동 키·토큰 폐기 상태를 유지하고 KARTE에 적재한 개인정보 항목을 최소화, 재개 시 신규 키로만 재연결. 프랑프랑·클럽투어리즘·JINS·아인즈앤톨페 등을 사칭한 메일·SMS 링크 차단 공지와 고객 문의 창구 사전 준비",
+    "links": [
+      {
+        "label": "ちょっとニュース(11/18 유출·취약점 정리)",
+        "url": "https://chotto.news/security-report-2026-11-18/"
+      },
+      {
+        "label": "Japan Cyber Watch(KARTE 타임라인·유출 항목)",
+        "url": "https://japancyberwatch.com/articles/karte-plaid-breach-integration-keys-2026"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-jeonbuk-edu-bus",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "국내 교육청 시스템 · 미성년자 정보",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 유출 확인(규모 조사 중)",
+    "title": "전북교육청 통학차량 관리시스템 해킹…학생 이름·주소·학부모 연락처·통학노선 8개 항목 유출",
+    "summary": "전북특별자치도교육청이 통학차량 관리시스템에서 학생·학부모 개인정보가 유출된 사실을 확인하고 홈페이지에 안내를 게시했다. 11/15 18:46 교육부 사이버안전센터로부터 유출 의심 정황을 통보받은 뒤 조사 과정에서 실제 유출을 확인했다. 유출 항목은 학교명, 학생 이름, 학년, 반, 주소, 학부모 연락처, 통학버스 차량번호, 운행 노선 등 8개다. 최초 침입 시점과 경로, 피해 규모는 아직 밝혀지지 않았다.",
+    "pocDetail": "학생 이름·학교·학년·반·주소에 통학버스 노선과 차량번호까지 결합되면 특정 학생의 통학 환경과 이동 경로를 추정할 수 있어 단순 연락처 유출과 위험 수준이 다르다. 최근 다크웹에서 전북교육청 도메인의 통학버스 차량번호·운행노선·학부모 연락처·학생 이름을 확보했다는 주장이 있었고, 교육청이 확인한 항목과 상당 부분 일치하지만 동일 사건 여부는 확인되지 않았다.",
+    "action": "교육청·학교는 통학·방과후·급식 등 유사 위탁 시스템의 외부 노출 경로와 접근권한을 점검하고, 11/15 전후 조회 로그에서 반복·대량 조회를 확인. 학부모에게 학교·교육청 사칭 전화·문자 주의를 안내하고 통학차량 관리시스템과 같은 비밀번호 재사용 차단",
+    "links": [
+      {
+        "label": "데일리시큐(유출 항목·경위)",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209579"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-financial-leak-tally",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "금융권 유출 집계 · 신용정보법 신고",
+    "pocStatus": "exploited",
+    "pocLabel": "유출 규모 확정(금감원 자료)",
+    "title": "미래에셋생명 유출 1만418명으로 확대…스트리미 2,009명·빗썸 7,159명, 금융권 한 달 37개사 47만3천건",
+    "summary": "국회 정무위원회 한창민 의원이 금융감독원에서 제출받은 자료에 따르면 11/5 기준 미래에셋생명의 개인신용정보 유출 규모는 1만418명으로, 당초 알려진 6,800명에서 현장 점검을 거치며 늘었다. 10/24 침해로 이름·주민등록번호·생년월일·전화번호·이메일·주소·연계정보(CI)와 은행명·마스킹 계좌번호·예금주 등 거래정보, 퇴직소득원천징수영수증·지급명세서·퇴직연금 현황까지 유출됐다. 가상자산업권에서는 고팍스 운영사 스트리미가 9명에서 실제 2,009명으로, 빗썸이 10/12 사고로 고객·임직원 7,159명(고객 6,444명 중 5,600명은 암호화 파일 형태)으로 확인됐다.",
+    "pocDetail": "유출 규모가 1만명을 넘으면서 미래에셋생명은 신용정보법상 72시간 내 금융당국 신고·정보주체 통지 의무 대상이 됐고 신고 절차를 밟았다. 빗썸은 암호화 파일 형태를 '외부 노출'과 구분해 왔지만 당국은 정보 유출로 통틀어 분류했다. 같은 기간 금융권 전체로는 37개사 약 47만3천건 유출, 자금 탈취 피해 약 10억원으로 집계됐다.",
+    "action": "금융사는 유출 규모 산정 시 암호화 파일·마스킹 정보 포함 기준을 당국 기준으로 재확인하고, 1만명 이상이면 신용정보법 신고·통지 요건을 즉시 적용. 미래에셋 계열사 4곳 연속 사고처럼 그룹 단위 침해 연관성 점검과 계열 공통 자산 인벤토리 정비",
+    "links": [
+      {
+        "label": "연합뉴스(미래에셋생명·스트리미·빗썸·금융권 집계)",
+        "url": "https://www.yna.co.kr/view/AKR20261117164600002"
+      },
+      {
+        "label": "노컷뉴스(미래에셋 연속 해킹·당국 기조)",
+        "url": "https://www.nocutnews.co.kr/news/6608474"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-coinone-metaem",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "위탁사 경유 · 민감정보 11개 항목",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해(유출 항목 공지)",
+    "title": "코인원, 메타엠 경유 주민등록번호·계좌번호·비밀번호까지 11개 항목 유출 가능성…거래·지갑 시스템은 분리",
+    "summary": "고객상담 위탁업체 메타엠 침해로 코인원·번개장터·메가MGC커피 이용자 정보가 유출된 가운데, 코인원은 11/15 공지에서 외부 공격자가 11/12 04시경 메타엠 서버에 침입해 상담 정보를 조회·유출했다고 밝혔다. 유출 가능 항목은 이름, 전화번호, 이메일, 생년월일, 계좌번호, 비밀번호, 주민등록번호, 신분증 발급일자, 자택주소, 지갑주소, 거래식별번호(TXID) 등 11개로, 이용자가 상담 중 직접 남긴 정보가 대상이다. 회원 계정·거래·지갑 시스템은 수탁사 서버와 분리돼 직접 침입 정황은 확인되지 않았다.",
+    "pocDetail": "메타엠은 11/12 06:03 상담 서비스 장애를 계기로 이상 징후를 파악해 11/13 03:44 KISA에 신고하고, 공격자 IP 차단·의심 서버 격리·개발 서버망 분리·일부 고객사 연결 구간 접근 제한·관리자 계정 비밀번호 변경을 진행했다. 코인원은 같은 날 09:20 메타엠으로부터 사고를 보고받았다. 메가MGC커피는 사고 사흘 뒤인 15일에야 수탁사 통보를 받아 위탁사 사고 통지 지연 문제가 함께 드러났다.",
+    "action": "상담·CS 위탁 구간에 주민등록번호·계좌번호·비밀번호가 저장되지 않도록 상담 스크립트와 마스킹을 재설계하고, 위탁사 접속 권한 최소화·조회 로그 보존·사고 통지 SLA를 계약에 명문화. 유출 고객에는 지갑주소·TXID 결합 사칭과 계정 복구 빙자 접근을 경고",
+    "links": [
+      {
+        "label": "ZDNet korea(메타엠 침해·코인원 11개 항목)",
+        "url": "https://zdnet.co.kr/view/?no=20261117221104"
+      },
+      {
+        "label": "딜사이트(거래소 '옆문' 침해 분석)",
+        "url": "https://dealsite.co.kr/articles/172859"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-barracuda-esg-exploit",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.3·실제 악용(ESG 루트)",
+    "pocStatus": "exploited",
+    "pocLabel": "야생 악용 관측(벤더·당국)",
+    "title": "바라쿠다 이메일 보안 게이트웨이 2건 실제 악용…CVE-2026-116606·111560 연계로 무인증 root 장악",
+    "summary": "싱가포르 사이버보안청(CSA)이 11/16 바라쿠다 네트웍스 이메일 시큐리티 게이트웨이(ESG) 결함 2건이 실제 공격에 악용되고 있다며 즉시 패치를 권고했다. 인증 전 접근제어 우회 CVE-2026-116606과 명령어 삽입 CVE-2026-111560을 연계하면, ESG 관리 화면에 접근할 수 있는 공격자가 로그인 없이 장비 최고 권한인 root를 확보할 수 있다. 바라쿠다 자체 CVSS는 9.3과 8.6이고 싱가포르 당국은 9.8과 7.2로 제시했다.",
+    "pocDetail": "바라쿠다는 11/2 결함을 공개하고 11/9 소수 조직에서 악용을 관측했다고 밝혔으며 최초 공격 시점과 피해 규모는 공개하지 않았다. 국내 운영사는 ESG 펌웨어 9.4.017 이상이면 BNSF-40425, 미만이면 BNSF-40430 핫픽스 적용 여부를 확인해야 한다.",
+    "action": "ESG 펌웨어·핫픽스 실제 설치 상태 확인(자동 업데이트 사용 중이어도 검증), 관리 화면은 신뢰 내부망에서만 접근하도록 제한, 외부 노출 이력 장비는 관리자 접속·설정 변경 기록과 신규 계정·예약 작업 점검",
+    "links": [
+      {
+        "label": "데일리시큐(싱가포르 CSA 경고·핫픽스)",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209578"
+      },
+      {
+        "label": "Barracuda 보안 권고",
+        "url": "https://www.barracuda.com/company/legal/esg-vulnerability"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-puppet-cve-2026-115731",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CISA KEV 등재 · 연방 기한 12/1",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 확인(CISA)",
+    "title": "CISA KEV, Puppet Enterprise CVE-2026-115731 등재…CA 자동서명 환경이면 무인증 서버 장악, 연방 기한 12/1",
+    "summary": "CISA가 11/17 Puppet Enterprise 리포트 역직렬화 결함(CVE-2026-115731, CVSS v4.0 9.4)을 알려진 악용 취약점 목록(KEV)에 추가하고 연방기관 조치 기한을 12/1로 정했다. CA가 서명한 에이전트 인증서를 가진 클라이언트가 조작된 rich-data 타입을 담은 리포트를 PUT으로 보내면 Puppet Server에서 서비스 계정 권한으로 임의 코드가 실행된다. CA가 강한 검증 없이 자동서명(autosign)하도록 설정돼 있으면 인증서를 얻은 외부 네트워크 공격자도 성립한다. Perforce는 11/3 Puppet Enterprise 2023.8.13·2025.12.1·2026.0.1과 Puppet Core 8.22.2·9.1.3에서 수정했고, 같은 릴리스에서 인증서 이름 검사 우회(CVE-2026-115732)와 침해된 eMudhra 중간 CA 제거도 함께 반영됐다.",
+    "pocDetail": "Puppet Server는 관리 대상 전 서버·단말의 설정과 종종 시크릿을 배포하고, puppet 사용자 권한 코드가 CA 서명 키를 읽을 수 있어 장악되면 임의 호스트 인증서 발급까지 가능하다. autosign=true 또는 *.example.com 같은 glob 기반 autosign.conf는 사실상 무인증 조건을 만든다. 연구자 Neodyme이 결함을 찾아 공개했고 OpenVox도 별도 권고를 냈다.",
+    "action": "PE·Puppet Core·OpenVox Server 버전을 확인해 수정판으로 올리고(에이전트 패키지만 올린 경우 puppetserver 재시작 필수), CA 서버에서 autosign 설정을 false 또는 정책 스크립트로 전환. puppetserver ca list --all로 미확인 서명 인증서를, puppet 사용자 자식 프로세스·아웃바운드 연결을 점검하고 침해 정황이 있으면 CA 키 유출로 간주해 서버 재구축·인증서 전면 재발급",
+    "links": [
+      {
+        "label": "CISA KEV 공지(2026-11-17)",
+        "url": "https://www.cisa.gov/news-events/alerts/2026/11/17/cisa-adds-one-known-exploited-vulnerability-catalog"
+      },
+      {
+        "label": "Perforce CVE 기록",
+        "url": "https://portal.perforce.com/s/cve/a91Qi000003IaHpIAK/report-deserialization-code-execution"
+      },
+      {
+        "label": "HOL(autosign 점검·침해 확인 절차)",
+        "url": "https://hol.org/blog/cve-2026-115731-puppet-server-takeover-cisa-kev"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-dockerhub-keys",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "클라우드 키 노출 · 8초 내 탈취",
+    "pocStatus": "poc",
+    "pocLabel": "실측 연구(허니팟 300개·4개월)",
+    "title": "도커 허브 공개 이미지에 남긴 클라우드 키, 게시 8초 만에 탈취…스토니브룩 300개 허니팟 실험",
+    "summary": "스토니브룩대 연구자 Billy Tsouvalas와 Nick Nikiforakis가 8개 공개 컨테이너 레지스트리에 허니팟 이미지 300개를 게시해 4개월간 관측한 결과, 이미지에 남긴 자격증명과 접근 시크릿이 게시 후 최단 8초 만에 추출·악용됐다. 노출시킨 것은 AWS·OpenAI·Anthropic API 키와 미끼 SSH·데이터베이스 자격증명으로, 공개 이미지 스캔이 자동화돼 있다는 점을 보여준다.",
+    "pocDetail": "연구는 이미지 레이어에 남은 빌드 인자·환경변수·히스토리가 그대로 공개된다는 점을 전제로 했다. 키가 한 번 노출되면 회수 전까지 외부에서 유효하게 쓰일 수 있어, 키 폐기·회전만으로는 그 사이 발생한 사용 이력을 되돌릴 수 없다.",
+    "action": "CI 파이프라인에 이미지 레이어 시크릿 스캔(gitleaks·trivy 등)을 커밋 전 단계로 넣고, 빌드 인자·ENV에 키를 넣지 말고 런타임 주입·짧은 TTL 토큰 사용. 공개 레지스트리 게시 전 docker history 점검, 노출 이력 키는 즉시 폐기하고 사용량 이상(과금 급증·신규 리전 리소스) 탐지",
+    "links": [
+      {
+        "label": "BleepingComputer(Docker Hub 키 탈취 실측)",
+        "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-inception-ransomware",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "랜섬웨어 유출 주장 · 금융·의료",
+    "pocStatus": "exploited",
+    "pocLabel": "유출 사이트 게시(피해 기업 미확인)",
+    "title": "신생 랜섬웨어 '인크셉션', 페이첵스 68GB·헨리샤인 189GB 유출 주장…인포스틸러 감염 계정이 발판",
+    "summary": "새로 등장한 랜섬웨어 조직 '인크셉션(Inception)'이 11/17 유출 사이트에 미국 급여·HR 서비스 기업 페이첵스와 의료·치과 공급 유통사 헨리샤인을 피해자로 게시했다. 페이첵스 68GB 주장 자료에는 약 300명의 사회보장번호와 급여 계좌 워크북, 고객 딜·계정 목록, 견적·계약서, FY27 인센티브, ServiceNow 인시던트·변경 기록, git 커밋맵, 약 1,000명의 HR·복리후생·교육 명단, 아키텍처·의존성 맵이 포함됐다고 한다. 헨리샤인 189GB 주장 자료는 JDE 가격·공급사 원가·판매계획, GEP 전자상거래 BRD·아키텍처 문서, Azure AD 기기·그룹 인벤토리, 직원 3,740명 신원 정보다. 두 건 모두 피해 기업 확인과 독립 검증이 없는 주장 단계다.",
+    "pocDetail": "허드슨록 인포스틸러 정보로 페이첵스 직원 51명·사용자 14,509명, 외부 노출 자격증명 122개 지점, 인덱싱된 비밀번호 8만2,412개·쿠키 9,063개가 거론됐고 제3자 직원 자격증명 31건도 함께 지목됐다. 헨리샤인은 직원 93명·사용자 818명 감염과 제3자 자격증명 39건이 언급됐다. 두 사건 모두 상태가 '유출(leaked)'로 표시됐다.",
+    "action": "인포스틸러 감염 단말의 브라우저 저장 자격증명·세션 쿠키를 전면 회전하고, ServiceNow·git·Azure AD 조회 권한을 최소화. 급여·HR 아웃소싱 고객은 위탁사 사고 통지 시 계약상 통지 기한과 재위탁 범위를 재확인",
+    "links": [
+      {
+        "label": "QPulse(페이첵스 주장)",
+        "url": "https://qpulse.quasarcybertech.com/news/8632/inception-ransomware-group-claims-data-exfiltration-from-paychex-inc-via-infostealer-compromise"
+      },
+      {
+        "label": "QPulse(헨리샤인 주장)",
+        "url": "https://qpulse.quasarcybertech.com/news/8633/inception-ransomware-group-claims-data-exfiltration-from-henry-schein-inc"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-wordpress-estatik",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 · 워드프레스 플러그인",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC · 대량 익스플로잇 위험",
+    "title": "워드프레스 Estatik(CVE-2026-125795·9.8 LFI)·Advanced Form Integration(9.8)·Soledad(8.1·KEV) 코드실행·권한상승 공개",
+    "summary": "워드프레스 부동산 플러그인 Estatik 4.3.6 이하에서 로컬 파일 포함(LFI) 결함 CVE-2026-125795(CVSS 9.8)가 공개됐다. 인증 없이 서버 파일을 불러올 수 있고 조건에 따라 코드 실행으로 이어지며, 유효 설치가 1만 개 이상이다. 수정판은 11/12 배포된 4.3.7이다. 폼 연동 플러그인 Advanced Form Integration 2.11.3 이하에서는 사용자 권한 오배정(CVE-2026-125769, CVSS 9.8)으로 권한 상승이 가능하며 2.11.5(최신 2.11.6)에서 수정됐다. 유료 테마 Soledad 8.7.7 이하는 누구나 호출 가능한 AJAX 처리로 파일을 불러와 코드를 실행할 수 있고(CVE-2026-121684, CVSS 8.1), CISA KEV에 등재됐지만 CVE 기록에 수정 버전 번호가 없다. WP Abstracts 2.7.6 이하도 구독자가 관리자로 올라갈 수 있다(CVE-2026-12239, CVSS 8.8, 2.7.7에서 수정).",
+    "pocDetail": "Patchstack은 Estatik을 우선순위 '높음'으로 분류하며 대량 공격에 쓰이기 쉬운 유형이라고 밝혔다. KEV 등재는 실제 악용 증거가 있다는 뜻이지 해당 사이트가 이미 침해됐다는 의미는 아니다. 세 플러그인·테마 모두 인증 없이 성립하는 경로가 포함돼 스캐너가 자동으로 훑는 대상이다.",
+    "action": "Estatik 4.3.7 이상, Advanced Form Integration 2.11.5 이상, WP Abstracts 2.7.7 이상으로 즉시 상향하고 Soledad는 배포처에서 8.7.7 이후 버전 확인. 미사용 플러그인·테마는 삭제, AJAX·xmlrpc 엔드포인트 WAF 룰 적용, 최근 2주간 신규 관리자 계정·업로드 파일·수정된 테마 파일 점검",
+    "links": [
+      {
+        "label": "ちょっとニュース(Estatik·AFI·Soledad 정리)",
+        "url": "https://chotto.news/security-report-2026-11-18/"
+      },
+      {
+        "label": "Patchstack 취약점 DB",
+        "url": "https://patchstack.com/database/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-mosquitto-sasl-7zip",
+    "category": "vuln",
+    "severity": "high",
+    "severityLabel": "IoT·인증·단말 신규 취약점",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC · 악용 미확인",
+    "title": "MQTT 브로커 Mosquitto 무인증 RCE(CVE-2026-110486)·Cyrus SASL SRP 인증 우회(9.3)·7-Zip 확장자 위장 등 신규 취약점",
+    "summary": "IoT에서 널리 쓰는 MQTT 브로커 Eclipse Mosquitto 2.1.0~2.1.2의 내장 WebSockets 처리에서 프레임을 잘못 다뤄 인증 전에 코드가 실행되는 결함(CVE-2026-110486, critical)이 공개됐다. 개발자는 2.1.4로 즉시 업데이트하라고 권고했고, WebSockets 리스너를 쓰지 않거나 libwebsockets로 빌드하면 회피된다. Cyrus SASL 2.1.28 이하에서는 SRP 방식 검증 결함(CVE-2026-129483, CVSS v4.0 9.3)으로 조작된 값만 보내도 기존 사용자로 위장할 수 있고 아직 수정판이 없어 개발원이 SRP 구성요소를 제거했다(Debian은 SRP를 비활성 빌드해 해당 없음). 7-Zip Windows판은 파일명 뒤에 전각 공백 등을 넣어 실제 확장자를 숨기고 경고를 우회할 수 있었고(CVE-2026-130067, CVSS 8.5) 26.03에서 수정됐다. 엘레콤 무선랜 WRC-BE36QS-B 등 v2.1.3 이하 관리 화면에서는 OS 명령 실행이 가능하며(CVE-2026-101113, CVSS 8.6), 국산 로우코드 도구 프리자네타 1.5.9.1 이하에서는 로그인 사용자가 다른 이용자의 API 키를 탈취할 수 있다(CVE-2026-125276, 7.1)는 등 4건이 JVN#02242982로 공개돼 1.5.10.0에서 수정됐다.",
+    "pocDetail": "Mosquitto는 WebSockets를 끄는 것만으로도 노출이 사라지고, SASL SRP는 사용하지 않는 환경이면 대상이 아니다. 7-Zip은 오래된 버전을 방치한 PC가 위험하며 PDF로 위장한 .hta 파일을 열면 스크립트가 실행된다. 프리자네타는 사내 업무 앱에 자주 배포돼 버전 관리가 느슨한 것이 문제다.",
+    "action": "Mosquitto 버전·WebSockets 리스너 사용 여부 확인 후 2.1.4 적용 또는 리스너 비활성, 메일서버·인증서버의 SRP 사용 여부 점검, 7-Zip 26.03 이상(최신 26.06) 배포와 미관리 PC 점검, 엘레콤 공유기·프리자네타 패치 및 API 키 재발급",
+    "links": [
+      {
+        "label": "ちょっとニュース(Mosquitto·SASL·7-Zip·엘레콤·프리자네타)",
+        "url": "https://chotto.news/security-report-2026-11-18/"
+      },
+      {
+        "label": "JVN#02242982 (프리자네타)",
+        "url": "https://jvn.jp/vu/JVNVU02242982/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-beejs-chrome-signdrop",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "공급망·브라우저 제로데이",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악성 패키지 배포·악용 중",
+    "title": "bee-js npm·Swarm Desktop에 악성 postinstall…크롬 제로데이(CVE-2026-125350)·윈도우 'SignDrop' 제로데이까지",
+    "summary": "오픈소스 생태계에서 Swarm 스토리지 네트워크용 자바스크립트 클라이언트 bee-js 13.3.0에 악성 postinstall 훅이 들어가 2차 페이로드를 내려받는 사고가 확인됐다. 페이로드는 Swarm 노드 지갑 키를 탈취하고, 리눅스·맥OS에서는 Go 리모트 셸, 윈도우에서는 SYSTEM 권한의 숨은 ScreenConnect 클라이언트를 설치한다. 같은 코드가 GitHub 배포본 Swarm Desktop 0.56.2에도 포함됐다. SafeDep은 공격자가 Ethersphere GitHub 계정 2개를 장악해 워크플로를 주입, CI 자격증명을 탈취한 뒤 릴리스 봇으로 오염 버전을 게시한 것으로 보고 'SleepyDuck' 캠페인과 연결했다. 같은 시기 구글은 크롬 XML 컴포넌트의 use-after-free(CVE-2026-125350)를 실제 악용 중이라며 157.0.8103.50/.51로 긴급 업데이트했고, 연구자 Abdelhamid Naceri는 Windows CLFS 인증 메커니즘을 악용해 SYSTEM 권한을 얻는 제로데이 'SignDrop'을 공개했다.",
+    "pocDetail": "bee-js 사고는 배포 권한(릴리스 봇·CI 토큰)이 곧 공급망 공격면이라는 점을 보여준다. Nightly·자동 릴리스 파이프라인은 사람이 승인하지 않은 산출물도 게시된다. 크롬 측은 구체적 공격 경로를 공개하지 않았고, SignDrop은 아직 벤더 수정이 없는 상태다.",
+    "action": "bee-js 13.3.0·Swarm Desktop 0.56.2 사용처를 찾아 제거하고 지갑 키·노드 자격증명 회전, npm install 스크립트 허용목록과 lockfile 고정, 릴리스 봇·CI 토큰 최소권한 및 워크플로 변경 승인 절차 적용. 크롬 자동 업데이트 확인과 CLFS 관련 비정상 프로세스(권한 상승 후 서비스 생성) 탐지 룰 추가",
+    "links": [
+      {
+        "label": "SourceBento(주간 악용 동향 정리)",
+        "url": "https://sourcebento.com/news/active-exploits-hit-n-able-chrome-and-windows-as-supply-chain-attacks-rise"
+      },
+      {
+        "label": "Chrome 릴리스 노트",
+        "url": "https://chromereleases.googleblog.com/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-optimizely-confirm",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "공급망 오염 · 후속 확인",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 확인(벤더 공식)",
+    "title": "옵티마이즐리, 공급망 오염 공식 확인…금융·은행 32곳 포함, iOS 익스플로잇 킷 'Coruna·DarkSword' 추가",
+    "summary": "옵티마이즐리가 11/16(현지) 밤 '옵티마이즐리 Web Experimentation 고객 일부에 영향을 준 보안 사고를 식별·격리했다'고 공식 확인했다. 취약 경로를 차단하고 주입된 코드를 제거했으며 고객에 직접 통지했다는 설명이다. Report URI의 스콧 헬름은 악성 코드가 금융·은행 사이트 32곳과 기술·뉴스·항공·소매 플랫폼에 설치됐고, 블록체인 증거로 약 7,000달러가 실제 탈취된 것을 추적했다고 밝혔다. iOS·아이패드용으로 배포된 익스플로잇 킷 이름은 Coruna와 DarkSword로 확인됐고, 같은 코드가 지난 9월 터키 사이트에서 먼저 관측됐다.",
+    "pocDetail": "페이로드는 지갑 주소 치환, 카드 스키밍, 쿠키·화면 캡처, iOS 익스플로잇 킷의 4중 기능을 한 파일에 담았다. 헬름은 스키밍된 카드 수, 탈취된 쿠키·스크린샷 수, 감염된 iOS 기기 수는 확인할 방법이 없다고 밝혔다. 옵티마이즐리는 침해 경로의 세부에 대한 질문에 답하지 않았다.",
+    "action": "옵티마이즐리 Web 사용 사이트는 Project JavaScript 변경 이력과 스니펫 해시를 재확인하고 재발 방지로 CSP의 strict-dynamic·unsafe-eval 제거, iOS 18.6 이하 기기는 최신으로 업데이트. 카드·지갑 주소를 쓰는 사용자는 최근 결제·전송 내역에서 주소 치환 흔적 확인",
+    "links": [
+      {
+        "label": "The Record(옵티마이즐리 공식 확인)",
+        "url": "https://therecord.media/optimizely-malicious-code-customer-sites"
+      },
+      {
+        "label": "Report URI(스콧 헬름 분석)",
+        "url": "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-korea-followups",
+    "category": "incident",
+    "severity": "info",
+    "severityLabel": "국내 후속 조치",
+    "pocStatus": "none",
+    "pocLabel": "추가 악용 정황 없음(대응 경과)",
+    "title": "조폐공사 '착' 추가 피해 없음·모바일신분증 분리 확인…강원대는 rERP 점검으로 연구비 집행 차질",
+    "summary": "한국조폐공사가 모바일 지역사랑상품권 '착' 침해와 관련해 11/13 09:30 연계기관 통신이력 관리시스템에서 비정상 접근을 포착해 공격 의심 IP·해외 IP를 차단하고, 12시 시스템을 전면 중지, 13시 긴급대응 TF를 구성해 22:38 재가동했다(중단 10시간 38분). 3,083명에게 개별 문자로 유출 항목을 안내했고 11/17부터 앱 내 유출 확인 기능을 제공한다. 지역화폐·온누리상품권·모바일신분증 시스템은 통신회선부터 서버·DB까지 물리적으로 분리돼 추가 피해가 없다고 밝혔다. 한편 강원대 산학협력단은 11/17 긴급 공지로 연구통합관리시스템 점검에 따라 연구비 집행 업무에 일부 차질이 발생할 수 있다고 안내했고, 한림대 rERP 유출은 947건(생년월일 포함 83건)으로 확인됐다.",
+    "pocDetail": "조폐공사 사고는 메인 서버 탈취가 아니라 시스템 간 통신용 API 인증 허점을 노린 유형으로, 최근 은행·증권사 침해와 같은 패턴이다. 대학가에서는 rERP 위탁관리업체 서버를 경유한 동일 패턴 침해가 이어지고 있으며, 강원대는 시스템 중단으로 연구비 집행 대체 절차를 검토 중이다.",
+    "action": "공공·교육기관은 API 인증(토큰 바인딩·요청 서명)과 연계기관 통신 구간의 최소권한을 재점검하고, 위탁 시스템 중단에 대비한 연구비·급여 등 업무 대체 절차를 문서화. 유출 공지 시 항목과 규모를 구체적으로 안내",
+    "links": [
+      {
+        "label": "충청뉴스(조폐공사 시간대별 대응)",
+        "url": "http://www.ccnnews.co.kr/news/articleView.html?idxno=417930"
+      },
+      {
+        "label": "강원일보(한림대 947건·강원대 차질)",
+        "url": "https://www.kwnews.co.kr/article/20261117501066"
+      }
+    ],
+    "date": "2026-11-18"
+  }
+]
