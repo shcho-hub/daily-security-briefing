@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>일일 보안 동향</title>
   <style>
     :root {
@@ -27,9 +27,17 @@
       --ok: #059669;
       --ok-soft: #e6f9f1;
       --shadow: 0 8px 24px rgba(30, 36, 48, 0.05);
+      --gutter: 18px;
     }
 
     * { box-sizing: border-box; }
+
+    html {
+      /* 모바일 브라우저의 글자 자동 확대를 막고, 세로 스크롤만 남긴다. */
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
@@ -37,12 +45,29 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      /* 한글은 단어 단위로 끊고, 끊을 수 없는 긴 문자열은 아래 규칙에서 anywhere로 처리한다. */
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    /* 긴 URL·CVE·도메인·파일명처럼 띄어쓰기가 없는 문자열은 상자 안에서 접어 준다. */
+    :where(a, code, .badge, .meta-box, .card h3, .card p, .date-tag) {
+      overflow-wrap: anywhere;
+    }
+
+    img, svg, video, canvas {
+      max-width: 100%;
+      height: auto;
     }
 
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 28px 18px 72px;
+      padding: 28px 0 72px;
+      /* 노치·홈 인디케이터가 있는 기기에서도 본문이 가려지지 않게 한다. */
+      padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+      padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+      padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
     }
 
     header {
@@ -56,12 +81,19 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
+      min-width: 0;
     }
 
     .brand-row {
       display: flex;
       align-items: center;
       gap: 14px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .brand {
+      min-width: 0;
     }
 
     .logo-pill {
@@ -87,18 +119,21 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      text-wrap: balance;
     }
 
     .brand p {
       margin: 3px 0 0;
       font-size: 0.88rem;
       color: var(--muted);
+      max-width: 100%;
     }
 
     .header-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      min-width: 0;
     }
 
     button {
@@ -111,10 +146,15 @@
       font-size: 0.84rem;
       font-weight: 600;
       transition: all 0.15s ease;
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
-    button:hover {
-      border-color: var(--pink);
-      background: var(--panel-soft);
+    @media (hover: hover) {
+      button:hover {
+        border-color: var(--pink);
+        background: var(--panel-soft);
+      }
     }
     button.primary {
       background: var(--pink);
@@ -122,14 +162,17 @@
       color: #fff;
       box-shadow: 0 4px 12px rgba(255, 107, 139, 0.25);
     }
-    button.primary:hover {
-      background: var(--pink-dark);
-      border-color: var(--pink-dark);
+    @media (hover: hover) {
+      button.primary:hover {
+        background: var(--pink-dark);
+        border-color: var(--pink-dark);
+      }
     }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      /* min()으로 컬럼 최소폭이 화면보다 커지지 않게 한다(320px 폭 대응). */
+      grid-template-columns: repeat(auto-fit, minmax(min(185px, 100%), 1fr));
       gap: 12px;
       margin: 18px 0;
     }
@@ -166,6 +209,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      min-width: 0;
     }
 
     .tab {
@@ -175,6 +219,7 @@
       padding: 7px 15px;
       font-size: 0.84rem;
       border: 1px solid var(--border);
+      max-width: 100%;
     }
     .tab.active {
       background: var(--pink-soft);
@@ -185,14 +230,18 @@
 
     .search-box {
       display: flex;
+      flex-wrap: wrap;
       gap: 8px;
-      flex: 1;
+      flex: 1 1 230px;
       max-width: 360px;
-      min-width: 230px;
+      min-width: 0;
     }
 
     input[type="search"], select {
       width: 100%;
+      /* 폼 요소의 기본 최소 폭 때문에 가로로 밀리지 않게 한다. */
+      min-width: 0;
+      max-width: 100%;
       background: var(--panel);
       border: 1px solid var(--border);
       color: var(--text);
@@ -200,6 +249,16 @@
       border-radius: 12px;
       font-size: 0.86rem;
       outline: none;
+      font-family: inherit;
+    }
+
+    .search-box select {
+      flex: 0 1 138px;
+      width: auto;
+    }
+
+    .search-box input[type="search"] {
+      flex: 1 1 150px;
     }
     input[type="search"]:focus, select:focus {
       border-color: var(--pink);
@@ -207,8 +266,10 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
+      /* 335px는 데스크톱 기준. 화면이 그보다 좁으면 100%까지 줄어들어 가로 넘침이 없다. */
+      grid-template-columns: repeat(auto-fill, minmax(min(335px, 100%), 1fr));
       gap: 16px;
+      min-width: 0;
     }
 
     .card {
@@ -222,10 +283,17 @@
       justify-content: space-between;
       gap: 14px;
       transition: transform 0.16s ease, border-color 0.16s ease;
+      /* 그리드/플렉스 자식이 콘텐츠 최소폭 아래로 줄어들 수 있게 한다. */
+      min-width: 0;
     }
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-strong);
+    .card > div {
+      min-width: 0;
+    }
+    @media (hover: hover) {
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+      }
     }
 
     .card-top {
@@ -234,6 +302,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     .badge-group {
@@ -241,6 +310,7 @@
       gap: 6px;
       flex-wrap: wrap;
       align-items: center;
+      min-width: 0;
     }
 
     .badge {
@@ -251,6 +321,10 @@
       border-radius: 999px;
       font-size: 0.74rem;
       font-weight: 700;
+      /* 아주 좁은 화면에서는 배지도 줄바꿈되게 한다. */
+      max-width: 100%;
+      white-space: normal;
+      text-align: start;
     }
     .badge.critical { background: var(--danger-soft); color: var(--danger); }
     .badge.high, .badge.incident { background: var(--warn-soft); color: var(--warn); }
@@ -263,6 +337,7 @@
       font-size: 0.78rem;
       color: var(--muted);
       font-weight: 500;
+      flex-shrink: 0;
     }
 
     .card h3 {
@@ -270,12 +345,16 @@
       font-size: 1.04rem;
       line-height: 1.4;
       letter-spacing: -0.015em;
+      text-wrap: balance;
+      max-width: 100%;
     }
 
     .card p {
       margin: 0;
       font-size: 0.89rem;
       color: #4b5563;
+      text-wrap: pretty;
+      max-width: 100%;
     }
 
     .info-stack {
@@ -283,6 +362,7 @@
       flex-direction: column;
       gap: 8px;
       margin-top: 12px;
+      min-width: 0;
     }
 
     .meta-box {
@@ -290,6 +370,9 @@
       padding: 10px 12px;
       font-size: 0.82rem;
       line-height: 1.5;
+      max-width: 100%;
+      /* 도메인·IP 나열처럼 긴 문자열이 상자 밖으로 나가지 않게 한다. */
+      overflow-wrap: anywhere;
     }
     .meta-box.poc {
       background: var(--panel-soft);
@@ -315,12 +398,15 @@
       padding-top: 12px;
       border-top: 1px solid #f3eaee;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     .links {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      min-width: 0;
+      max-width: 100%;
     }
 
     a {
@@ -328,8 +414,12 @@
       text-decoration: none;
       font-size: 0.82rem;
       font-weight: 600;
+      max-width: 100%;
+      overflow-wrap: anywhere;
     }
-    a:hover { text-decoration: underline; }
+    @media (hover: hover) {
+      a:hover { text-decoration: underline; }
+    }
 
     .notice-card {
       grid-column: 1 / -1;
@@ -344,12 +434,17 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 2px 6px;
+      overflow-wrap: anywhere;
+      word-break: break-all;
     }
 
     .toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      right: max(24px, env(safe-area-inset-right, 0px));
+      max-width: min(360px, calc(100vw - 32px));
+      text-align: center;
+      overflow-wrap: anywhere;
       background: var(--text);
       color: #fff;
       padding: 11px 18px;
@@ -365,6 +460,36 @@
     .toast.show {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── 모바일(320px~430px) ───────────────────────────── */
+    @media (max-width: 480px) {
+      :root { --gutter: 14px; }
+      .container { padding-top: 18px; }
+      header { padding: 18px 16px; border-radius: 20px; gap: 14px; }
+      .brand h1 { font-size: 1.26rem; }
+      .logo-pill { width: 42px; height: 42px; border-radius: 14px; }
+      .header-actions { width: 100%; }
+      .header-actions button { flex: 1 1 140px; }
+      .stats { gap: 10px; margin: 14px 0; }
+      .stat-card { padding: 12px 15px; border-radius: 16px; }
+      .controls { gap: 10px; margin-bottom: 14px; }
+      .search-box { flex-basis: 100%; max-width: none; }
+      .grid { gap: 12px; }
+      .card { padding: 16px; border-radius: 18px; gap: 12px; }
+      .toast { right: 16px; left: 16px; max-width: none; }
+      /* iOS가 입력창을 누를 때 화면을 임의로 확대하지 않도록 16px 이상 유지 */
+      input[type="search"], select { font-size: 1rem; }
+    }
+
+    /* 터치 기기에서는 손가락으로 누를 수 있는 최소 크기를 확보한다. */
+    @media (pointer: coarse) {
+      button, .tab, input[type="search"], select { min-height: 44px; }
+      .links a { display: inline-flex; align-items: center; min-height: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
     }
   </style>
 </head>
