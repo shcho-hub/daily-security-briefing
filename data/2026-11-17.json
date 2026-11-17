@@ -698,5 +698,182 @@
       }
     ],
     "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-daouoffice-supply-chain",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "국내 그룹웨어 공급망 침해",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(제조사 공지)",
+    "title": "다우오피스 PC메신저 자동 업데이트로 악성파일 배포…브라우저 저장 비밀번호·계정 유출 가능",
+    "summary": "다우오피스(다우기술)가 11월 15일 16:45~16일 09:25 사이 윈도우용 PC메신저 자동 업데이트 과정에서 불상의 공격자가 악성 파일을 심어 배포했다고 17일 공지했다. 악성 파일이 설치된 PC에서는 크롬·엣지에 저장된 아이디·비밀번호와 다우오피스 계정이 유출됐을 가능성이 있다. 맥 버전과 모바일 앱은 사고 대상이 아니다. 회사는 문제 업데이트 배포를 차단하고 악성 파일을 제거하는 정상 버전(Ver.4.5.12)을 배포했으며, 유출 피해가 확인된 고객사에는 대상 계정(ID)과 함께 개별 안내 중이다.",
+    "pocDetail": "제조사 공지상 확인 지점은 %AppData%\\DaouMessengerUpdater 폴더와 그 안의 beacon.exe이며, 정상 버전 실행 시 악성 파일 설치 이력이 있는 PC에는 별도 안내창이 뜬다. 보안뉴스는 복수 악성 파일 실행과 RDP(원격 데스크톱) 실행 흔적이 함께 포착됐다고 전했다. 패치관리시스템(PMS)을 악용해 실제 고객사에 악성코드가 유포된 공급망 사례로, 공급사가 계정 단위로 통보한 만큼 실제 감염 PC가 안내된 수보다 많을 수 있다는 지적이 나온다. 정상 버전으로 초기 파일을 지워도 외부 원격제어 이력과 사내망 재전파 여부는 별도로 확인해야 한다.",
+    "action": "PC메신저가 Ver.4.5.12인지 확인(프로필 사진 > 환경 설정 > PC메신저관리 > 메신저 버전 정보), %AppData%\\DaouMessengerUpdater·beacon.exe 흔적과 안내창 발생 여부 점검, 해당 PC는 브라우저에 저장된 모든 사이트(사내 시스템·메일·금융) 비밀번호를 즉시 변경하고 저장값 삭제, 전사 PC의 RDP 실행·접속 이력과 악성코드 유무 전수 조사, MFA 지원 시스템은 MFA 적용",
+    "links": [
+      {
+        "label": "보안뉴스(2026-11-17 14:51)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147323"
+      },
+      {
+        "label": "다우오피스 공식 보안 공지",
+        "url": "https://hr.daouoffice.com/blog/411751/"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-dongui-univ-erp",
+    "category": "incident",
+    "severity": "medium",
+    "severityLabel": "대학 연구행정 연쇄 침해",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 유출 확인(대학 공지)",
+    "title": "동의대 산학협력단 연구비관리시스템 해킹…개인정보 530명 유출",
+    "summary": "동의대학교 산학협력단의 연구비관리시스템 관련 서버가 외부 해킹 공격을 받아 530명분 개인정보가 유출된 사실이 11월 17일 대학 홈페이지를 통해 공식 확인됐다. 유출 항목은 직번, 이름, 소속 부서, 직위, 직책, 재직 여부, 생년월일 등이다. 대학은 개인정보보호법 제34조에 따라 유출 사실을 공지하고 정보주체가 스스로 유출 여부를 확인할 수 있는 조회 서비스를 제공했다.",
+    "pocDetail": "정확한 최초 침투 시점과 사고 인지 시각, 공격자가 악용한 취약점, 추가 유출 여부는 아직 공개되지 않았다. 한림대(947건)·숙명여대(1,359건)·한경국립대(772건)·대구한의대(1,281건) 등 연구행정시스템(rERP) 침해가 이어진 가운데 나온 추가 사례다. 여러 대학이 같은 제조사(웹케시) 시스템을 쓰는 점, 유지보수 업체 서버·계정이 공통 침해 경로일 가능성이 함께 거론되지만 동일 공격 경로인지는 확인되지 않았다.",
+    "action": "rERP 계열 시스템의 유지보수 계정·원격접속 경로와 웹 취약점 점검, 외부 유지보수 업체 서버 침해 여부 확인, 연구행정시스템 외부 접속 제한과 접속기록 보존 강화, 유출 대상자 비밀번호 변경·피싱 주의 안내",
+    "links": [
+      {
+        "label": "데일리시큐(2026-11-17 14:13)",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209566"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-fss-loan-briefing",
+    "category": "incident",
+    "severity": "medium",
+    "severityLabel": "금융당국 후속 조치",
+    "pocStatus": "none",
+    "pocLabel": "정책·감독 조치(침해 아님)",
+    "title": "금감원, 70개 대부업체 보안·전산 담당자 설명회…\"연말까지 외부접점 자체점검, 부실 땐 엄정 제재\"",
+    "summary": "금융감독원은 11월 17일 오후 서울 여의도 본원에서 약 70개 대부업체의 보안·전산 담당자 등 실무자를 대상으로 침해사고 관련 설명회를 열었다. 오전 전자금융업·온투업 274개사 CISO 간담회에 이어 대부업권까지 확대한 것이다. 김형원 부원장보는 방화벽을 기준으로 외부에서 접근 가능한 모든 IT 자산과 영업·관리용 API, 개발·테스트·임시운영 시스템까지 신속히 점검하고, 정보 유출로 이어질 수 있는 취약점이 확인되면 즉시 서비스를 중단하고 외부접점을 차단하라고 주문했다.",
+    "pocDetail": "연말까지 모든 외부접점과 내부통제 운영실태를 자체 점검해 제출해야 하며, 점검 결과는 대부업권 '보안 내부통제 가이드라인' 마련에 쓰인다. 점검이 부실하거나 취약점을 방치해 개인신용정보가 유출되면 엄정 제재하겠다고 밝혔다. 사고 시 금감원·KISA(한국인터넷진흥원)에 즉시 신고하는 체계를 갖추도록 요구했다. 대부업권은 서민 고객 정보를 다뤄 취약점이 보이스피싱 등 2차 피해로 이어질 수 있다는 점이 강조됐다.",
+    "action": "대부업·전자금융·온투업 종사자는 외부 공개 IT 자산·API·임시 시스템 목록을 만들어 취약점 점검 결과와 조치 내역을 연말까지 문서화, 중요 취약점은 서비스 중단·외부접점 차단 후 보고, 사고 시 금감원·KISA 동시 신고 절차 사전 정비",
+    "links": [
+      {
+        "label": "연합뉴스(2026-11-17 14:00)",
+        "url": "https://www.yna.co.kr/view/AKR20261117045451002"
+      },
+      {
+        "label": "노컷뉴스",
+        "url": "https://www.nocutnews.co.kr/news/6608192"
+      },
+      {
+        "label": "아주경제(김형원 부원장보 발언)",
+        "url": "https://www.ajupress.com/view/20261117140070098"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-finance-civil-groups",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "금융권 유출 규모 공개",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 유출 확인(금감원 제출 자료)",
+    "title": "경실련 등 5개 단체 \"금융사 19곳에서 11만건 넘게 유출\"…금감원에 조사요청서 제출",
+    "summary": "경실련, 금융정의연대, 민변 디지털정보위원회·민생경제위원회, 참여연대 경제금융센터는 11월 17일 오전 금융감독원 앞에서 기자회견을 열고 금융권 개인정보 유출 사태의 책임 규명과 피해구제 제도 개선을 촉구했다. 이들은 한창민 의원실이 금감원에서 제출받은 자료를 근거로, 9월 이후 침해사고를 보고한 금융회사가 은행·증권·자산운용·보험사 등 19곳(20건)이며 보고된 피해 규모가 11만 명(건)을 넘는다고 밝혔다. 인원과 정보 건수가 섞이고 일부 추정치가 포함된 수치다.",
+    "pocDetail": "KB국민은행은 10월 2일 유출 인원을 119명으로 발표했다가 금감원 검사 과정에서 고객 1,631명·임직원 460명 추가 피해가 확인돼 10월 26일 2,210명으로 정정했다(최초 발표의 18배 이상, 유출 항목도 17개→39개). 약 43시간 이어진 공격이 끝난 뒤에야 유출을 인지했다. 금융보안원은 11월 9일 침해로 행정서식 200여 건, 개인정보 300여 건, 시스템 이용자 정보 350여 건이 유출된 것으로 알려졌다. 단체들은 콜센터 상담사 간접고용 비율(은행 88.0%·카드사 89.6%)과 CISO 권한 부재를 구조적 원인으로 지목하고, 2차 피해 인과관계 추정 규정·금융소비자 집단소송 확대·CISO 운영중단 요구권·콜센터 외주 중단 등을 요구했다.",
+    "action": "금융사·수탁사는 위탁 고객정보의 접근권한·전송경로·재위탁·접속기록 실태를 재점검하고, 사고 인지 후 축소 발표 없이 유출 항목과 규모를 신속히 확정해 통지, 고객 대상 거래소·은행 사칭 피싱 주의 안내와 비밀번호·OTP 재설정 캠페인 병행",
+    "links": [
+      {
+        "label": "연합뉴스(2026-11-17 12:11)",
+        "url": "https://www.yna.co.kr/view/AKR20261117088100004"
+      },
+      {
+        "label": "이데일리(금보원 유출 규모·KB국민은행 정정)",
+        "url": "https://www.edaily.co.kr/News/Read?mediaCodeNo=257&newsId=03827766645646704"
+      },
+      {
+        "label": "머니투데이(2026-11-17 15:09)",
+        "url": "https://www.mt.co.kr/society/2026/11/17/2026111711393930046"
+      },
+      {
+        "label": "경실련 기자회견 예고문(요구사항 전문)",
+        "url": "https://ccej.or.kr/posts/LKt7JYd"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-kisa-advisories",
+    "category": "vuln",
+    "severity": "high",
+    "severityLabel": "KISA 권고 4건 · DB·보안장비",
+    "pocStatus": "none",
+    "pocLabel": "악용·PoC 미확인(제조사 패치 배포)",
+    "title": "KISA, 11/17 보안 업데이트 권고 4건…PostgreSQL 25개 CVE·Citrix NetScaler 11개·Check Point·MongoDB",
+    "summary": "한국인터넷진흥원(KISA)이 11월 17일 Citrix, Check Point, PostgreSQL, MongoDB 제품 보안 업데이트 권고를 잇달아 게시했다. ① PostgreSQL은 CVE-2026-6460(타입 혼동, CVSS 8.8)을 포함한 25개 결함을 고친 18.7·17.12·16.16·15.20·14.25를 배포했고 14버전은 이번이 마지막 지원이다. ② Citrix는 NetScaler ADC·Gateway 14.1-73.57/13.1-64.39, NetScaler Console 14.1-74.34, Secure Access Client(윈도우) 26.11.1.6에서 CVE-2026-120868·107407~107415·120864·120869·111334 등 11개 결함을 수정했다. ③ Check Point는 Force·Spark·Cloud Firewall과 관리서버·Maestro Orchestrator에서 CVE-2026-123039(KEV 등재, 실제 악용 확인)와 CVE-2026-109618·109619를 고쳤다. ④ MongoDB는 Node.js 드라이버 CVE-2026-126837(SRV 응답 호스트 검증 오류, 9.1)을 7.8.0에서 수정했다.",
+    "pocDetail": "PostgreSQL 결함 대부분은 객체 생성 권한이 있는 DB 계정으로 서버 OS 권한의 코드 실행이 가능한 유형이고, 32건이 CVSS 8.8로 집계됐다. Citrix·Check Point 권고에는 실제 악용 정황이 별도로 적시되지 않았으며, Check Point CVE-2026-123039는 이미 오늘 대시보드에 수록된 KEV 기한 도과 항목과 같은 결함이다. MongoDB 드라이버 결함은 DNS SRV 응답을 조작할 수 있는 위치의 공격자가 접속 호스트를 바꿀 수 있고 인증서도 바뀐 이름으로 검증돼 TLS로 막히지 않는다(mongodb+srv:// 사용 앱이 대상, mongodb:// 는 해당 없음).",
+    "action": "PostgreSQL은 각 계열 최신 마이너(18.7/17.12/16.16/15.20/14.25)로 업데이트하고 14버전은 상위 버전 이전 계획 수립, Citrix NetScaler·Console·Secure Access Client는 인터넷 노출 장비부터 즉시 패치, Check Point는 R82.20 Jumbo Hotfix Take 14(또는 계열별 최신 Take) 이상 적용, Node.js 앱은 npm ls --all mongodb mongoose로 버전 확인 후 mongodb 7.8.0 이상으로 업그레이드",
+    "links": [
+      {
+        "label": "KISA 권고 · PostgreSQL",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&categoryCode=&menuNo=205023&pageIndex=1&nttId=72310"
+      },
+      {
+        "label": "KISA 권고 · Citrix",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&categoryCode=&menuNo=205023&pageIndex=1&nttId=72312"
+      },
+      {
+        "label": "KISA 권고 · Check Point",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&categoryCode=&menuNo=205023&pageIndex=1&nttId=72311"
+      },
+      {
+        "label": "KISA 권고 · MongoDB",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000133&categoryCode=&menuNo=205023&pageIndex=1&nttId=72309"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-zyxel-79614",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 · 악용 미확인",
+    "pocStatus": "none",
+    "pocLabel": "PoC·야생 악용 미확인",
+    "title": "지스텔 Zyxel 공유기·ONT 펌웨어 CVE-2026-79614(CVSS 9.8)…인증 없이 명령 실행 가능",
+    "summary": "지스텔(Zyxel)이 11월 17일 DSL/Ethernet CPE, 광 ONT, 무선 확장기 펌웨어의 아웃오브바운드 쓰기(CVE-2026-79614, CVSS 3.1 9.8)와 인증 후 명령 주입(CVE-2026-86676) 결함을 고친 펌웨어를 배포했다. CVE-2026-79614는 web 관리 인터페이스가 쓰는 libclinkc.so 결함으로, 조작된 HTTP 요청 한 번으로 인증 없이 권한 상승과 임의 명령 실행이 가능하다고 제조사는 설명한다. DX3301-T0·EX3301-T0 계열 등 40여 모델이 영향을 받으며, 패치 버전은 모델별로 5.50(ABVY.8.4)C0, 5.17(ABYL.10.5)C0, 5.70(ACDZ.6.4)C0 등이다.",
+    "pocDetail": "해당 장비는 WAN 측 접근이 기본 비활성화돼 있어 인터넷에 직접 노출된 경우가 적지만, 관리 포트를 열어 둔 환경이나 내부망에 접근한 공격자에게는 그대로 유효하다. CVE-2026-79614는 현재 CISA KEV 미등재이고 공개 PoC나 실제 악용 정황도 확인되지 않았다. CVE-2026-86676은 관리자 권한과 비밀번호가 먼저 탈취돼야 성립한다. ISP가 커스터마이즈한 모델은 제조사 표에 포함되지 않아 통신사 지원팀을 통해 확인해야 한다.",
+    "action": "ISP 지급 공유기·ONT·확장기의 모델과 펌웨어 버전 확인 후 제조사 패치 적용, 원격 관리(WAN) 인터페이스가 인터넷에 열려 있지 않은지 점검, 관리자 기본 비밀번호 변경과 원격관리 비활성화, ISP 커스텀 모델은 통신사에 패치 일정 문의",
+    "links": [
+      {
+        "label": "Zyxel 보안 권고(2026-11-17)",
+        "url": "https://www.zyxel.com/global/en/support/security-advisories/zyxel-security-advisory-for-out-of-bounds-write-and-post-authentication-command-injection-vulnerabilities-in-certain-dsl-ethernet-cpe-fiber-onts-and-wireless-extenders-11-17-2026"
+      },
+      {
+        "label": "Rapid7 취약점 DB",
+        "url": "https://www.rapid7.com/db/vulnerabilities/cve-2026-79614/"
+      }
+    ],
+    "date": "2026-11-17"
+  },
+  {
+    "id": "2026-11-17-mediamath-n0n",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "유출 데이터 공개(N0n 주장)",
+    "pocStatus": "exploited",
+    "pocLabel": "유출 데이터 공개 확인(미결제·주장)",
+    "title": "N0n, 광고플랫폼 MediaMath서 쿠키-기기 식별자 1억4,318만 행 유출 주장",
+    "summary": "데이터 유출 협박 조직 N0n이 11월 16일 미국 광고·아이덴티티 해석 기업 MediaMath를 유출 사이트에 올렸다. 11월 9일 'Company #193'으로 익명 등재한 대상을 실명으로 공개하고 '미결제·공개(NOT PAID — EXPOSED)'로 상태를 바꾼 것이다. 공개됐다고 주장하는 자료는 소비자 쿠키 식별자와 기기 식별자를 연결한 1억4,318만6,369행 규모의 아이덴티티 그래프, 광고주·대행사별 예산과 성과가 담긴 캠페인 분석 자료, 세그먼트 멤버십, 브랜드 안전성·부정 검증 데이터, 특정 고객사의 사이트 화이트리스트, 월별 캠페인 검증 보고서다.",
+    "pocDetail": "같은 조직은 11월 16일 마테크 기업 Zeta Global의 아이덴티티 매치키 500만 건도 함께 공개했다. 두 사건 모두 피해 기업의 확인이나 독립 검증이 없어 주장 단계다. 쿠키·기기 식별자는 이름·주민번호 같은 직접 식별자가 아니지만, 다른 데이터와 결합하면 개인 단위 프로파일링과 표적 광고·피싱에 쓰일 수 있다. N0n은 최근 일주일 새 유출 사이트에 가장 많은 피해자를 올린 조직 중 하나로 집계된다.",
+    "action": "광고·마테크·리타기팅 제휴사에 위탁한 오디언스·쿠키 데이터의 보관 범위와 접근 권한 점검, 쿠키·기기ID 기반 프로파일링 데이터 최소화와 계약상 파기 조항 확인, 파트너사 침해 통지·유출 사이트 등재 모니터링",
+    "links": [
+      {
+        "label": "ransomware.live 피해 항목(MediaMath/N0n)",
+        "url": "https://ransomware.live/id/TWVkaWFNYXRoQE4wbg"
+      },
+      {
+        "label": "QPulse 보도(2026-11-17)",
+        "url": "https://qpulse.quasarcybertech.com/news/8561/n0n-ransomware-group-exposes-mediamath-data-including-143-million-consumer-identity-records"
+      }
+    ],
+    "date": "2026-11-17"
   }
 ]
