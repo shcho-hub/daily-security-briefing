@@ -809,5 +809,167 @@
       }
     ],
     "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-cjlogistics-one-chatbot",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "국내 물류 대기업 · AI 자동화 대량 조회 의심",
+    "pocStatus": "none",
+    "pocLabel": "유출 의심 정황 확인 · 규모 미확정(조사 중)",
+    "title": "CJ대한통운 '오네' 챗봇에 비정상 자동화 대량 접근…배송기사 이름·연락처, 인수인 이름·동 단위 주소 조회 가능성",
+    "summary": "CJ대한통운이 11/18 홈페이지 안내문에서 11/16 오네(O-NE) 챗봇 서비스의 서버 로그와 일부 DB를 분석하는 과정에서 '비정상적인 자동화 대량 접근' 정황을 확인했다고 밝혔다. 조회됐을 가능성이 있는 항목은 배송기사의 이름·휴대전화번호와 택배 인수인의 이름, 주소 중 '동' 단위 정보이며 인수인 이름에는 '문앞'·'경비실'처럼 실제 수령인이 아닌 표기가 다수 포함돼 있었다. 주민등록번호·여권번호·운전면허번호 등 고유식별정보와 연계정보(CI), 인수인 휴대전화번호는 현재까지 조회 가능 항목에 포함되지 않았다. 회사는 시·군·구·상세주소·연락처가 챗봇 서버에 없어 개인정보보호법상 개인정보에 해당하지 않을 가능성도 있다며 유출 규모와 정보주체는 확정되지 않았다고 설명했다. 자동화된 대량 접근이라는 점에서 AI를 악용한 봇 공격 가능성이 유력하게 거론된다.",
+    "pocDetail": "사고 인지 직후 챗봇 서비스 유입 구간에 웹 방화벽 기반 탐지·차단을 적용하고 과도한 요청 차단과 접근 통제 정책을 강화했으며 재발 여부를 감시 중이다. 침입 경로·취약점과 실제 유출 여부는 조사 중으로, 아직 유출 건수와 대상자는 공개되지 않았다. 챗봇·자동응답 API는 로그인 없이 반복 호출로 배송 정보를 대량 열람할 수 있어 국내에서도 같은 유형의 자동화 조회 사고가 이어지고 있다.",
+    "action": "챗봇·상담 자동화 엔드포인트에 레이트리밋·봇 탐지(행동 패턴·디바이스 지문)·세션 바인딩을 적용하고, 주문번호·송장번호만으로 타인 정보가 반환되지 않도록 본인 확인을 결합. 순차 번호·짧은 시간 다량 조회 패턴에 대한 이상탐지 룰을 만들고 응답에 노출되는 개인정보를 최소화. 배송·택배 사칭 전화·문자·메일에 대한 고객 경고와 상담 스크립트를 준비",
+    "links": [
+      {
+        "label": "보안뉴스(CJ대한통운 오네 챗봇 자동화 대량 접근)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147359"
+      },
+      {
+        "label": "아시아경제 단독(배송기사·인수인 정보 조회 정황)",
+        "url": "https://www.asiae.co.kr/article/2026111815473020903"
+      },
+      {
+        "label": "YTN(인수인 이름·일부 주소 조회 가능성)",
+        "url": "https://www.ytn.co.kr/_ln/0102_202611181827131663"
+      },
+      {
+        "label": "마이데일리(배송기사 이름·휴대전화번호 포함 항목)",
+        "url": "https://www.mydaily.co.kr/page/view/2026111818045039265"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-pipc-cisa-java4shell-guidance",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "개보위·CISA 긴급 권고 · DB권한·Base64 입력 통제",
+    "pocStatus": "poc",
+    "pocLabel": "PoC 공개 · 2.8만 요청에 JVM 종료 재현(야생 악용 미확인)",
+    "title": "개보위, Java4Shell 개인정보 유출 예방 긴급 조치 안내…CISA도 즉시 패치 권고, 2.8만 요청에 JVM 종료 재현",
+    "summary": "개인정보보호위원회가 11/18 자바 실행환경 원격 명령 실행 취약점(Java4Shell, CVE-2026-114938 등)과 관련해 공공기관·민간기업에 개인정보 유출 예방 조치를 안내했다. 운영체제에 설치된 자바뿐 아니라 오픈소스·애플리케이션 실행용 컨테이너에 내장된 자바까지 점검하고, 불필요한 API는 중단하며 DB 조회 권한을 업무별 최소 범위로 제한, 인증키·토큰 유출이 의심되면 재발급, 자바 기반 DB 관리도구의 외부 직접 접속 차단, 수탁업체 운영 시스템까지 포함한 개인정보 조회·반출 이력과 접속기록 점검을 요구했다. CISA도 11/17(현지) 경보를 내고 JDK·자바 런타임(서드파티 내장·컨테이너 이미지 포함) 인벤토리 작성과 인터넷 노출 시스템 우선 패치, 패치가 어려우면 애플리케이션 경계에서 Base64 입력 검증·크기 제한·무인증 접근 축소로 임시 통제하고 비정상 JVM 크래시·의심 자바 프로세스를 감시하라고 권고했다.",
+    "pocDetail": "블랙포인트사이버는 로컬 Spring Boot·Spring Security 환경에서 악성 Base64 인증값을 담은 무인증 HTTP 요청 약 2만8,000건을 보내자 약 20초 만에 JVM이 종료됐고, 즉시 크래시가 나지 않는 경우에도 인접 자바 객체와 운영 중 데이터가 변조되는 것을 확인했다고 밝혔다. Calif의 PoC 이후 두 번째 연구자도 동작하는 익스플로잇을 만들었으며, CISA·캐나다 사이버센터 모두 11/18 기준 야생 악용 증거는 없다고 밝혔다.",
+    "action": "WAF·리버스 프록시에서 비정상 Base64(중복 '='·비정상 길이·비ASCII 혼입)와 과도한 인증 헤더를 차단하고 요청 크기 상한을 설정. 인증 전 Base64 디코딩이 일어나는 경로(HTTP Basic, SAML 아티팩트, CSRF 토큰, 쿠키 파서)를 목록화해 우선 점검하고, 애플리케이션 DB 접속계정의 전체 조회 권한을 회수. JVM 비정상 종료·재시작 급증과 의심 자바 자식 프로세스·아웃바운드 연결 알람을 켜고, 패치 후 서비스 재시작과 실제 반영 여부를 확인",
+    "links": [
+      {
+        "label": "연합뉴스(개보위 긴급 조치 안내)",
+        "url": "https://www.yna.co.kr/view/AKR20261118173000530"
+      },
+      {
+        "label": "CISA 경보 'Critical Java Vulnerability Requires Immediate Patching'(2026-11-17)",
+        "url": "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching"
+      },
+      {
+        "label": "뉴시스(개보위 DB권한·API 통제 요구)",
+        "url": "https://www.newsis.com/view/NISX20261118_0003873927"
+      },
+      {
+        "label": "The Hacker News(블랙포인트 2.8만 요청 JVM 종료 재현)",
+        "url": "https://thehackernews.com/2026/11/cisa-urges-immediate-patching-of.html"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-karte-jleague-shimamura",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "KARTE 유출 확산 · 수백만 건 추가",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 유출 확인(각사 공식 발표)",
+    "title": "KARTE 유출 파장 확대…J리그 티켓 238만·시마무라 700만·미쓰모아 339만·Schoo 8.7만 건 추가 확인",
+    "summary": "고객경험 플랫폼 KARTE(운영사 PLAID) 침해로 이용 기업의 유출 규모가 계속 확대되고 있다. J리그는 11/18 18시 공식 발표에서 'J리그 티켓'·'WE리그 티켓' 238만3,073건(WE리그 14건 포함)과 'J.League Fantasy Card' 543건의 유출을 확인했다고 밝혔다. 티켓 쪽 유출 항목은 시스템 내부 사용자 식별자, 생년월일, 성별, 도도부현, 시정촌이고 카드게임은 이메일과 식별자다. J리그ID·원터치패스ID·비밀번호·카드정보는 KARTE에 연동되지 않아 유출되지 않았고, 연동 인증정보는 변경을 마쳤다. 앞서 11/17에는 시마무라가 공식앱·온라인스토어 회원 약 700만 건과 회원이 등록한 가족 정보 약 5만 건, 알펜이 'Alpen Online' 로그인 고객 8만6,494건의 유출을 발표했고, 11/18에는 미쓰모아가 6만 명(이름·메일·전화·생년월일 중 일부)과 339만8,469건(식별번호·도도부현), Schoo가 관리자 메일 2만7,088건과 회원 6만 건의 유출을 공지했다. 인포마트도 KARTE에 연동한 273만5,267건 가운데 내부 ID·소재지 도도부현과 직원 메일 31건이 유출됐다고 밝혔다.",
+    "pocDetail": "어느 사례도 비밀번호와 카드정보 유출은 확인되지 않았지만, 생년월일·성별·지역·내부 식별자를 조합하면 특정 서비스 이용자를 좁힐 수 있고 KARTE 연동 인증정보(시크릿키·액세스토큰)가 함께 유출돼 2차 SaaS 접근 위험이 남아 있다. PLAID는 11/18 오전에도 서비스 재개 시점을 확정하지 못했고 주가는 연일 급락했다.",
+    "action": "KARTE 연동 기업은 연동 키·토큰 폐기 상태를 유지하고 재개 시 신규 키로만 재연결, KARTE에 넘긴 개인정보 항목을 최소화(식별자·생년월일·지역 조합 재검토). 유출 공지 기업을 사칭한 메일·SMS 링크 차단과 고객 문의 창구를 준비하고, 자사 위탁 SaaS 목록에서 파생 유출 가능 항목과 재위탁 범위를 다시 확인",
+    "links": [
+      {
+        "label": "J리그 공식 발표(2026-11-18 18:00)",
+        "url": "https://www.jleague.jp/news/article/35384/"
+      },
+      {
+        "label": "미쓰모아 공지(339만8,469건·6만 명)",
+        "url": "https://company.meetsmore.com/page/notice-20261118-karte"
+      },
+      {
+        "label": "Schoo 공지(PR TIMES, 2만7,088건·6만 건)",
+        "url": "https://prtimes.jp/main/html/rd/p/000000385.000006391.html"
+      },
+      {
+        "label": "CNET Japan(시마무라 700만·알펜 8만6,494·인포마트)",
+        "url": "https://japan.cnet.com/article/35255076/"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-agent-framework-pypi",
+    "category": "global",
+    "severity": "critical",
+    "severityLabel": "공급망 침해 · 월 19만 다운로드 · 자격증명 탈취",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악성 패키지 배포(격리 완료)",
+    "title": "MS 'agent-framework' PyPI 악성 1.26.1·1.26.2, 33분 간격 2차 유포…설치만 해도 파이썬 시작 때 Azure·CI 자격증명 탈취",
+    "summary": "마이크로소프트 에이전트 프레임워크의 메타 패키지 agent-framework 1.26.1·1.26.2가 악성 코드를 담은 채 PyPI에 게시됐다가 격리됐다. 1.26.1은 11/17 20:35 UTC에 휠만 올라왔고 21:06 UTC에 격리됐는데, 2분여 뒤인 21:08 UTC에 1.26.2가 다시 게시돼 21:16 UTC에 격리됐다. 두 버전 모두 설치 시 site-packages에 .pth 파일(1.26.1 agent_framework_meta.pth, 1.26.2 af_runtime_diag.pth)을 떨어뜨려, 패키지를 import하지 않아도 해당 환경에서 파이썬(pip 포함)이 시작될 때마다 탈취 코드가 실행된다. 수집 항목은 TOKEN·SECRET·PASSWORD·KEY·AZURE·AWS·GITHUB·HF_·OPENAI·NPM·PIP·CI_ 가 들어간 환경변수, 다른 프로세스의 /proc/*/environ, ~/.azure·.npmrc·.netrc·.git-credentials·.docker/config.json·허깅페이스 토큰·Azure DevOps 에이전트 자격증명·.env 파일, Azure DevOps OIDC 토큰과 Azure 관리 ID 토큰이며 1.26.2는 GitHub Actions OIDC 토큰 탈취까지 추가했다. 수집 데이터는 zlib 압축·Base64 인코딩 후 webhook.site의 고정 UUID 주소로 HTTP POST 전송된다.",
+    "pocDetail": "패키지 코드 결함이 아니라 배포 권한을 통한 공급망 침해다. 정상 1.26.0은 휠과 sdist를 함께 내고 microsoft/agent-framework 저장소에 1.26.1 태그가 없으며, 두 악성 버전은 휠만 올라왔다(의존성은 agent-framework-core[all]==1.26.0 유지). 첫 격리 2분 뒤 재게시로 게시 권한이 즉시 회수되지 않았음이 드러났고, 유입 경로는 아직 확인되지 않았다. 격리 전 노출 구간은 11/17 20:35~21:16 UTC(한국시간 11/18 05:35~06:16)다.",
+    "action": "1.26.1·1.26.2가 설치된 환경은 파이썬·pip를 실행하기 전에 격리하고 깨끗한 기반에서 1.26.0으로 고정해 재구축. 프록시·DNS·egress 로그에서 webhook.site/d381fd80-ec62-42ad-8f5c-d1b15103c9bb 호출을 확인하고, 해당 환경에서 닿는 Azure CLI·DevOps·GitHub Actions·Hugging Face·npm·도커·DB 자격증명을 전부 회전. GitHub Actions 워크플로와 Azure ID 로그인·활동 기록을 감사하고, 사내 파이프라인은 PyPI 신뢰 발행(attestation)과 해시 고정(lockfile)을 요구하도록 변경",
+    "links": [
+      {
+        "label": "Wiz(타임라인·패키지 구조)",
+        "url": "https://www.wiz.io/blog/malicious-version-of-microsofts-agent-framework-published-to-pypi"
+      },
+      {
+        "label": "StepSecurity(정적 분석·탈취 항목)",
+        "url": "https://www.stepsecurity.io/blog/microsoft-agent-framework-pypi-package-compromised"
+      },
+      {
+        "label": "GitHub Advisory GHSA-764m-3ppc-5m73",
+        "url": "https://github.com/advisories/GHSA-764m-3ppc-5m73"
+      },
+      {
+        "label": "The Hacker News(침해 개요)",
+        "url": "https://thehackernews.com/2026/11/attackers-compromise-microsofts-agent.html"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-fsec-sms-bypass",
+    "category": "incident",
+    "severity": "info",
+    "severityLabel": "금보원 침해 수법 · 금융당국 감독 논란",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(원인 보도)",
+    "title": "금보원 침해는 'SMS 인증 우회·관리자 기능 권한 검증 미흡'…금융위, 해킹당한 금보원 통해 전 금융권 패치 지침 전달 논란",
+    "summary": "금융보안원이 11/9 정보보호 상시평가 시스템 침해 당시 해커가 휴대전화 문자(SMS) 인증을 우회하고 관리자용 기능의 미흡한 접근권한 검증을 악용한 것으로 파악됐다고 11/18 보도됐다. 이 사고로 금융회사 48곳의 파일 130여 개가 유출된 것으로 추정된다. 금융위원회는 금융감독원·금융보안원을 통해 전 금융권에 Java4Shell 패치와 업데이트를 권고했고 금융보안원도 11/17 회원사에 기술 내용·패치 방법·임시 대응 방안을 공지했는데, 금융회사 보안 점검을 맡는 기관이 자체 인증·접근통제에서 허점을 드러냈다는 지적과 함께 지침 전달 경로의 실효성 논란이 일고 있다. 금융위는 11/16 신진창 부위원장을 금보원에 보내 쇄신을 주문하고 특정감사에 착수했다.",
+    "pocDetail": "11/16 확인된 '유동 IP 허용'이 접속 경로였다면, 이번 보도는 침해 단계의 인증·권한 결함(SMS 인증 우회, 관리자 기능 서버측 권한 검사 미흡)을 추가로 드러낸 것이다. 금보원 상시평가 시스템은 사고 후 8일 넘게 접속이 막혀 2,912개사 평가 결과 이의신청 절차에 차질이 이어지고 있다.",
+    "action": "관리자·평가 기능은 화면 단위가 아니라 서버측 권한 검사를 이중으로 적용하고, SMS 단일 요소 인증을 관리자 접근에서 배제(앱 OTP·FIDO·mTLS 중 2요소). 인증 우회 시도(OTP 반복 실패·세션 재사용·권한 상승 요청)에 대한 탐지 룰과 관리자 기능 접근 감사로그 보존 기간을 재확인. 위탁 점검기관의 사고 시 대체 점검 절차와 일정 유예 계획을 문서화",
+    "links": [
+      {
+        "label": "더팩트(금보원 SMS 인증 우회·권한 검증 미흡, 지침 실효성 논란)",
+        "url": "https://news.tf.co.kr/read/economy/2390601.htm"
+      }
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "2026-11-18-scattered-spider-sentencing",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "위협 조직 법적 처리 · SIM 스왑",
+    "pocStatus": "none",
+    "pocLabel": "형사 판결(신규 공격 아님)",
+    "title": "스캐터드 스파이더 조직원 부캐넌, 미국서 징역 6년…SIM 스왑으로 가상자산 1,160만달러 탈취",
+    "summary": "스캐터드 스파이더(0ktapus·Octo Tempest·UNC3944 등으로도 추적) 지도급 조직원인 영국인 타일러 로버트 부캐넌(24)이 미국에서 징역 6년을 선고받았다. 2021년 9월~2023년 4월 통신·기술·BPO·엔터테인먼트·IT 공급사와 가상자산·클라우드 통신 사업자 임직원에게 수백 건의 SMS 피싱을 보내 자격증명을 빼낸 뒤 SIM 스왑으로 계정·지갑을 장악해 1,160만달러 이상의 가상자산을 탈취한 혐의다. 2023년 4월 스코틀랜드 자택 압수 기기에서 피해자 명의·주소 목록과 시드 문구·로그인 정보가 담긴 텍스트 파일이 발견됐다.",
+    "pocDetail": "이 조직은 헬프데스크 사회공학, MFA 피로 공격, SIM 스왑을 조합하고 2023년 초부터 BlackCat/AlphV·Qilin·RansomHub 등 러시아 랜섬웨어 조직과 협업해 왔다. Caesars·Riot Games·MailChimp·Twilio·DoorDash·Reddit 침해와 연결된 조직으로, 구성원 검거에도 캠페인은 이어지고 있다.",
+    "action": "헬프데스크·본인확인 절차에 SIM 스왑·번호이동 징후 확인을 넣고, SMS OTP 의존을 줄여 앱 OTP·FIDO 보안키로 전환. MFA 반복 요청(피로 공격) 차단과 임직원 대상 피싱 신고 창구를 유지하고, 가상자산·클라우드 계정은 출금·키 변경에 지연·이중 승인 절차 적용",
+    "links": [
+      {
+        "label": "BleepingComputer(부캐넌 징역 6년·수법)",
+        "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
+      }
+    ],
+    "date": "2026-11-18"
   }
 ]
