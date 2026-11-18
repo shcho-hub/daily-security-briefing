@@ -1,0 +1,358 @@
+[
+  {
+    "id": "2026-11-19-nginx-http2-cve-2026-123007",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 4.0 9.2 · 인증 없는 RCE (nginx2root)",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC(Wiz) · 실제 악용 미확인",
+    "title": "10년 된 NGINX HTTP/2 결함 'nginx2root'(CVE-2026-123007)…무인증 코드 실행, 1.31.9·1.30.7에서 수정",
+    "summary": "F5(nginx)가 11/19(KST) HTTP/2 흐름 제어의 메모리 손상(CVE-2026-123007)을 포함한 10건을 고친 1.31.9·1.30.7을 배포했다. 결함은 2015년 HTTP/2를 처음 지원한 1.9.5부터 1.31.8까지 모든 오픈소스 배포판에 들어 있었고, HTTP/2를 켠 서버라면 기본 설정에 가까워도 영향을 받는다. 성공하면 nginx 워커 권한으로 코드가 실행되며, 연구팀은 별도 리눅스 커널 SCTP 결함과 결합해 컨테이너 안에서도 호스트 root를 얻는 시연('NGINX2Root')을 공개했다. F5는 ASLR이 꺼졌거나 우회되는 조건에서 코드 실행이 가능하다고 했고, Wiz도 ASLR 우회 실행에 성공했다. CVSS 4.0 9.2(3.1 8.1)는 같은 날 함께 고친 HTTP/2·HTTP/3 use-after-free(CVE-2026-123633·121810), DNS resolver(CVE-2026-123634), 메일 프록시(CVE-2026-113425) 4건에도 적용된다. Xint는 11/10 쇼단에서 버전이 식별된 nginx 호스트 1,194만 개 중 98.9%(약 1,180만 개)가 영향 버전 범위에 든다고 추정했다(버전 문자열 기준 추정치). NGINX Plus는 37.3.0.1·37.0.8.1에서 수정되며 R34~R36은 수정판이 없다.",
+    "pocDetail": "공개 PoC는 GitHub에 있으나 새로 띄운 같은 머신의 도커 컨테이너를 겨냥한 시연용이라고 명시돼 있다. Rapid7은 코드 실행을 실증했지만 약 128GB의 트래픽과 AVX-512를 지원하는 CPU의 특정 동작이 조건이라고 밝혔다. F5·Wiz·Rapid7 모두 실제 공격 사례는 보고하지 않았고, 11/19 06:50 기준 CISA KEV에도 오르지 않았다. 같은 날 F5는 BIG-IP 취약점 6건을 포함해 22건의 보안 공지를 냈고 그중 10건이 nginx 관련이다.",
+    "action": "외부에 열린 웹 서버·API 게이트웨이·쿠버네티스 인그레스의 nginx를 1.31.9 또는 1.30.7 이상으로 올리고 재시작(또는 live binary upgrade)까지 마쳐 수정 바이너리가 실제 구동되는지 확인. 즉시 어려우면 외부 접속을 받는 서버에서 HTTP/2를 일시 중지. CDN·WAF 뒤라도 원본 서버가 HTTP/2를 받는지 openssl s_client -alpn h2로 확인하고, 접속 로그와 함께 오류 로그·워커 프로세스 반복 종료·비정상 실행 기록으로 침해 흔적 점검.",
+    "links": [
+      {
+        "label": "nginx 보안 공지(1.31.9·1.30.7 수정 목록)",
+        "url": "https://nginx.org/en/security_advisories.html"
+      },
+      {
+        "label": "The Hacker News(영향 버전·완화·공격 조건)",
+        "url": "https://thehackernews.com/2026/11/10-year-old-nginx-http2-flaw-lets.html"
+      },
+      {
+        "label": "데일리시큐(국내 권고·NGINX2Root)",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209609"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-f5-bigip-6-critical",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 9.8 · TMM 무인증 장악 가능",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC 미확인 · 실제 악용 미확인",
+    "title": "F5 BIG-IP 치명 취약점 6건…무인증 TMM 버퍼 오버플로로 트래픽 마비·RCE 가능, 핫픽스만 제공",
+    "summary": "F5가 11/19(KST) BIG-IP 데이터 플레인의 스택 기반 버퍼 오버플로 6건을 공개했다. 모두 무인증으로 트래픽 관리 마이크로커널(TMM)을 충돌시켜 재시작 전까지 트래픽을 끊을 수 있고, 회사는 원격 코드 실행 가능성도 배제하지 않는다. CVSS는 6건 모두 3.1 기준 9.8, 4.0 기준 9.3이다. 다만 각 결함은 가상 서버에 특정 iRule 명령이나 APM 에이전트 조합이 설정된 경우에만 도달한다. 관리 포트는 노출되지 않는다. 대상은 CVE-2026-123637(APM per-request 정책에 Client Information·Endpoint Security 에이전트 동시 사용), CVE-2026-121805(PEM::subscriber), CVE-2026-120292(MR::message route), CVE-2026-120285(PSC::ip_address), CVE-2026-116953(GENERICMESSAGE::route), CVE-2026-120722(DNS::scrape)이며 일부는 BIG-IP Next for Kubernetes·BIG-IP CNF에도 영향을 준다. WatchTowr의 Sina Kheirkhah가 4건을, F5가 2건을 찾았다.",
+    "pocDetail": "F5는 6건 모두 정식 릴리스가 아닌 엔지니어링 핫픽스로만 수정하며, 핫픽스 설치 전까지 쓸 수 있는 우회 설정(workaround)은 없다고 밝혔다. F5 스스로 핫픽스는 정식 릴리스 수준의 QA를 거치지 않으며 작동 보증이 없다고 안내한다. 11/19 06:50 기준 실제 악용 정황은 어느 공지에도 없다.",
+    "action": "BIG-IP 관리 콘솔에서 가상 서버별 iRule·APM 정책이 위 6개 조건에 해당하는지 먼저 확인하고, 해당하면 F5 지원을 통해 엔지니어링 핫픽스를 받아 적용. 커스텀 핫픽스를 쓰는 장비는 새 핫픽스를 다시 받아야 한다. 적용 전후 TMM 재시작·트래픽 단절 여부를 점검하고, 외부 공개 가상 서버의 iRule 변경 이력을 함께 확인.",
+    "links": [
+      {
+        "label": "The Hacker News(BIG-IP 6건 상세·조건)",
+        "url": "https://thehackernews.com/2026/11/f5-warns-6-critical-big-ip-flaws-can.html"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-cisa-kev-4-additions",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.8 3건 · 실제 악용 확인(KEV)",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 확인 · 연방 기한 11/21(3건)",
+    "title": "CISA KEV, Synology DSM·Apache Axis·REDCap·LiteLLM 4건 등재…3건은 연방기관 11/21까지 패치",
+    "summary": "CISA가 11/18(현지시간) 실제 악용 근거를 확인해 KEV 4건을 추가했다. ▲Synology DiskStation Manager·BeeStation OS의 CVE-2024-10441(CVSS 9.8, CWE-116)은 시스템 플러그인 데몬에서 로그인 없이 코드를 실행할 수 있고, 벤더 공지는 완화책 없이 업데이트만 안내한다. ▲Apache Axis 1.x의 CVE-2026-90436(9.8, CWE-470)은 조작된 SOAP fault로 클래스패스의 클래스를 로드·생성해 인증 없이 코드를 실행하며, 수명종료(EOL) 제품이라 수정 버전이 없다. ▲밴더빌트대 REDCap의 CVE-2026-90817(9.8, CWE-94·73)은 유효한 공개 설문 해시만 있으면 로그인 없이 내부 데이터 임포트 경로로 코드를 실행한다(16.0.49 LTS·17.3.10 LTS·17.4.4에서 수정). ▲BerriAI LiteLLM의 CVE-2026-40217(8.8, CWE-420·94)은 로그인한 사용자가 /guardrails/test_custom_code로 AST 샌드박스를 우회해 프록시 서버에서 코드를 실행한다. CISA는 BOD 26-04에 따라 Synology·Axis·REDCap 3건은 11/21까지, LiteLLM은 12/2까지 패치하고 패치 전 침해 여부를 포렌식으로 확인하도록 명령했다.",
+    "pocDetail": "LiteLLM·Apache Axis·REDCap 3건은 공개 PoC(Nuclei 템플릿 포함)가 확인됐다. 4건 모두 CISA는 랜섬웨어 악용 여부를 '미확인'으로 표기했다. Synology는 2024년 11월 공지된 결함으로 DSM 7.2.2-72806-1·7.2.1-69057-6·7.2-64570-4·7.1.1-42962-7, BSM 1.1-65374에서 수정됐다.",
+    "action": "DSM/BeeStation NAS는 즉시 위 빌드로 업데이트하고 외부 노출 관리 포트를 닫을 것. REDCap 13.3.0 이상 운영 기관은 16.0.49·17.3.10·17.4.4로 올리고, Axis 1.x는 EOL이므로 폐기·격리 후 대체. LiteLLM 프록시는 최신 빌드 적용과 함께 guardrails 테스트 엔드포인트 접근권한을 최소화하고, 기본 도커 이미지가 root로 실행되는 점을 감안해 컨테이너 권한을 낮출 것.",
+    "links": [
+      {
+        "label": "CISA KEV 추가 공지(2026-11-18)",
+        "url": "https://www.cisa.gov/news-events/alerts/2026/11/18/cisa-adds-four-known-exploited-vulnerabilities-catalog"
+      },
+      {
+        "label": "SecurityOnline(CVE별 CVSS·수정 버전·PoC)",
+        "url": "https://securityonline.info/cisa-adds-4-exploited-flaws-kev-synology-litellm/"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-teamcity-4-rce-9-9",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.9 · CI 서버 RCE 4건",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC 미확인 · 실제 악용 미확인",
+    "title": "JetBrains TeamCity 원격 코드 실행 4건(CVSS 9.9)…Perforce·Mercurial 설정 조작으로 CI 서버 장악",
+    "summary": "JetBrains가 11/18(현지시간) TeamCity의 원격 코드 실행 취약점 4건을 공개하고 2026.1.3·2025.11.7에서 수정했다. 대표 CVE인 CVE-2026-132231(CVSS 3.1 9.9, CWE-1289)은 Perforce 연동 설정의 best-fit 문자 매핑을 악용해 코드를 실행하는 결함으로, 벡터는 AV:N/AC:L/PR:L/UI:N/S:C로 낮은 권한의 계정만 있으면 된다. 나머지 3건도 Mercurial 설정과 빌드 속성 조작 경로로 같은 9.9점이며, 별도로 경로 조작을 통한 코드 실행(8.8)과 XSS 등도 함께 고쳤다. CI 서버가 뚫리면 빌드 인프라와 소프트웨어 배포 파이프라인 전체가 공격자 통제에 들어가, 서명·배포 단계의 공급망 침해로 이어질 수 있다.",
+    "pocDetail": "11/19 06:50 기준 공개 PoC나 실제 악용 정황은 확인되지 않았고, CISA KEV에도 없다. JetBrains는 수정 버전에서 취약 경로를 제거했으며, NVD에는 CVE-2026-132231 외 3건의 개별 CVE 번호가 순차 등록되고 있다.",
+    "action": "TeamCity를 2026.1.3 또는 2025.11.7로 업그레이드. 업그레이드 전후 Perforce·Mercurial 연동 설정과 빌드 속성에 수정 이력이 없는지 확인하고, CI 서버의 프로젝트 관리 권한을 최소화. 외부에 노출된 TeamCity 관리 콘솔은 VPN·IP 제한 뒤로 옮기고, 빌드 에이전트가 쓰는 배포 자격증명을 회전.",
+    "links": [
+      {
+        "label": "JetBrains 보안 이슈 목록",
+        "url": "https://www.jetbrains.com/privacy-security/issues-fixed/"
+      },
+      {
+        "label": "CVE-2026-132231 기록(CVSS 9.9)",
+        "url": "https://www.cve.org/CVERecord?id=CVE-2026-132231"
+      },
+      {
+        "label": "Rapid7 취약점 DB",
+        "url": "https://www.rapid7.com/db/vulnerabilities/cve-2026-132231/"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-arangodb-cve-2026-126755",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 9.8 · 인증 우회 슈퍼유저 접근",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 확인(9/16~) · 공개 공격 체인",
+    "title": "ArangoDB 인증 우회(CVE-2026-126755) 실제 악용 중…밑줄 하나 URL 인코딩으로 슈퍼유저 권한",
+    "summary": "ArangoDB 3.12.10.1 이하에서 경로의 선행 밑줄(_)을 %5f로 인코딩하면 인증 게이트가 원문 경로로, 라우팅이 디코딩된 경로로 판단하는 차이(CWE-288)를 이용해 인증 없이 슈퍼유저로 /_api 계열 기능에 접근할 수 있다는 결함이 11/18 CVE-2026-126755로 등록됐다. 모든 데이터베이스의 문서를 읽고 고치고 지울 수 있으며 비밀번호 해시가 든 _users 컬렉션까지 노출된다. 같은 릴리스의 두 번째 결함(GHSA-rvhw-4hpw-9vrx)과 연결하면 호스트에서 코드 실행까지 가능하고, 공식 도커 이미지에서는 root 권한이 된다. CVSS는 3.1 9.8, 4.0 9.3이다. 수정판 3.12.11은 8월 말 배포됐고 벤더 공지는 9/6 나왔지만 CVE 번호는 11/18에야 붙었다.",
+    "pocDetail": "VulnCheck CVE 기록과 NVD에 따르면 Shadowserver 재단이 2026-09-16에 첫 악용 정황을 관측했다. 두 결함을 연결한 공개 공격 체인은 9/13부터 나와 있었고, Nuclei 템플릿도 배포돼 있다. 공격자·피해 규모는 공개되지 않았으며 벤더·VulnCheck 모두 침해 지표(IOC)를 내지 않았다.",
+    "action": "3.12.11 이상으로 업그레이드하고, 신뢰할 수 없는 네트워크에서 접근 가능했던 서버는 DB 사용자 비밀번호와 JWT 시크릿(키파일)을 전부 교체하며 데이터 유출을 전제로 판단. 즉시 불가하면 --server.authentication-system-only false로 모든 경로에 인증을 요구하고 --javascript.tasks false 설정, 8529 포트를 인터넷에서 차단. 프록시·애플리케이션 로그에서 %5f·%5F가 포함된 경로와 _users·tasks·Foxx 서비스 변경 이력을 점검.",
+    "links": [
+      {
+        "label": "NVD/Tenable CVE-2026-126755",
+        "url": "https://www.tenable.com/cve/CVE-2026-126755"
+      },
+      {
+        "label": "ArangoDB 벤더 공지(GHSA-rrgq-978q-36mq)",
+        "url": "https://github.com/arangodb/arangodb/security/advisories/GHSA-rrgq-978q-36mq"
+      },
+      {
+        "label": "VulnCheck 권고(악용 관측)",
+        "url": "https://www.vulncheck.com/advisories/arangodb-before-3.12.11-authentication-bypass-via-url-encoded-underscore"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-chrome-158-204-fixes",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.6 2건 · 샌드박스 밖 코드 실행",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC 미확인 · 실제 악용 미확인",
+    "title": "크롬 158, 보안결함 204건 수정…GPU·ANGLE 9.6점 2건은 샌드박스 밖 코드 실행",
+    "summary": "구글이 11/17(현지시간) 크롬 158을 정식 채널에 올리며 204건의 보안 결함을 고쳤다. 치명(Critical) 6건, 높음 62건, 보통 82건, 낮음 54건이다. 이 가운데 GPU의 범위 밖 쓰기(CVE-2026-131031)와 ANGLE의 범위 밖 쓰기(CVE-2026-131054)는 NVD가 CVSS 9.6(범위 변경)으로 평가했고, 조작된 페이지만 열어도 샌드박스 밖에서 코드가 실행되는 것으로 기록됐다. 안드로이드 WebView의 use-after-free(CVE-2026-130963)는 조작된 네트워크 트래픽으로 샌드박스 밖 영향이 가능하다고 기재됐으나 아직 점수가 없다. Media 버퍼 오버플로(CVE-2026-131060), 가비지 컬렉션(CVE-2026-131008), WebAudio(CVE-2026-130975)의 use-after-free는 각 8.8점이다.",
+    "pocDetail": "구글은 어느 결함도 실제 악용됐다고 밝히지 않았다. 163건에는 포상금이 지급되지 않았고, 6건 중 상당수는 구글과 Xinyang Ge(Anthropic)가 찾았으며 일부는 Claude를 활용한 분석으로 발견됐다. 자동 업데이트는 수일~수주에 걸쳐 배포되므로 수동 업데이트와 재시작이 필요하다.",
+    "action": "윈도우·맥 158.0.8127.36/.37, 리눅스 158.0.8127.36, 안드로이드 158.0.8127.42 이상으로 업데이트하고 브라우저를 완전히 재시작. 안드로이드는 Chrome과 Android System WebView를 함께 업데이트. 키오스크·키보드 자동화 등 무인 운영 단말은 원격 배포로 강제 적용.",
+    "links": [
+      {
+        "label": "Chrome Releases 정식 채널 공지",
+        "url": "http://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop_01699533288.html"
+      },
+      {
+        "label": "SecurityWeek(204건·치명 6건)",
+        "url": "https://www.securityweek.com/chrome-158-patches-204-vulnerabilities/"
+      },
+      {
+        "label": "Kyberkit(NVD 9.6 평가·영향)",
+        "url": "https://kyberkit.com/en/articles/chrome-158-critical-flaws-gpu-angle-webview"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-auditteam-ransomware-opsagent",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "랜섬웨어 · 7개국 수십 곳 · AI 개발 프레임워크",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 캠페인 확인",
+    "title": "카스퍼스키, 랜섬웨어 'AuditTeam' 캠페인 공개…AI로 만든 듯한 모듈형 프레임워크 'OpsAgent'",
+    "summary": "카스퍼스키 GReAT가 11/18 2026년 1~10월 사이 중국·핀란드·홍콩·이탈리아·필리핀·러시아·세네갈 등 최소 7개국 수십 개 조직을 침해한 'AuditTeam' 랜섬웨어 캠페인을 공개했다. 공격에는 이전에 알려지지 않은 모듈형 프레임워크 'OpsAgent'가 쓰였고, 카스퍼스키는 AI의 도움을 받아 개발됐을 가능성이 높다고 평가했다. 협박 방식은 두 갈래다. 피해자에게 '감사·컨설팅 비용'을 받고 훔친 데이터를 삭제하며 취약점 보고서를 주겠다는 방식과, 응하지 않으면 전체 데이터를 공개하고 피해자의 고객·파트너·규제기관에 알리겠다는 방식이다.",
+    "pocDetail": "카스퍼스키는 침해 규모와 개별 피해 기업명, 초기 침투 경로를 공개하지 않았다. OpsAgent의 AI 개발 가능성은 카스퍼스키의 평가이며 확정된 사실은 아니다.",
+    "action": "외부에 노출된 원격접속·클라우드 자격증명을 점검하고, '감사·컴플라이언스 보고서'를 미끼로 한 접근과 협박 메일을 사전에 대비. 백업은 오프라인·불변 스토리지에 두고 복구 훈련을 실시. 규제기관·거래처 통보를 포함한 유출 대응 절차를 협박 시나리오에 맞춰 정비.",
+    "links": [
+      {
+        "label": "Kaspersky 공식 보도자료",
+        "url": "https://www.kaspersky.com/about/press-releases/kaspersky-uncovers-auditteam-ransomware-campaign-spanning-europe-asia-and-africa"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-wellington-it-credit-unions",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "3자 공급사 침해 · 아일랜드 신협 약 40곳",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인",
+    "title": "아일랜드 신용협동조합 약 40곳 고객정보 유출…IT 공급사 Wellington IT 자동화 스크립트 500만 건 요청",
+    "summary": "북아일랜드 벨파스트의 IT 공급사 Wellington IT가 약 50개 신용협동조합(아일랜드 43곳)에 서비스를 제공하는 가운데, 이 회사를 경유해 아일랜드 신협 약 40곳 회원 정보가 노출됐다고 아일랜드 정부 장관 로버트 트로이가 확인했다. 회사는 10월 2~4일 사이 자동화 스크립트가 500만 건의 요청으로 인프라의 인가 결함을 악용했고, 공격자가 유효한 자격증명으로 내부 기록에 접근했다고 통보했다. 어떤 회원 데이터가 유출됐는지 특정할 활동 로그가 없어 개별 영향 확인이 불가능하다고 밝혔다. 노출 가능 항목은 수취인 이름·별칭, IBAN, BIC, 계좌번호, 정렬코드, 주소, 송금 참조정보이며 비밀번호·PIN·카드정보·온라인뱅킹 자격증명은 영향이 없다고 안내됐다. 장관은 뒤늦은 통지를 '용납할 수 없다'고 비판했다.",
+    "pocDetail": "최소 6개 신협(Capital·Phoenix·St. Canice's·First South·Malahide·Limerick & District)이 개별 공지했다. 전체 피해자 수는 아직 공개되지 않았고, Wellington IT는 BleepingComputer의 질의에 답하지 않았다.",
+    "action": "국내 금융사도 수탁·아웃소싱 업체의 인가 결함과 자동화 대량 요청을 탐지 대상에 넣고, 수취인·계좌정보 같은 송금 관련 데이터의 조회 권한을 최소화. 수탁사 사고 시 개별 영향 범위를 특정할 수 있도록 접근·반출 로그 보존을 계약에 명시.",
+    "links": [
+      {
+        "label": "BleepingComputer(웰링턴 IT·신협 40곳)",
+        "url": "https://www.bleepingcomputer.com/news/security/data-breach-impacts-40-irish-credit-unions-in-reported-it-provider-hack/"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-osaki-electric-ransomware",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "랜섬웨어 · 스마트미터 생산·출하 중단",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인 · 협상 거부",
+    "title": "日 오사키전기, 랜섬웨어로 스마트미터 생산·출하 중단…국내 점유율 최상위, 재개 시점 미정",
+    "summary": "일본 전력계측기기 대기업 오사키전기공업이 11/17 오전 10시 35분경 서버 데이터가 암호화된 것을 확인하고 정오부터 외부 네트워크를 차단했으며, 사이타마 사업소 등 생산 거점의 생산관리 시스템을 멈춰 스마트미터 등 주력 제품의 생산·출하가 중단됐다고 11/18 공시했다. 회사는 국내 스마트미터 시장 점유율 최상위권이며 영국·아시아·오세아니아에서도 사업한다. 공격자 측 접촉이 있었지만 협상에 응하지 않겠다고 밝혔고 경찰과 관계기관에 신고했다. 데이터 유출 가능성을 포함해 외부 전문기관과 조사 중이며 생산 재개 시점과 재무 영향은 미정이다.",
+    "pocDetail": "어느 랜섬웨어 조직인지는 공개되지 않았고 유출 규모도 확인되지 않았다. NHK·아사히는 사이타마 사업소 등 3개 거점, 산케이는 사이타마·이와테 2개 거점의 중단으로 보도해 거점 수 표기가 엇갈린다.",
+    "action": "OT·생산관리망과 사무망 분리 상태를 재점검하고, 계측·제어 장비 공급망의 단일 장애점을 확인. 국내 스마트미터·AMI 사업자도 협력사 침해 시 납기·재고 영향을 사전 산정하고, 백업의 오프라인 보관과 복구 절차를 확인.",
+    "links": [
+      {
+        "label": "NHK(생산·출하 중단)",
+        "url": "https://news.web.nhk/newsweb/na/nd-20261118de78017"
+      },
+      {
+        "label": "아사히신문(3개 거점·시점)",
+        "url": "https://www.asahi.com/articles/ASVCL4FGZVCLULFA025M.html"
+      },
+      {
+        "label": "회사 IR 공시(영문 요약)",
+        "url": "https://japanir.jp/en/company/company-6644/ir/6644-20261118-01_wp_disclosure_update/"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-gangwon-univ-public-breaches",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "국내 연쇄 유출 · 위탁사 서버 경유",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(한림대·강원대 등)",
+    "title": "강원 대학·공공기관 잇단 유출…한림대 rERP 947건·강원대 27명, 연세대 미래캠퍼스·춘천문화재단·레고랜드까지",
+    "summary": "최근 한 달 사이 강원권 대학과 공공기관에서 개인정보 유출이 잇따랐다. 한림대 산학협력단은 11/14 오전 4시경 위탁관리업체 웹케시 서버에 외부인이 접근해 rERP 사용자 정보 947건(아이디·사용자명·소속·생년월일 등)이 유출됐다고 11/16 사과문을 올렸다. 같은 날 오전 6시 22분경 강원대 연구통합관리시스템에서도 27명의 학번·사번·소속·직급·생년월일이 유출됐다. 앞서 10/20~21 연세대 포털이 해킹돼 원주 미래캠퍼스 재학생·졸업생 정보가, 10/30 춘천문화재단은 외부 백업업체 더존비즈온 서버 침해로 위탁 보관 정보 유출 가능성을, 레고랜드는 예약시스템 운영사 액세소 티켓팅 시스템 침해로 일부 연간이용권 고객 정보(성명·암호화 생년월일·주소·이메일·전화번호·바코드)가 유출됐다고 안내했다. 두 대학은 외부 접근 경로 차단과 재발 방지 조치에 나섰고, 춘천시는 2억 9,500만원 규모 차세대 정보보안체계 구축을 추진 중이다.",
+    "pocDetail": "한림대·강원대 사고는 위탁사 서버 경유, 춘천문화재단·레고랜드는 외부 서비스 사업자 침해가 경로로 지목됐다. 레고랜드의 정확한 유출 규모와 영향 고객 범위는 아직 조사 중이다.",
+    "action": "대학·공공기관은 rERP·등록금 수납·백업·예약 등 외부 위탁 시스템의 접근권한과 계약상 보안 요구사항을 재점검하고, 수탁사 사고 통보 지연을 막을 연락 체계를 문서화. 유출 통지 대상자에게는 재학·졸업·퇴직 구분 없이 2차 피싱(장학금·학적·환불 사칭) 주의를 안내.",
+    "links": [
+      {
+        "label": "파이낸셜뉴스(뉴스1, 강원권 연쇄 유출)",
+        "url": "https://www.fnnews.com/news/202611190505593092"
+      },
+      {
+        "label": "G1TV(한림대·강원대 위탁서버)",
+        "url": "https://www.g1tv.co.kr/news/?mid=1_207_5&newscode=011000&newsid=351229"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-visa-n0n-third-party",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "랜섬웨어 협박 · 3자 공급사 사고만 확인",
+    "pocStatus": "none",
+    "pocLabel": "n0n 주장 미검증 · Visa 3자 사고만 확인",
+    "title": "Visa, n0n 협박에 '3자 공급사 사고' 확인…JPMorgan은 소프트웨어 버그라 반박, 유출 증거는 없어",
+    "summary": "신생 랜섬웨어 조직 n0n이 11/18 유출 사이트에 Visa와 JPMorgan Chase를 올리고 48시간 내 응하지 않으면 데이터를 공개하겠다고 협박했다. Visa는 사이버보안 사고에 제3자 서비스 제공업체가 관련됐지만 자사 시스템은 관련·영향받지 않았고 카드번호 등 결제 데이터가 영향받았다는 징후도 없다고 밝혔다. 공급사 이름과 공격 방식은 공개하지 않았다. JPMorgan은 온프레미스 하드웨어의 소프트웨어 버그로 일시적 장애가 있었을 뿐 사이버 공격 증거는 없다고 반박했다. n0n은 9월 등장해 이중 갈취를 하는 조직으로, SOCRadar는 유출 자격증명·노출된 클라우드 키·취약한 원격접속을 악용하며 AI 코딩 에이전트로 공격 도구를 개발한 정황이 있다고 분석했다. ZeroFox는 기술 정교도가 낮~중간인 기회주의 조직으로 평가했다.",
+    "pocDetail": "n0n은 샘플 파일도, 훔쳤다는 파일의 성격도, 침입 경로도 공개하지 않아 실제 유출 여부는 확인되지 않았다. 랜섬웨어 분석매체 Ransomnews는 n0n의 피해자로 365곳을 집계하고 제약업계 피해자 수십 곳을 추적 중이라고 전했다.",
+    "action": "카드결제·금융 제휴사 대상으로 n0n 관련 협박 메일과 유출 사이트 모니터링을 강화하고, 3자 결제·정산 공급사의 사고 통보 의무와 통보 기한을 계약에 명시. 노출된 클라우드 키와 원격접속 자격증명을 회전하고, AI 코딩 에이전트가 만든 도구를 가정한 탐지 규칙을 점검.",
+    "links": [
+      {
+        "label": "TechRadar(Visa·JPMorgan 입장)",
+        "url": "https://www.techradar.com/pro/security/visa-confirms-apparent-cyberattack-hackers-also-claim-hit-on-jpmorgan"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-gentlemen-nvidia-claim",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "미검증 협박 · 샘플·근거 없음",
+    "pocStatus": "none",
+    "pocLabel": "주장만 있고 증거 미확인",
+    "title": "랜섬웨어 'The Gentlemen', 엔비디아 유출 사이트에 등재…샘플·유출 규모 없이 10일 카운트다운",
+    "summary": "랜섬웨어 조직 The Gentlemen이 11/18 08:48 UTC 유출 사이트에 엔비디아를 등재하고 약 10일 뒤인 28일 공개를 예고하는 카운트다운을 걸었다. 게시물에는 로고·종목코드·매출액·기업 소개만 있고 파일 목록, 샘플, 유출 규모, 침입 경로는 없다. 엔비디아는 침해를 확인하지 않았고 11/18 기준 공식 입장도 없었다. 같은 사이트에는 엔비디아 협력사인 젠텍정밀(10/6)과 FPT소프트웨어(10/27)도 이미 올라 있다. 실적 발표 직후 이 소식이 전해지며 주가가 2.16% 하락했으나 매체들은 주장과 주가의 인과관계는 확인되지 않았다고 밝혔다.",
+    "pocDetail": "Ransomnews는 게시물 캡처 시점의 카운트다운이 232시간 미만이었다고 기록했다. 유출 파일이나 시스템 침입을 입증하는 자료는 확인되지 않았다.",
+    "action": "공급망 협력사 목록에 젠텍정밀·FPT소프트웨어가 있는 기업은 해당 협력사 경유 침해 가능성을 점검. 미검증 주장만으로 과잉 대응하지 않되, 11/28 전후 유출 사이트 게시 내용을 확인하고 필요 시 엔비디아 GPU 소프트웨어·드라이버 배포 경로의 무결성을 재확인.",
+    "links": [
+      {
+        "label": "Ransomnews(등재 시각·카운트다운)",
+        "url": "https://ransomnews.com/nvidia-the-gentlemen-ransomware-claim-2026/"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-screenconnect-msp-campaign",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "MSP 표적 공격 · 68만8천 건 요청",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 1건 확인(11/12)",
+    "title": "스크린커넥트 결함 노린 MSP 공격, 한 달간 42개 서버에 68만8천 건…기술자 접속 9초 만에 감염",
+    "summary": "헌트리스의 존 해먼드가 11/16 공개한 분석에 따르면 10/20~11/16 사이 42개 MSP의 스크린커넥트 서버에 배치 파일 실행 요청이 68만 8,000건 넘게 29개 IP에서 들어왔다. 한 서버는 3주 동안 7만 414건을 받았다. 공격자는 이름이 빈 게스트 세션을 만들어 두고 기술자가 접속하기만 기다렸다. 결함 CVE-2026-84869는 세션 게스트가 보낸 파일을 기술자 프로그램이 확인 없이 실행하는 문제로, 커넥트와이즈가 9/8 공개하며 26.6.5를 수정판으로 제시했고 CISA는 9/11 KEV에 올렸다. 11/12에는 기술자가 접속한 지 약 9초 만에 배치 파일이 실행돼 텔레그램 봇으로 공격자에게 알리고 윈도우 업데이트로 위장한 설치파일을 받아 위장 스크린커넥트를 공격자 중계서버에 연결했다. 11/13에는 사람이 조작한 것으로 보이는 세션이 시험용 텍스트 파일을 보내 다른 기술자 PC에서 실행됐다.",
+    "pocDetail": "10월 초 시작 프로그램 폴더에 파일을 심으려던 시도 3건은 실제 저장 여부가 확인되지 않았고, 맥 기술자 PC에서는 윈도우 경로 불일치로 실패했다. 헌트리스는 이전에 알려진 SCKit 도구는 이 결함을 직접 악용하지 않는다고 밝혔다.",
+    "action": "서버만 26.6.5로 올리는 것으로는 부족하다. 기술자 PC의 스크린커넥트와 액세스 에이전트를 26.6.5 이상으로 올리고, 즉시 불가하면 파일 전송 권한(TransferFiles)을 회수. 빈 이름 게스트 세션을 삭제하고 게스트 접속 허용 대상을 제한. 침해가 의심되면 해당 PC에서 접근 가능했던 원격관리·고객사 관리자 계정의 접속정보를 모두 변경.",
+    "links": [
+      {
+        "label": "보안뉴스(헌트리스 분석·대응)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147344"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-ai-patch-flood-outages",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "AI 취약점 발굴 → 패치 폭주 · 운영 장애",
+    "pocStatus": "none",
+    "pocLabel": "취약점 아님 · 운영 장애",
+    "title": "AI가 찾아낸 취약점 패치 폭주가 미 NSA·FAA·MS·애플 장애 원인으로 지목…\"시스템이 감당 못 해\"",
+    "summary": "11/12부터 미국 주요 기관·기업의 기술 장애가 이어져 11/17에는 NSA까지 번졌다. 워싱턴선에 따르면 월가 경영진과 NSA는 AI가 찾아낸 보안 취약점을 막기 위한 대규모 패치 작업이 장애 원인 중 하나라고 의회에 설명했고, 의회 관계자는 '시스템이 처리하도록 설계된 수준을 넘는 대량 패치를 한꺼번에 적용하고 있다'고 전했다. 마이크로소프트는 메일 등 서비스가, FAA는 11/13 전국 항공기 이륙 중지(4시간 30분)를, 유나이티드항공은 11/16 약 150편 지연을, JP모건체이스는 같은 날 일부 은행 서비스 차질을, 애플은 11/17 내부 업데이트로 iCloud·애플페이 장애가 났다고 밝혔다. NSA는 11/17 정기 유지보수 중 네트워크 성능이 일시 저하됐고 핵심 임무는 정상이었다고 설명했다.",
+    "pocDetail": "제이 클레이턴은 10월 AI로 발견한 PHP 취약점에 적용한 패치를 NSA 장애 원인으로 지목했다. 마코 루비오 국무장관은 사건들이 서로 관련이 없고 악의적 행위자 증거는 전혀 없다며 조직적 공격이 아니라고 밝혔다. 도널드 트럼프 대통령도 우려를 축소했다.",
+    "action": "대량 패치를 일괄 적용하기 전 스테이징·카나리 배포로 롤백 지점을 확보하고, 패치 창과 업무 피크 시간을 분리. AI 기반 취약점 스캐너 도입 시 발견 건수보다 검증·배포 파이프라인 용량을 먼저 산정할 것.",
+    "links": [
+      {
+        "label": "디지털데일리(AI 패치 폭주·연쇄 장애)",
+        "url": "https://www.ddaily.co.kr/page/view/2026111906095673069"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-fss-vasp-ciso-meeting",
+    "category": "incident",
+    "severity": "info",
+    "severityLabel": "오늘 11/19 금감원 회의 · 전 사업자 CISO",
+    "pocStatus": "none",
+    "pocLabel": "정책 일정 · 취약점 아님",
+    "title": "금감원, 오늘(11/19) 가상자산사업자 CISO 전원 소집…거래소·수탁사 보안 실태 점검",
+    "summary": "금융감독원이 11/19 국내 가상자산사업자(거래소·커스터디) 정보보호최고책임자(CISO) 전원을 소집해 해킹 사고 대응 회의를 연다. 각 사의 보안 관리·내부통제 운영 실태를 점검하고 해킹 예방과 사고 대응 방안을 논의한다. 배경에는 고팍스가 11/6 해킹 협박 메일을 받고 입출금·매매를 전면 중단하고 보유자산을 콜드월렛으로 옮기는 작업을 진행 중인 것과, 빗썸의 그룹웨어 다우오피스 침해, 프라뱅 핫월렛 자산 탈취, 바이낸스 대규모 탈취(FBI는 북한 소행 지목)가 있다. 금융위는 11/5 전 금융권 약 580개사 보안 전수점검을 예고했고 가상자산사업자도 대상에 포함했으며, 이달 중 거래소 침해사고 신고 가이드라인도 마련할 예정이다. 같은 날 오전 9시에는 국회 정보통신특별위원회 발대식과 1차 회의(AI 해킹·개인정보 유출 대응체계 점검, 비공개)도 열린다.",
+    "pocDetail": "금감원 회의는 11/8 보도로 일정이 확인됐으며, 11/19 06:50 기준 연기·취소 보도는 없다. 회의 결과는 아직 공개되지 않았다.",
+    "action": "가상자산사업자는 회의 전 자사 지갑 키 관리(콜드·핫월렛 분리), 관리자 계정 다중인증, 외주·수탁사 접근권한을 재점검하고, 지갑 주소·TXID 등 거래 식별정보의 조회 권한을 최소화. 사고 시 KISA와 함께 금감원·금보원에도 즉시 신고하는 절차를 문서화.",
+    "links": [
+      {
+        "label": "보안뉴스(금감원 CISO 소집·사고 배경)",
+        "url": "https://www.boannews.com/news/articleView.html?idxno=147086"
+      },
+      {
+        "label": "디지털타임스(전 사업자 대상·일정)",
+        "url": "https://www.dt.co.kr/article/12093700"
+      }
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "2026-11-19-eggstreme-apt-philippines",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "중국 연계 의심 APT · 정부 표적",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 표적 캠페인(필리핀 정부)",
+    "title": "중국 연계 의심 APT 'EggStreme', 말웨어 재구축…보안도구 회피 위해 '조용한' 변종으로 필리핀 정부 공격",
+    "summary": "중국 연계로 의심되는 APT 조직이 필리핀 정부기관을 겨냥한 공격에서 EggStreme 말웨어 툴킷을 재구축해 보안 도구 탐지를 피하는 조용한 변종을 사용한 것으로 분석됐다. 더 해커 뉴스는 이 조직이 정부 조직을 계속 표적으로 삼고 있다고 전했다. 구체적인 침해 규모와 피해 기관, 초기 침투 경로는 공개된 범위에서 확인되지 않았다.",
+    "pocDetail": "공격 주체의 중국 연계는 분석가의 귀속 평가이며 확정된 사실이 아니다. 신규 변종의 세부 기법과 침해 지표는 원문 분석에서 확인이 필요하다.",
+    "action": "정부·공공 협력 사업을 하는 기관은 필리핀 등 동남아 정부기관과 주고받는 문서·압축파일을 고위험으로 취급하고, 말웨어 은닉에 대비해 정적 시그니처 외 행위 기반 탐지를 점검. 외교·정책 관련 조직은 최근 발표된 VAPOR PANDA 사례와 함께 연속 모니터링.",
+    "links": [
+      {
+        "label": "The Hacker News(EggStreme 변종)",
+        "url": "https://thehackernews.com/2026/11/eggstreme-hackers-rebuild-malware-with.html"
+      }
+    ],
+    "date": "2026-11-19"
+  }
+]
