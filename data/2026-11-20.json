@@ -1,0 +1,317 @@
+[
+  {
+    "id": "2026-11-20-vmware-vcenter-cve-2026-123890",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 9.8 · 인증 우회 · 제로데이 실제 악용(중국 연계 의심 APT)",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악용 확인(Mandiant·GTIG, 9월부터)",
+    "title": "VMware vCenter 인증 우회(CVE-2026-123890) 제로데이로 두 달 악용…'administrator@vsphere.local' 세션 탈취, 9.1.1.0200·9.0.2.0200·8.0 U3m에서 수정",
+    "summary": "브로드컴(VMware)이 11/19(현지시간) VMSA-2026-0009를 내고 vCenter의 인증 우회 결함 CVE-2026-123890(CVSS 3.1 9.8)을 포함한 5건을 수정했다. VMware Directory Service(vmdir)의 DCE/RPC 인터페이스에서 SRP-6a 세션키가 노출되는 문제로, 네트워크 접근만 있으면 비밀번호 없이 'administrator@vsphere.local' 권한의 인증 세션을 만들 수 있다(2012 포트). 구글 GTIG·Mandiant는 중국 연계 의심 첩보 조직 ARMORY CASTLE(옛 UNC5221)이 2026년 9월 초부터 이 결함을 제로데이로 악용했고, Golang 도구 'BONESAW'로 LMDB 데이터베이스 탈취·SAML STS 서명키 추출·SSO 관리자 계정 생성까지 했다고 밝혔다. BONESAW는 vCenter 7.x·8.x를 모두 완전 장악할 수 있다. 수정판은 vCenter 9.1.1.0200·9.0.2.0200·8.0 U3m, Cloud Foundation 5.x는 5.2.5, Telco Cloud는 KB463116이다. 일반 지원이 끝난 7.0은 확장 지원 계약이 있어야 패치를 받을 수 있고, 공식 워크어라운드는 없다. 누적 업데이트라 vCenter Quick Patch로는 적용되지 않으며, 8.0 U3m·9.0.2.0200을 먼저 올리면 Cloud Foundation 9.1.1 업그레이드가 막히는 'Back-in-Time' 제약이 있어 진행 중인 업그레이드는 순서를 확인해야 한다. ESXi 하이퍼바이저 자체와 가상머신 내부 코드 실행은 이번 결함과 무관하다.",
+    "pocDetail": "Mandiant가 브로드컴에 신고했고, 11/19 GTIG 블로그가 9월 초 침해 포렌식 근거와 BONESAW 동작(2012 포트 SRP 세션키 탈취 → vmdir RPC vmdirdbcp로 data.mdb 수집 → SAML STS 키 탈취 → SSO 관리자 계정 생성)을 공개했다. 회수된 Go 바이너리의 빌드 시각은 2026-07-13으로, 앞선 vCenter 결함 CVE-2026-59309 공개(7/29)보다 16일 앞선다. 공개 PoC는 확인되지 않았고 브로드컴 공지 자체에는 실제 악용 문구가 없으며, 11/20 06:50 기준 CISA KEV에도 아직 오르지 않았다. Rapid7은 '응급 변경' 수준으로 즉시 패치하라고 권고했다.",
+    "action": "인터넷 또는 내부망에서 접근 가능한 vCenter를 9.1.1.0200·9.0.2.0200·8.0 U3m(또는 VCF 5.2.5)으로 즉시 올린다. 패치와 함께 최근 수 주간의 vSphere 관리자 로그인, SSO 계정 생성, vmdird(2012 포트) 접속 기록을 점검하고, 침해가 의심되면 LMDB·SAML 서명키·서비스 계정 자격증명 교체까지 검토한다. 7.0은 확장 지원 계약 여부를 확인하고 가능하면 8.x 이상으로 전환한다.",
+    "links": [
+      {
+        "label": "Broadcom VMSA-2026-0009(영향·수정 버전 표)",
+        "url": "https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/39495"
+      },
+      {
+        "label": "Google GTIG·Mandiant(ARMORY CASTLE·BONESAW 분석)",
+        "url": "https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere"
+      },
+      {
+        "label": "SecurityWeek(제로데이 악용·수정판)",
+        "url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/"
+      },
+      {
+        "label": "Rapid7(긴급 패치 권고)",
+        "url": "https://www.rapid7.com/blog/post/etr-cve-2026-123890-critical-authentication-bypass-vmware-vcenter/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-php-critical-release-18-cve",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.2 CRITICAL 7건 포함 18건 · 비기본 설정 조건",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미확인",
+    "title": "예고대로 배포된 PHP 긴급 릴리스…CRITICAL 7건 포함 18건 수정, 8.5.13·8.4.28·8.3.37·8.2.36(신규 8.6.0)",
+    "summary": "PHP 개발팀이 11/19(현지시간) 예고한 시각에 8.5.13·8.4.28·8.3.37·8.2.36과 새 메이저 8.6.0을 배포하며 18건의 CVE를 고쳤다. CRITICAL 7건은 모두 CVSS 9.2로, 가장 넓게 영향을 주는 것은 PHP-FPM 요청 밀수(CVE-2026-129289)다. PHP가 지속 연결을 재사용하기 전에 읽지 않은 요청 본문 바이트를 버리지 못해, 공격자가 그 바이트로 별도 FastCGI 요청을 만들어 프런트엔드 라우팅을 우회하고 워커 권한으로 코드를 실행한다. nginx `fastcgi_keep_conn on`, Apache `mod_proxy_fcgi` `enablereuse=on`, 백엔드 연결을 유지하는 HAProxy FastCGI, LSAPI 구성이 해당하며, 매 요청 후 연결을 닫는 표준 nginx·Apache 설정은 영향이 없다. 나머지 CRITICAL은 세션 업로드 진행률 직렬화 불일치(CVE-2026-115560), 파일 기반 세션 핸들러 RCE(CVE-2026-126714), 타임존 캐시 use-after-free(CVE-2026-129496), 매직 메서드 백트레이스 UAF(CVE-2026-129474), 세션 종료 중단 후 UAF(CVE-2026-129481, 지난달 'PHP2Shell' CVE-2026-109619의 불완전 수정 보완), 전역 상태 UAF(CVE-2026-129182)다. PHP 팀은 'CRITICAL 등급은 기본 설정이 아니거나 드문 구성이어야 성립한다'고 밝혔지만, PHP2Shell이 대량 악용된 직후라 인터넷 노출 PHP-FPM 환경은 우선순위를 높일 필요가 있다. 한국인터넷진흥원(KISA)도 11/19 'PHP 제품 보안 업데이트 권고'를 게시했다.",
+    "pocDetail": "11/20 06:50 기준 공개 PoC나 실제 악용 보고는 확인되지 않았고, CISA KEV에도 오르지 않았다. PHP는 대부분 CRITICAL 권고에 임시 완화책을 함께 적었지만 CVE-2026-115560에는 없다. 8.2 계열은 CVE-2026-129481의 영향을 받지 않는다.",
+    "action": "운영 중인 PHP를 8.5.13·8.4.28·8.3.37·8.2.36 이상으로 올리고 웹서버·PHP-FPM을 재시작해 실제 구동 버전을 확인한다. 즉시 어려우면 프런트엔드의 백엔드 연결 재사용을 끈다(nginx `fastcgi_keep_conn` off, Apache `enablereuse` off, 그 밖의 FastCGI 프런트엔드는 요청마다 연결 종료). PHP-FPM·LSAPI 리스너를 신뢰할 수 없는 네트워크에 직접 노출하지 말고, `php://input`을 끝까지 읽지 않는 코드 경로를 점검한다.",
+    "links": [
+      {
+        "label": "KISA 보호나라 'PHP 제품 보안 업데이트 권고'(11/19)",
+        "url": "https://www.boho.or.kr/kr/bbs/view.do?searchCnd=&bbsId=B0000133&searchWrd=&menuNo=205020&pageIndex=1&categoryCode=&nttId=72318"
+      },
+      {
+        "label": "PHP-FPM 요청 밀수 공식 권고(GHSA-qc49-hpvq-g2w6)",
+        "url": "https://github.com/php/php-src/security/advisories/GHSA-qc49-hpvq-g2w6"
+      },
+      {
+        "label": "SecurityWeek(CRITICAL 7건 목록·영향)",
+        "url": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/"
+      },
+      {
+        "label": "BleepingComputer(수정 버전·요약)",
+        "url": "https://www.bleepingcomputer.com/news/security/php-security-updates-fix-18-flaws-including-critical-rce-bugs/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-java4shell-exploitation-probes",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 4.0 9.2(3.1 8.1) · 정찰→맞춤 익스플로잇 확산 · 침해 성공은 미확인",
+    "pocStatus": "poc",
+    "pocLabel": "공격 시도 다수 확인 · 침해 확인 없음",
+    "title": "Java4Shell(CVE-2026-114938) 정찰을 넘어 맞춤 익스플로잇 단계로…'java4shell-recon' 후 17시간 뒤 브라우저 위장 재시도",
+    "summary": "Java4Shell(CVE-2026-114938) 공개 사흘째인 11/19, 공격 시도가 정찰에서 실제 익스플로잇 형태로 옮겨가는 정황이 잇따랐다. GreyNoise는 11/19 초순까지 결함 형태의 요청 150여 건을 5개 IP에서 관측했고(센서 기준 침해 성공 없음), WatchTowr는 허니팟에 'java4shell-recon' 사용자 에이전트와 형태를 맞춘 블라인드 공격 요청이 들어왔다고 밝혔다. Cloudflare Cloudforce One은 한 IP가 Java4Shell을 그대로 적은 UA로 정찰한 뒤 약 17시간 후 Chrome 브라우저로 위장해 익스플로잇 트리거를 보낸 사례, 같은 IP가 AI 침투 자동화 도구 'ARTEX'와 Java4Shell에 동시에 쓰인 첫 사례를 확인했다. Previdian은 18~19일 6개 IP에서 9건의 익스플로잇 시도를 기록했다. 벤더 대응도 이어져 레드햇은 RHEL 8·9·10과 자체 OpenJDK 17·21·25 빌드를 Critical로 평가하며 'AVX-512 VBMI CPU에서는 기본 설정 그대로 취약'이라고 밝혔고, 시스코는 Catalyst Center·Secure Network Analytics·Secure Workload·Smart Software Manager On-Prem·Splunk AppDynamics On-Premises VA·Intersight VA 등 12개 이상 제품이 영향을 받는다고 확인하면서도 아직 수정판과 워크어라운드가 없다고 했다. 지멘스는 Industrial Edge Management 3종을 영향 대상으로 올리고 패치 전까지 인스턴스를 오프라인에 둘 것을 권고했으며, Elastic은 Elasticsearch 7.17.3 이후 전 버전(읽기 권한 자격증명으로 RCE, 무인증 DoS 가능)과 Logstash 8.6.2 이후가 영향을 받는다고 밝혔다. Keycloak은 취약 OpenJDK 21을 담은 26.8.2-1·26.8.2-2 컨테이너 이미지를 26.8.2-3으로 교체했고, 아틀라시안은 Data Center 제품군에서 AVX-512 비활성화를 임시 완화책으로 안내했다. 국내에서는 KISA가 11/18·11/19 Oracle 제품 보안 업데이트 권고와 FAQ로 17.0.21.1·21.0.13.1·25.0.5.1·27.0.1.1 등 수정판과 `-XX:-UseBASE64Intrinsics` 임시 조치를 안내했고, 개인정보보호위원회도 11/18 Java 기반 시스템 개인정보처리자에게 긴급 조치를 당부했다.",
+    "pocDetail": "공개된 것은 메모리 손상을 일으키는 제한적 PoC뿐이고, 완전한 RCE 익스플로잇은 VulnCheck가 상용 고객에게, Immersive 연구자가 제품별 PoC로 보유한 상태다. 제품별 공격 체인이 필요해 범용 익스플로잇은 없다. 11/19 Hexastrike가 윈도우 Confluence 서버 침해를 Java4Shell로 귀속한다고 주장했지만 근거를 공개하지 않아 다른 출처의 확인은 없다. Java 26은 2026년 9월 지원이 끝나 어떤 벤더도 수정판을 내지 않으며, Java 8·11 일반판은 이번 CVE와 무관하다(단 Oracle Java 8 '-perf' 판은 예외). 침해는 아직 확인되지 않았고 CISA KEV 등재도 없다.",
+    "action": "각 서버에서 `java -version`으로 실제 구동 JVM을 확인하고 17.0.21.1·21.0.13.1·25.0.5.1·27.0.1.1(또는 배포판 수정 빌드)로 올린 뒤 JVM을 재시작하고 컨테이너는 재빌드·재배포한다(디스크만 갱신하면 구동 중 JVM은 그대로 취약). 즉시 어려우면 `-XX:-UseBASE64Intrinsics`(권장) 또는 `-XX:UseAVX=2`를 적용하고, 인터넷에 노출된 Keycloak·Jira·Confluence·Jenkins·Artifactory·PingFederate와 그 밖의 Base64 디코딩 경로(HTTP Basic, JWT, SAML, 업로드)를 우선 점검한다. 'java4shell-recon' UA와 형태가 맞는 요청을 탐지 규칙으로 감시한다.",
+    "links": [
+      {
+        "label": "KISA 보호나라 'Oracle 제품 보안 업데이트 권고'(Java4Shell FAQ)",
+        "url": "https://krcert.or.kr/kr/bbs/view.do?bbsId=B0000133&menuNo=205020&nttId=72313"
+      },
+      {
+        "label": "SecurityWeek(공격 시도·벤더 영향 현황)",
+        "url": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/"
+      },
+      {
+        "label": "Palo Alto Networks(영향 조건·완화)",
+        "url": "https://www.paloaltonetworks.com/blog/cloud-security/java4shell-cve-2026-114938-risks-mitigations/"
+      },
+      {
+        "label": "Docker(수정 이미지·JVM 플래그 점검법)",
+        "url": "https://www.docker.com/blog/docker-patches-java4shell-and-the-nginx-http-2-with-docker-hardened-images/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-asus-control-center-express-cve-2026-114202",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 10.0 최고 심각도 · 하드코딩 키 · 무인증 관리자 권한",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미확인",
+    "title": "ASUS Control Center Express 최고 심각도(CVE-2026-114202, CVSS 10.0)…하드코딩 키로 관리자 토큰 위조, v1.7.29에서 수정",
+    "summary": "ASUS가 11/19(현지시간) Control Center Express v1.7.29를 내고 CRITICAL 3건을 고쳤다. 핵심은 제품에 하드코딩된 암호키(CVE-2026-114202)로, 인증되지 않은 원격 공격자가 그 키로 인증 토큰을 위조해 관리자 권한을 얻을 수 있다(CVSS 10.0). 나머지 두 건은 저권한 공격자가 최근 로그인한 계정의 세션 토큰을 위조하는 하드코딩 키 문제(CVE-2026-114204)와 저권한 사용자가 관리자 계정을 만드는 권한 부여 결함(CVE-2026-114205)이다. 관리 콘솔과 그 콘솔이 관리하는 단말(에이전트)을 함께 장악할 수 있다는 점이 위험하다. ASUS 공지는 v1.7.29 미만을 영향 버전으로 보지만 CVE 기록은 v1.7.27까지만 표기해 v1.7.28의 상태는 불명확하다.",
+    "pocDetail": "11/20 06:50 기준 공개 PoC·실제 악용 보고는 없다. 세 건 모두 CRITICAL이지만 CVE-2026-114204는 '최근 로그인 세션' 전제가 있고 CVE-2026-114205는 저권한 계정이 필요하다. 반면 CVE-2026-114202는 어떤 권한·사용자 조작도 필요 없어 단독으로 즉시 위험하다.",
+    "action": "Control Center Express를 v1.7.29로 올리고, 관리 대상 단말의 에이전트를 Select Function → Client Agent Updater로 갱신한 뒤 버전을 확인한다. 관리 콘솔을 인터넷에 직접 노출하지 말고, 콘솔 관리자 계정·접속 기록과 최근 생성된 계정을 점검한다.",
+    "links": [
+      {
+        "label": "BleepingComputer(3건 요약·버전 주의)",
+        "url": "https://www.bleepingcomputer.com/news/security/asus-warns-of-critical-hard-coded-key-flaw-in-control-center-express/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-optimizely-optimjack-supply-chain",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "3자 스크립트 공급망 · 178개 조직 · 카드 스키밍·지갑 주소 변조",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악성코드 배포 확인(Optimizely 공식)",
+    "title": "'옵티마이저잭'…Optimizely 스크립트에 악성코드가 섞여 BBC·CNN·줌·세일즈포스 등 178개 사이트 방문자 노출",
+    "summary": "11/16 Optimizely Web Experimentation의 가입(signup) 흐름 결함을 악용해 공격자가 고객 프로젝트의 'Project JavaScript'(projectJS)에 악성 코드를 심었고, 각 사이트가 신뢰하는 cdn.optimizely.com 경로로 그대로 배포됐다. 보안연구자 Scott Helme(Report URI)는 확인한 1,611개 스니펫 중 188개(178개 조직)에서 악성 코드를 찾았고, 대상에는 BBC·CNN·줌·세일즈포스·깃랩·IKEA·HSBC·에어프랑스-KLM·Ledger 등이 포함됐다. 주입된 'track.js'는 암호화폐 지갑 주소 변조, 자사 결제 폼의 카드번호·유효기간·보안코드 스키밍(Magecart 방식), HttpOnly 아닌 쿠키·페이지 내용 수집, 아이폰·아이패드용 2차 익스플로잇 킷(iOS 13~17 'Coruna', iOS 18 'DarkSword') 전달 기능을 갖고 있었다. Optimizely는 탐지 후 3시간 내 차단·결함 수정을 마쳤고 11/16 23:11 UTC까지 주입 코드가 정리됐으며, 전체 고객의 5% 미만이 영향권이라고 밝혔다. 조사 대상 256개 호스트 중 실제로 이 공격을 막은 CSP 정책은 24개뿐이었고, 벤더 도메인을 허용목록에 넣는 것만으로는 막지 못했다(악성 코드가 바로 그 호스트에서 왔기 때문). 이 공격자들은 3주 전에도 다른 스크립트 벤더 3곳에 같은 수법을 썼다.",
+    "pocDetail": "카드 정보가 실제로 탈취됐다는 증거는 아직 없고, 크립토 지갑으로 유입된 금액은 자료마다 2,300~7,100달러로 엇갈린다. 고객사 서버가 뚫린 사건이 아니라 방문자 브라우저에서 실행된 공급망 침해다. 공격자가 가입 흐름 결함으로 어떻게 특정 계정을 사칭했는지는 공개되지 않았다.",
+    "action": "자사 페이지에 붙은 3자 스크립트의 '변경 권한'과 토큰을 먼저 점검하고(코드 호스팅 업체의 정상 도메인도 신뢰선이 아니다), CSP script-src를 실제 필요한 출처로 좁히며 'unsafe-eval'·'strict-dynamic' 사용을 재검토한다. 결제 카드를 자사 폼에서 직접 받는 페이지는 스키밍 탐지(폼 필드 접근·외부 전송)를 점검하고, 해당 기간 방문자에게는 지갑 주소 확인·카드 명세서 모니터링·애플 기기 업데이트를 안내한다.",
+    "links": [
+      {
+        "label": "F5 연구(공격 경로·정리 시각)",
+        "url": "https://www.f5.com/company/blog/how-f5-caught-malicious-javascript-in-the-optimizely-attack"
+      },
+      {
+        "label": "The Paypers(178개 조직·영향 기업·CSP)",
+        "url": "https://thepaypers.com/fraud-and-fincrime/news/optimizely-breach-exposes-178-websites-to-card-and-crypto-malware"
+      },
+      {
+        "label": "CMO Observer(Optimizely 공식 입장·스니펫 구조)",
+        "url": "https://cmoobserver.com/articles/malicious-javascript-hit-178-organizations-through-optimizely-snippets"
+      },
+      {
+        "label": "Qualys(3자 JavaScript·CSP 교훈)",
+        "url": "https://blog.qualys.com/product-tech/2026/11/19/third-party-javascript-is-part-of-your-attack-surface-lessons-from-a-recent-supply-chain-attack"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-postech-portal-breach",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "1만9,978건 유출 · 관리자 권한 탈취 · 연구실 GPU 서버 채굴",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(대학 공지)",
+    "title": "포항공대, 연구장비·IT서비스 포털 해킹으로 1만9,978건 유출…연구실 GPU 서버에선 불법 채굴 프로그램 발견",
+    "summary": "포항공과대학교가 11/19 홈페이지에 '연구장비지원포털·IT서비스포털 해킹에 따른 개인정보 유출 안내'를 올렸다. 공격자는 11/13 00:30~03:30에 연구장비지원포털(RETINA)과 IT서비스포털(HEMOS)의 보안 취약점을 악용해 관리자 권한을 얻고 개인정보를 조회했다. 유출 규모는 통합계정 ID와 암호화된 비밀번호 1만9,500건, HEMOS 통합계정 ID·이메일·소속 정보 478건으로 모두 1만9,978건이며 실제 피해 인원은 중복에 따라 달라질 수 있다. 주민등록번호·여권번호·운전면허번호·외국인등록번호 등 고유식별정보는 유출되지 않은 것으로 조사됐다. 사고는 11/13 23:20 연구실 GPU 서버의 불법 채굴 신고로 드러났고, 11/16 10시경 원인 분석 중 두 포털 침해 정황, 11/18 09시경 개인정보 유출 정황이 확인됐다. 대학은 침해 시스템을 외부망에서 격리하고 공격 IP를 차단했으며, 11/18 17시 전 사용자 비밀번호를 강제 변경하고 개인정보보호위원회·교육부에 신고했다. GPU 서버 채굴 설치와 포털 해킹이 같은 공격자의 행위인지, 연구자료·다른 내부 시스템 접근 여부는 아직 확인되지 않았다.",
+    "pocDetail": "공격자는 포털의 보안 취약점을 이용해 관리자 권한까지 확보했고, 통합계정 ID와 암호화된 비밀번호가 대량 유출돼 인증정보 악용과 추가 침해 가능성이 남아 있다. 취약점의 CVE 번호와 상세 기법은 공개되지 않았다.",
+    "action": "같은 포털·솔루션을 쓰는 대학·기관은 관리자 권한 상승 경로와 비인가 계정을 우선 점검하고 통합계정 비밀번호 재설정·다중인증을 적용한다. 연구장비·GPU 서버는 채굴 흔적(과도한 GPU 사용, 비정상 프로세스·cron·SSH 키)을 확인하고, 유출된 계정으로 다른 시스템에 로그인 시도가 있었는지 인증 로그를 대조한다.",
+    "links": [
+      {
+        "label": "데일리시큐(대학 공지 원문 정리)",
+        "url": "https://www.dailysecu.com/news/articleView.html?idxno=209629"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-jeonbuk-edu-school-bus-breach",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "9,900여명 유출 · 시스템 중단 · 경찰 수사",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(교육청 발표)",
+    "title": "전북교육청 통학차량 관리시스템 해킹…학생·보호자 9,900여명 정보 유출, 앱 위치조회 중단",
+    "summary": "전북특별자치도교육청이 11/19 '통학차량 관리시스템이 해킹당해 9,900여명의 개인정보가 유출됐다'고 밝혔다. 유출 항목은 통학차량 이용 학생의 이름·주소, 보호자 연락처, 통학버스 차량번호 등 8가지다. 해킹은 11/15 18:46경 발생했고, 교육청은 교육부 사이버안전센터로부터 유출 정황을 통보받아 사고를 인지한 뒤 시스템을 중단하고 전북경찰청 사이버범죄수사대에 수사를 의뢰했다. 시스템이 멈추면서 학부모들은 전용 앱의 실시간 통학차량 위치 조회와 승하차 알림을 쓸 수 없게 됐다. 현재까지 피해 신고는 접수되지 않았다.",
+    "pocDetail": "침해 경로·공격 주체는 공개되지 않았다. 학생과 보호자 실명·연락처가 묶여 유출돼 보호자 대상 사칭 연락(자녀 납치·사고 빙자)에 악용될 수 있는 유형이다.",
+    "action": "같은 방식의 통학·셔틀 관리 시스템을 쓰는 교육기관·학원은 외부 노출 관리페이지와 계정 권한을 점검하고, 학부모에게 '학교·교육청을 사칭한 전화·문자' 주의를 안내한다. 유출 항목에 차량번호가 포함돼 등하교 시간대 위치 추적 위험도 함께 검토한다.",
+    "links": [
+      {
+        "label": "연합뉴스(유출 규모·조치)",
+        "url": "https://www.yna.co.kr/view/AKR20261119087900055"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-daouoffice-malicious-update",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "자동 업데이트 공급망 · 브라우저 저장 비밀번호 유출 가능 · RDP 허용 정황",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 악성 파일 배포 확인(공지)",
+    "title": "다우오피스 PC메신저 자동 업데이트로 악성코드 배포…크롬·엣지 저장 비밀번호 유출 가능성, 'DaouSupport' 계정·RDP 허용 정황",
+    "summary": "다우오피스가 11/17 공지로, 11/15 16:45부터 11/16 09:25까지 약 16시간 40분 동안 윈도우용 PC메신저 자동 업데이트 과정에서 일부 이용자에게 정상 파일 대신 악성 파일이 배포됐다고 밝혔다(11/19 보도). 이용자가 별도 악성 사이트에 접속하지 않아도 소프트웨어 업데이트 경로만으로 감염되는 공급망 공격이다. 감염된 PC에서는 크롬·엣지 브라우저에 저장된 아이디·비밀번호와 다우오피스 계정 정보가 유출됐을 가능성이 제기됐고, 공격 과정에서 'DaouSupport' 관리자 계정이 생성되고 원격 데스크톱(RDP) 접속이 허용됐을 가능성도 확인됐다(실제 원격 접속·추가 침해 발생 여부는 미확인). 회사는 악성 업데이트 배포를 차단하고 정상 버전 4.5.12를 배포했으며 피해 고객사에 계정 정보를 개별 안내하고 있다. 다우오피스는 국내 1만7천개 이상 기업, 약 70만명이 쓰는 협업 플랫폼이다. 앞선 그룹웨어 해킹(빗썸 6,444명, 한양증권 31건, 플라이빗 40명 유출)과 이번 사고의 연관성은 확인되지 않았다.",
+    "pocDetail": "공격자가 업데이트 서버·배포 경로를 어떻게 통제했는지, 감염 PC 규모가 얼마인지는 공개되지 않았다. 금융감독원은 다우오피스를 쓰는 금융회사에 긴급 패치 적용과 후속 조치 결과 보고를 요청한 상태다.",
+    "action": "PC메신저가 4.5.12인지 확인하고, 감염 가능 시간대에 업데이트한 단말은 브라우저에 저장된 모든 비밀번호를 변경하고 다우오피스 계정도 재설정한다. 'DaouSupport' 등 비정상 관리자 계정 생성과 RDP 활성화 여부를 확인하고, 원격 접속 로그에서 외부 IP를 점검한다. 업데이트 배포 서버의 서명·무결성 검증 절차를 재점검한다.",
+    "links": [
+      {
+        "label": "연합뉴스(배포 시간·유출 가능 정보·조치)",
+        "url": "https://www.yna.co.kr/view/AKR20261119092400017"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-eu-commission-ai-attack",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "AI 도구 활용 공격 · 내부 시스템 일부 중단 · 직원 정보 유출 조사",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(집행위 브리핑)",
+    "title": "EU 집행위, AI 도구로 공격받아 인사·의료비 시스템 중단…직원 개인정보 유출 여부 조사",
+    "summary": "유럽연합(EU) 집행위원회가 AI 도구를 활용한 사이버공격을 받아 내부 업무 시스템 일부를 일시 중단했다고 11/19(현지시간) 브리핑에서 밝혔다. 토마 레니에 대변인은 지난달 22일 공격을 감지했고 일반에 공개된 AI 도구가 쓰였다고 설명했다. 급여 확인·휴가/병가 신청에 쓰는 인사관리 시스템 '시스퍼(Sysper)'는 며칠 만에 복구됐지만 공동건강보험(JSIS) 의료비 청구 시스템은 11/19까지 접속할 수 없었다. 집행위는 '직원 전체에 영향을 미친 정보 유출 증거는 발견하지 못했다'고 했고, 공격 주체는 공개하지 않았다. 핵심 조사 대상은 공격자가 직원 이름·급여 등급·자택 주소·연락처에 접근했는지 여부다. CERT-EU와 유럽데이터보호감독기구(EDPS)에도 통보됐다. 올해 3월 클라우드 침해로 91.7GB가 유출되고 1월 모바일 기기 관리 시스템이 공격받은 데 이은 세 번째 사안이다.",
+    "pocDetail": "외신 보도는 공격에 쓰인 AI 도구로 취약점 탐색용 'ARTEX'가 지목됐다고 전했으나 집행위가 공식 확인한 것은 '공개된 AI 도구'라는 수준이다. 침해 규모·유출 항목은 조사 중이다.",
+    "action": "공공기관·기업 모두 AI 기반 탐색 도구가 정찰 속도를 높인 전제로 외부 노출 자산 목록을 최신화하고, 관리 목적 시스템(인사·급여·청구)의 접근 권한을 최소화한다. 노출된 관리 콘솔·테스트 시스템을 우선 정리하고, 침해 시 업무 중단을 감수한 격리 절차를 미리 정해 둔다.",
+    "links": [
+      {
+        "label": "파이낸셜뉴스(집행위 브리핑 내용)",
+        "url": "https://www.fnnews.com/news/202611200415221183"
+      },
+      {
+        "label": "Integrity360 주간 정리(ARTEX 지목)",
+        "url": "https://www.integrity360.com/cyber-news-roundup-november-20th-2026"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-n0n-visa-mastercard-chase",
+    "category": "global",
+    "severity": "high",
+    "severityLabel": "3자 업체 경유 · n0n 유출 자료 공개 · 카드 결제정보는 미영향",
+    "pocStatus": "exploited",
+    "pocLabel": "유출 자료 공개 · 회사들 3자 사고 확인",
+    "title": "n0n, 비자·마스터카드·JP모건 고객 정보 유출 자료 공개…아시아태평양 3자 업체가 발단, 카드 결제정보는 영향 없어",
+    "summary": "월스트리트저널과 AP 등이 11/19~20 보도한 내용에 따르면 비자·마스터카드·JP모건체이스 고객 수천 명의 정보가 아시아태평양 지역 외부 서비스 업체를 거쳐 랜섬웨어 조직 n0n에 유출됐다. n0n은 유출 사이트에 비자 아태지역 카드회원의 이름·개인 이메일·휴대전화, 프리미엄 회원의 여행·외식 예약 정보, 150만 건이 넘는 카드회원 상호작용 기록과 JP모건 고객 마케팅 상호작용 수십만 건 등을 올렸다고 주장했고, Cybernews 조사팀은 공개 자료에서 비자 프리미엄 고객 6,000명 이상, JP모건 고객 약 1만6,000명의 정보가 노출된 것으로 파악했다. 비자는 '카드번호 등 결제정보는 영향받지 않았고 자사 시스템도 침해되지 않았다'고, 마스터카드는 '특정 혜택 프로그램에 가입한 일부 카드소지자의 제한적 정보'가 노출됐다고 밝혔다. JP모건은 외부 업체가 공격 대상이었고 고객 이름·이메일 등 마케팅 데이터에 접근한 것으로 보이며 이번 주 서비스 장애와는 무관하다고 설명했다. 어느 회사도 문제의 3자 업체 이름은 공개하지 않았다.",
+    "pocDetail": "n0n의 유출 규모 주장(150만 건)과 실제 확인된 노출(수천 명) 사이에 차이가 있다. 카드 결제정보 유출 증거는 확인되지 않았지만, 여행·외식 이력과 이메일 조합은 표적 피싱·사회공학에 그대로 쓰일 수 있다.",
+    "action": "카드 혜택·여행 예약 정보를 악용한 사칭 메시지를 경계하고, 고객사는 마케팅·혜택 대행 3자 업체가 보관한 고객 데이터 범위와 접근 권한을 확인한다. 노출 의심 고객에게는 결제 명세 확인과 의심 연락 시 공식 채널 재확인을 안내한다.",
+    "links": [
+      {
+        "label": "AP(체이스 고객 정보 유출)",
+        "url": "https://apnews.com/article/chase-data-leak-cyberattack-8470d475450721b66858bdace47091c0"
+      },
+      {
+        "label": "Cybernews(비자 카드회원 노출 분석)",
+        "url": "https://cybernews.com/security/visa-card-data-breach/"
+      },
+      {
+        "label": "Investing.com(3사 입장·WSJ 보도)",
+        "url": "https://kr.investing.com/news/stock-market-news/article-2184062"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-s2w-kimjen-university-analysis",
+    "category": "incident",
+    "severity": "high",
+    "severityLabel": "국내 대학 겨냥 · 성적·출결·그룹웨어 유출 · AI 침투도구 흔적",
+    "pocStatus": "exploited",
+    "pocLabel": "유출 파일 분석 확인(S2W 보고서)",
+    "title": "S2W, '김젠' 대학 해킹 분석…성적·출결에 교직원 메일까지 유출, 공개 파일에서 ARTEX 작업 흔적 발견",
+    "summary": "보안기업 S2W가 공개한 보고서(11/20 보도)에 따르면 '김젠(KimJEN)'으로 활동하는 공격자가 11/12부터 국내 대학 등의 정보를 탈취했다고 주장하며 텔레그램에 파일을 올렸고, S2W가 11/17까지의 게시물과 유포 파일을 분석했다. 한 대학 LMS 파일에는 사용자 계정정보와 암호가 풀린 상태의 비밀번호, 수강 성적·출결 기록이, 교직원 메일함 파일에는 메일 본문·첨부파일이, 그룹웨어 DB 백업에는 교직원 인사정보·전자결재 문서·일정·메신저 기록이 담겨 있었다. 약 20개 대학의 연구행정통합시스템(rERP)에서는 권한 없이 서버 파일을 읽는 결함으로 배포용 인증키와 웹서버 설정을 탈취한 뒤 그 키로 웹셸을 설치했고, 4개 대학 회계시스템에서는 로그인 없는 서버 통신 기능이 악용돼 사용자·계좌정보·첨부파일·로그인 이력을 조회했다. A대학에서는 운영 서버에 남아 있던 테스트용 DB 조회 페이지가 침입 경로가 됐다. 공개 파일의 스크립트·작업 기록에서 AI 침투 자동화 도구 'ARTEX'의 작업 경로와 작업 ID가 확인됐다(사람 개입과 AI 자율 수행의 경계는 미확인). 보고서는 피해 대학명과 전체 유출 규모를 공개하지 않았다.",
+    "pocDetail": "S2W는 외부에 노출된 관리·테스트 페이지와 인증 없이 접근 가능한 기능을 점검하고, 배포용 인증키·DB 계정 등 주요 인증정보 교체와 웹셸·의심 실행 파일 검사를 권고했다. 같은 솔루션을 쓰는 대학·공급업체가 공격 경로를 공유하므로 확산 방지가 필요하다고 밝혔다.",
+    "action": "rERP·학사·회계·그룹웨어에서 인증 없이 접근 가능한 조회 기능과 운영 서버에 남은 테스트 페이지를 즉시 제거·차단하고, 배포 인증키·DB 계정을 교체한 뒤 웹셸과 비정상 실행 파일을 스캔한다. 웹서버 설정 파일 변조와 비인가 계정·권한 수집 흔적을 함께 점검한다.",
+    "links": [
+      {
+        "label": "뉴시스(S2W 보고서 분석)",
+        "url": "https://www.newsis.com/view/NISX20261119_0003875508"
+      },
+      {
+        "label": "ZDNet Korea(대학 침해 잇따라·공시 현황)",
+        "url": "https://zdnet.co.kr/view/?no=20261119155401"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-university-breach-policy-gap",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "정책·통계 · 대학 침해 8만310건(+32%) · 정보보호 공시 320곳 중 3곳",
+    "pocStatus": "none",
+    "pocLabel": "해당 없음(정책·통계)",
+    "title": "대학 침해는 작년 8만310건(+32%)인데 정보보호 공시는 320곳 중 3곳…개정법은 매출 10% 과징금",
+    "summary": "국내 대학 침해가 잇따르는 가운데 ZDNet Korea가 관련 제도를 짚었다. 교육부가 국회에 제출한 자료에 따르면 지난해 전국 대학 380곳에서 탐지·신고된 사이버침해는 8만310건으로 2024년보다 32% 늘었다. 반면 KISA 정보보호 공시포털 기준 올해 공시를 이행한 대학은 320여 곳 중 3곳에 그쳤다. 지난 9월 11일 시행된 개정 개인정보 보호법은 반복적이거나 고의·중과실로 개인정보를 유출하면 전체 매출의 10%까지 과징금을 부과할 수 있고, 유출 가능성을 안 때부터 72시간 내 정보주체 통지 제도도 처음 도입됐다. 과거 개인정보위는 학사시스템 해킹으로 32만여 명, 8만 3,000여 명 정보가 유출된 전북대·이화여대에 각각 6억 2,300만원, 3억 4,300만원의 과징금을 부과했다.",
+    "pocDetail": "11월 들어 전주대(약 18만 건), 인제대(2만 4,011건), 배재대, 서울시립대(15명), 부산 지역 대학 연쇄, 포항공대 등 대학 침해가 이어졌다. 공시 미이행 자체가 침해 원인은 아니지만, 자산·침해 이력 관리가 취약하다는 신호로 읽힌다.",
+    "action": "교육기관은 정보보호 공시 이행 여부와 72시간 통지 절차를 사전에 정비하고, 노후 학사·연구행정 시스템의 자산 목록과 패치 상태를 우선 점검한다. 예산·인력이 부족하면 외부 노출 자산 최소화와 계정 다중인증부터 적용한다.",
+    "links": [
+      {
+        "label": "ZDNet Korea(통계·개정법·과징금 사례)",
+        "url": "https://zdnet.co.kr/view/?no=20261119155401"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-beazley-q3-ransomware-report",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "동향 · 랜섬웨어 신고 +38% · 취약점 침투 14%→28% · CVE 3만6,962건",
+    "pocStatus": "none",
+    "pocLabel": "해당 없음(분기 보고서)",
+    "title": "3분기 랜섬웨어 신고 38% 증가…초기 침투는 '취약점 악용'이 두 배로, CVE는 3만7천 건",
+    "summary": "비즐리 시큐리티(Beazley Security)의 2026년 3분기 위협 보고서에 따르면 3분기 신고된 랜섬웨어 사고는 2분기보다 38% 늘었고, 3분기 매달 신고 건수가 2분기 최다 달을 웃돌았다. 랜섬웨어 유출 사이트에 게시된 피해 조직은 2,798곳으로 전년 동기 대비 66% 증가했고 8월 한 달에만 1,000곳이 넘었다. 초기 침투 경로에서는 외부 서비스 취약점 악용이 14%에서 28%로 두 배가 된 반면 탈취 자격증명을 이용한 침해는 67%에서 47%로 줄었고, 악성코드를 통한 침투는 클릭픽스(ClickFix) 영향으로 14%에서 19%로 늘었다. 클릭픽스에서 랜섬웨어 배포까지는 통상 2~3주가 걸려 이 기간에 격리·자격증명 교체로 차단할 수 있었다. 업종별로는 의료가 21%로 가장 많았다. 3분기 공개 CVE는 3만6,962건으로 전 분기 대비 약 80%, 전년 동기 대비 3배 이상 늘었고(마이크로소프트 월간 수정이 900건대, 오라클 7월 패치 1,448건), 인터넷에 노출된 자체 빌드 서버·데이터 분석 플랫폼·협업 도구가 주요 침투 경로였다. 9월 사고에서는 다중 AI 에이전트 시스템 'LARA'가 스크립트 약 270개로 취약점 익스플로잇(2019~2026년 CVE 12차례 시도)·금융시스템 접근·데이터 유출을 분담했고, 패치와 MFA가 이 시도를 모두 막았지만 암호화가 꺼진 ASP.NET ViewState와 약한 SFTP 비밀번호를 통해 침투했다. 중간자(AiTM)·디바이스 코드 피싱으로 세션을 탈취하는 MFA 우회도 확인됐다.",
+    "pocDetail": "CVE 공개 급증이 곧 실제 악용 급증은 아니며, CISA KEV 등재는 그만큼 늘지 않았다. 보고서는 실제 악용이 확인된 취약점과 인터넷 노출 시스템을 먼저 패치하고 클라우드 접근키·인증 세션을 보호하라고 권고한다.",
+    "action": "인터넷에 노출된 자체 개발·빌드 서버, 데이터 분석 플랫폼, 협업 도구를 자산 목록에 넣고 패치 우선순위를 올린다. 패스키·피싱 저항 다중인증과 조건부 접근을 적용하고, 불필요한 디바이스 코드 인증을 끄며 관리되지 않는 기기의 MFA 등록을 제한한다. 개발 애플리케이션의 ViewState 암호화·세션 설정 같은 '설정 오류'를 정기 점검한다.",
+    "links": [
+      {
+        "label": "지티티코리아(보고서 상세·LARA 사례)",
+        "url": "https://www.gttkorea.com/news/articleView.html?idxno=27742"
+      },
+      {
+        "label": "Security Today(랜섬웨어 38% 증가)",
+        "url": "https://securitytoday.com/articles/2026/11/19/ransomware-attacks-jump-38-amid-rising-software-flaws.aspx"
+      }
+    ],
+    "date": "2026-11-20"
+  }
+]
