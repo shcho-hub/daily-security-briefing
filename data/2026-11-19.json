@@ -848,5 +848,128 @@
    }
   ],
   "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-java4shell-exploitation-begins",
+  "category": "vuln",
+  "severity": "critical",
+  "severityLabel": "CVSS v4.0 9.2 · 실제 공격 시도 확인 · '설정 없이도 취약'",
+  "pocStatus": "exploited",
+  "pocLabel": "스캔·공격 시도 확인(GreyNoise·WatchTowr·Cloudflare) · 침해 성공 미확인",
+  "title": "Java4Shell(CVE-2026-114938) 실제 공격 시도 시작…'java4shell-recon' 스캔에 맞춤 익스플로잇까지, 벤더 수정판 속속",
+  "summary": "공개 나흘 만에 Java4Shell(CVE-2026-114938)을 겨냥한 스캔과 공격 시도가 확인됐다. 보안위협정보 업체 그레이노이즈는 11/19 오전(현지) 기준 Java4Shell 공격 형태와 일치하는 요청 150여 건을 IP 5개에서 기록했고, 와치타워는 전 세계 허니팟에 'java4shell-recon' 사용자 에이전트를 단 요청과 형태를 갖춘 무작위 공격 시도가 들어오고 있다고 밝혔다. 클라우드플레어의 클라우드포스 원은 정찰 뒤 약 17시간 후 크롬 브라우저로 위장해 익스플로잇 트리거를 보낸 사례와, 11/18 처음으로 같은 IP가 AI 모의침투 프레임워크 '아텍스(Artex)'와 Java4Shell 양쪽에 쓰인 정황을 확인했다. 프리비디언은 11/18~19 IP 6개에서 공격 시도 9건을 기록했지만 성공 여부는 확인하지 못했다고 밝혔고, 그레이노이즈도 자사 센서에서는 침해 성공을 보지 못했다고 했다. 결함은 OpenJDK 17.0.6 이상의 Base64 처리 경계 밖 쓰기로, x86-64의 AVX-512 VBMI 명령이 있는 CPU에서만 성립하며 ARM은 영향이 없다.",
+  "pocDetail": "공개 PoC는 메모리 손상까지만 유발하지만 불컨체크가 고객용으로 완전한 RCE 익스플로잇을 제공 중이고, 임머시브의 케빈 브린도 동작하는 익스플로잇을 개발했다고 밝혔다. 레드햇은 '특별한 설정이 필요 없고 AVX-512 VBMI 지원 CPU에서 JVM이 가속 경로를 자동 선택하므로 기본 상태로 취약하다'고 평가하며 수정판을 서두르고 있다. 시스코는 Catalyst Center, Secure Network Analytics, Secure Workload, Smart Software Manager On-Prem, Splunk AppDynamics On-Premises VA, Intersight VA 등 10여 개 제품이 영향권이며 아직 수정판·우회책이 없다고 공지했다(IOS XE·UCS Central은 조사 중). 지멘스는 Industrial Edge Management 3종을 영향 제품으로 올리고 패치 전까지 인스턴스를 오프라인에 둘 것을 권고했다. 엘라스틱은 Elasticsearch 7.17.3 이상 전 버전(읽기 권한 계정이 있으면 RCE, 무인증은 서비스 거부)과 Logstash 8.6.2 이상(특정 설정에서 크래시)을 영향 범위로 안내하고 Elastic Cloud에는 핫픽스를 적용했다. 키클로크는 컨테이너 이미지 26.8.2-1·26.8.2-2가 취약한 OpenJDK 21 빌드를 담았다며 26.8.2-3을 배포했고, 아틀라시안은 데이터센터 제품(Bamboo·Bitbucket·Confluence·Crowd·Jira·JSM)에서 패치 전까지 AVX-512 지원을 끄는 임시 조치를 권고했으며 클라우드 고객은 조치가 필요 없다고 밝혔다. 젠킨스는 취약한 자바 17·21·25를 AVX-512 VBMI CPU에서 돌리는 컨트롤러만 위험하다며 11월 자바 릴리스로 업데이트 후 재시작하라고 안내했다. 아마존·마이크로소프트·아줄은 수정 빌드를 배포했다.",
+  "action": "1) 자바 17.0.6 이상(17·21·25·27 계열, GraalVM 포함) 인벤토리를 다시 확인하고 오라클 11월 CPU·각 배포판 수정판을 적용한 뒤 JVM·컨테이너를 반드시 재시작. 2) 서버 CPU의 AVX-512 VBMI 지원 여부를 먼저 확인(지원 CPU면 '기본 상태 취약'). 3) 시스코·지멘스·엘라스틱·키클로크·아틀라시안 데이터센터·젠킨스는 벤더별 임시 조치를 즉시 적용. 4) 접속 로그에서 'java4shell-recon' 사용자 에이전트와 정찰 후 브라우저 위장 재접속 패턴, 비정상 JVM 크래시·재시작, 아텍스 연계 스캔 흔적을 검색. 5) 아직 성공 침해는 공개되지 않았으므로 패치 후에도 웹셸·아웃바운드 연결·계정 생성 흔적을 함께 점검.",
+  "links": [
+   {
+    "label": "SecurityWeek(공격 시도·벤더 영향 정리)",
+    "url": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/"
+   },
+   {
+    "label": "GreyNoise Java4Shell 추적 페이지",
+    "url": "https://java4shell.events.greynoise.io/"
+   },
+   {
+    "label": "레드햇 취약점 권고(RHSB-2026-018)",
+    "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2026-018"
+   },
+   {
+    "label": "시스코 보안 공지",
+    "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-nable-mail-assure-spamexperts-breach",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "메일 보안 클라우드 서버 침해 · 3개 지역 관리 콘솔·API 3일째 차단",
+  "pocStatus": "none",
+  "pocLabel": "침해 확인(벤더 공지) · 고객 데이터 유출 증거는 없다고 밝혀",
+  "title": "N-able, 메일 보안 클라우드 'Mail Assure·SpamExperts' 서버 침해 공식 확인…미주·아태·유럽 관리 콘솔·API·격리함 차단 지속",
+  "summary": "원격관리·백업 소프트웨어 기업 N-able이 자사 호스팅 메일 보안 서비스 'Mail Assure'와 'SpamExperts' 서버 한 대에 외부인이 무단 접근했다고 11/18(현지) 공식 확인했다. 11/16 서비스 장애로 시작된 사안을 조사한 결과 플랫폼 설정 문제가 아니라 보안 사고로 판명된 것으로, 미주·아태·유럽 3개 지역의 Mail Assure와 SpamExperts 호스팅 클라우드가 모두 영향 대상이다. 회사는 위협을 차단하고 서비스를 강화하고 있으며, 조사가 진행 중이지만 테넌트 사서함 접근을 포함해 고객 데이터가 침해됐다는 증거는 아직 없다고 밝혔다. 메일 흐름과 인·아웃바운드 스팸 필터링은 계속 정상 동작하지만 관리 포털(UI), API, 격리함, 로깅은 안전한 복구와 검증이 끝날 때까지 오프라인이다(11/19 08:00 UTC 기준 3일째). 회사는 이번 사안이 N-central 취약점(Able2Shell·4EverAble2Shell·Agent2Shell)과 무관하다고 선을 그었다.",
+  "pocDetail": "11/17 03:00 UTC 장애로 시작해 처음에는 '플랫폼 설정과 서비스 의존성'으로 설명했으나, 11/18 03:05 UTC 업데이트에서 '조사 과정에서 보안 사고로 확인됐다'고 정정했다. 고객에게는 침해 여부와 필요한 조치를 담은 개별 메일을 파트너사를 통해 발송했다고 밝혔으나, 침해 경로·공격자·접근 계정 수·영향받은 테넌트 수는 공개하지 않았다. N-able은 최근 N-central 제로데이 연쇄(11/17 4EverAble2Shell 등)로 이미 국내외 MSP·고객사가 대응 중인 벤더로, 한 달 안에 두 번째 보안 사안이 겹친 상태다.",
+  "action": "1) Mail Assure·SpamExperts를 쓰는 기업·파트너는 콘솔·격리함 접근이 막혀 있으므로 오탐 격리 메일 확인·릴리스 지연에 대비한 임시 운영 절차(사용자 문의 대응, 중요 메일 별도 채널 확인) 마련. 2) N-able 파트너 공지를 확인하고 조치 필요 여부를 확인. 3) 메일 게이트웨이 앞단 로그·테넌트 관리자 접속 기록을 보존해 추후 벤더 조사에 대응. 4) 콘솔 복구 후 테넌트 관리자 계정·API 키·연동 자격증명 재발급 검토, 5) N-central 사건과 별개라는 벤더 설명을 확인하되 동일 벤더 연속 사고로 공급망 리스크 점검.",
+  "links": [
+   {
+    "label": "N-able 상태 페이지(사고 상세·타임라인)",
+    "url": "https://uptime.n-able.com/event/202672/"
+   },
+   {
+    "label": "The Hacker News 보도",
+    "url": "https://thehackernews.com/2026/11/n-able-confirms-hackers-accessed-cloud.html"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-sbc-medical-japan-breach-1-62m",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "고객 162만4천명 유출 · 비밀번호 평문 저장 · 해외서 77만회 공격",
+  "pocStatus": "none",
+  "pocLabel": "회사 공식 발표(1차 출처) · 침입 경로는 조사 중",
+  "title": "日 湘南뷰티클리닉 SBC메디컬, DB 침해로 162만4천명 유출…비밀번호 '평문 저장' 확인, 해외서 77만회 공격",
+  "summary": "일본 미용의료 그룹 SBC메디컬그룹(Nasdaq: SBC)이 11/18(미국시간) 자회사 SBC메디컬그룹㈜이 관리하는 데이터베이스에 외부인이 무단 접근해 고객·직원 정보가 유출됐다고 발표했다. 사고는 11/16 새벽에 발생했고, 회사는 해외에서 심야 시간대에 77만 회에 달하는 지속 공격이 있었다고 설명했으며 침입 경로는 외부 전문기관 조사 후 공개하겠다고 밝혔다. 가장 규모가 큰 기본 개인정보는 2010~2023년 자료로 이름·성별·전화번호·이메일·비밀번호·주소·생년월일·진료카드번호·회원ID·설문응답 등 162만4,000명분이며, 웹 예약신청 25만5,416명, 문의 양식 21만7,769명, 모니터 시술 4,513명, 후기 1만5,007명도 함께 유출됐다. 직원 계정 약 2만 건과 직원 459명의 계좌·연금·원천징수 정보, 문의 양식에 적힌 카드정보 14명(모두 만료 상태)도 포함됐다. 특히 당시 등록한 비밀번호를 암호화하지 않고 저장했다고 인정해 다른 서비스로의 자격증명 재사용 피해가 우려된다.",
+  "pocDetail": "회사는 11/16 새벽 모니터링 시스템이 이상을 감지해 서버를 격리했고, 같은 날 일본 개인정보보호위원회에 보고했으며 고소도 검토 중이라고 밝혔다. 전자의무기록 등 진료기록과 예약 사이트 'mySBC' 정보의 유출은 현재까지 확인되지 않았다. 별도로 11/16 외부 예약서비스 '트리뷰(トリビュー)' 클리닉 관리자 화면에 다량의 ID·비밀번호 대입 공격이 있어 그룹 의료기관 5개 계정에 부정 로그인이 있었고, 56개원 예약자 1만2,641명과 시술자 6,804명의 예약·시술명·시술일·금액이 유출됐다(카드·주소·비밀번호는 미포함). 대상 의료기관에는 湘南뷰티클리닉, 湘南AGA클리닉, 湘南치과, 롯폰기 레이디스클리닉 등이 포함된다. 회사는 케이스별 중복이 있어 단순 합산은 피해야 한다고 밝혔다.",
+  "action": "1) 국내 뷰티·병의원·예약 플랫폼을 운영·위탁받은 조직은 같은 유형 리스크를 점검: 회원 비밀번호 평문/복호화 가능 저장 여부, 예약대행사 관리자 계정의 다중인증·IP 제한, 해외 IP의 대량 로그인 시도 rate limit·자동 차단. 2) 크리덴셜 스터핑 대비 이상 로그인 탐지 규칙과 실패 횟수 임계치 재확인. 3) 이 사고로 유출된 정보를 이용한 '시술 내용을 아는' 협박형 연락·사칭 피싱이 예고돼 있어, 고객 응대 창구에 안내 문구와 신고 절차 마련. 4) 해외 위탁 예약 서비스 이용 시 계약서에 침해 통지·감사·자격증명 관리 조항이 있는지 확인.",
+  "links": [
+   {
+    "label": "SBC메디컬그룹 공식 발표(IR)",
+    "url": "https://ir.sbc-holdings.com/ja/sbc-medical-group-reports-cybersecurity-incidents-in-japan/"
+   },
+   {
+    "label": "매일경제 보도(국내 요약)",
+    "url": "https://www.mk.co.kr/news/stock/12213931"
+   },
+   {
+    "label": "비즈니스+IT(평문 비밀번호·77만회 공격)",
+    "url": "https://news.yahoo.co.jp/articles/a414dd4cd41c3a2b93b80fecb4b50db4e38425d8"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-trucking-logistics-three-campaigns",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "표적 피싱·백도어·원격제어 3갈래 · 도메인 1,430여 개",
+  "pocStatus": "none",
+  "pocLabel": "ANY.RUN 침해 분석 보고서(11/17) · 실제 감염 사례 포함",
+  "title": "미국 트럭·물류업계 노린 3갈래 캠페인…FMCSA 사칭 피싱부터 블록체인 C2 백도어·BitLocker 복구키 탈취까지",
+  "summary": "악성코드 분석 서비스 애니런(ANY.RUN)이 11/17(현지) 미국 트럭 운송·물류 업계를 겨냥한 세 갈래 캠페인을 공개했다. ①'헬로프렌즈'는 미 연방자동차운송안전청(FMCSA)을 사칭해 수신자의 실제 운송사업자번호(USDOT)를 넣은 메일을 보내는데, 발신 도메인을 공격자가 관리해 SPF·DKIM·DMARC 검사를 모두 통과한다. 링크는 SAFER·Motus 조회 사이트를 위장해 '운행 미승인' 경고와 300달러 수수료를 띄우고 사회보장번호·EIN·생년월일을 받아낸 뒤 주유카드 계정(Relay·Comdata 등) 자격증명과 문자 인증번호까지 탈취해 텔레그램으로 넘긴다. 애니런은 올해 이 캠페인에 연결된 도메인을 1,430여 개 찾았다. ②'노드리모트'는 중개사 등록 페이지·선하증권·보험청구서·운임확인서로 위장해 가짜 reCAPTCHA 화면에서 악성 명령을 클립보드에 복사한 뒤 윈도우 실행창에 붙여넣게 하고, Node.js 백도어를 설치한다. ③세 번째는 화물거래 사이트 TIMOCOM·DAT를 위장해 '약관 확인' PDF 버튼으로 원격 공유 폴더를 열고 PDF로 위장한 바로가기 파일을 실행시켜 정상 원격관리 도구 메시센트럴(MeshCentral)을 설치한다.",
+  "pocDetail": "노드리모트 백도어는 중계 서버 주소를 BNB 스마트체인의 스마트 컨트랙트, 암호화된 DNS TXT 레코드(DoH), 깃허브 기스트 세 곳에서 가져와 악성코드를 새로 배포하지 않고도 서버를 교체할 수 있다(10/25~11/3 12개 중계서버 중 6개 교체 확인). 권한 상승은 fodhelper.exe·ComputerDefaults.exe를 이용한 UAC 우회로 시도한다. 세 번째 캠페인의 실제 감염 사례에서는 메시센트럴 경유로 manage-bde를 실행해 BitLocker 복구 암호를 빼내고, 윈도우 디펜더에 C:\\Users와 페이로드 예외를 추가한 뒤 원격제어 악성코드 캐슬RAT(NightshadeC2)을 SysmonDrivers.exe로 심고 권한 상승해 재실행했다. 파일 암호화 활동은 관측되지 않았지만 복구키·백신 무력화·상주 원격제어가 결합된 상태라고 애니런은 지적했다.",
+  "action": "1) 메일 인증(SPF/DKIM/DMARC) 통과는 신뢰 근거가 아님을 사용자 교육에 반영 — 정부기관·거래처 요청은 메일에 있는 링크가 아니라 공식 도메인·기존 연락처로 확인. 2) 실행창(Ctrl+R)·PowerShell에 붙여넣기 유도(ClickFix형) 탐지·차단 정책 적용, 브라우저 클립보드 조작 스크립트 차단. 3) WebDAV 원격 실행(rundll32.exe davclnt.dll)과 외부 공유에서 실행되는 LNK·바로가기 탐지. 4) 'NodeRemote*' 이름의 예약 작업과 /internal/clients/telemeter 아웃바운드 통신 탐지. 5) MeshCentral·NetSupport 등 정상 원격관리 도구의 비인가 설치·낯선 서버 접속을 감시하고, BitLocker 복구키 조회(manage-bde)와 디펜더 예외 추가 이벤트를 고위험 알림으로 승격. 6) 국내 물류·운송·중개 플랫폼도 동일 수법(사업자번호를 넣은 맞춤 피싱, 가짜 화물보드) 대비.",
+  "links": [
+   {
+    "label": "보안뉴스(국내 상세 정리)",
+    "url": "https://www.boannews.com/news/articleView.html?idxno=147373"
+   },
+   {
+    "label": "Cyber Security News(3개 캠페인 기술 분석)",
+    "url": "https://cybersecuritynews.com/fake-fmcsa-dat-timocom-portals-target-us-logistics/"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-nvidia-gentlemen-response",
+  "category": "global",
+  "severity": "info",
+  "severityLabel": "유출 주장 후속 · 자사 시스템 영향 없다고 밝혀 · 11/28 카운트다운",
+  "pocStatus": "none",
+  "pocLabel": "공격자 주장만 있고 유출 증거·샘플 없음",
+  "title": "엔비디아, 'The Gentlemen' 유출 주장에 \"제3자 파트너 사고 조사 중, 자사 시스템 영향 없음\"…11/28 카운트다운",
+  "summary": "랜섬웨어 조직 '더 젠틀맨'이 엔비디아를 다크웹 유출 사이트에 올린 가운데, 엔비디아가 11/19(현지) 블리핑컴퓨터에 \"서비스 제공업체(third-party partner)에 영향을 줬을 수 있는 사안을 조사 중\"이라며 \"엔비디아 시스템·네트워크가 영향을 받았다는 징후는 발견하지 못했고 계속 모니터링 중\"이라고 밝혔다. 조직은 아직 유출 증거나 샘플을 제시하지 않았고, 11/28(9일 뒤) 종료되는 카운트다운만 걸어 두었다. 더 젠틀맨은 폐쇄형에서 RaaS로 전환해 제휴사에 최대 90%를 배분하고 이중 갈취를 하는 조직으로, 지금까지 제조·의료·운송·에너지·교육·금융 등에서 1,100여 피해자를 주장했다. 엔비디아는 올해 5월 아르메니아 지역 GeForce NOW 얼라이언스 파트너 침해로 일부 사용자 정보가 노출된 사례가 있었으나 자사 네트워크·서비스 영향은 없었다고 밝힌 바 있다.",
+  "pocDetail": "공격자 주장만으로 실제 침해를 단정할 수 없고, 엔비디아도 침해를 인정하지 않았다. 다만 과거 사례처럼 협력사·서비스 제공업체 경유 유출이 실제로 발생한 전례가 있어, 파트너 경유 시나리오는 열려 있다. 11/19 현재 유출 데이터 공개나 샘플 게시는 확인되지 않았다.",
+  "action": "1) 엔비디아 GPU·소프트웨어·클라우드 서비스를 쓰는 조직은 벤더 공지와 파트너사(리셀러·SI·GPU 클라우드) 보안 공지를 함께 확인. 2) 협력사 침해 주장이 현실화할 경우를 대비해 엔비디아 관련 통합 계정·API 키·NGC 자격증명의 재발급 절차와 접근 로그 점검 계획을 미리 확인. 3) 유출 주장 단계의 정보는 사실로 취급하지 말고, 사칭 협박 메일 대응 창구를 안내.",
+  "links": [
+   {
+    "label": "BleepingComputer(엔비디아 입장)",
+    "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
+   }
+  ],
+  "date": "2026-11-19"
  }
 ]
