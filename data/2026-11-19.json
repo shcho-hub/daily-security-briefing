@@ -706,5 +706,147 @@
    }
   ],
   "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-cold-relic-impersonation-chain",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "러시아 FSB 연계 APT · 실제 침해 확인",
+  "pocStatus": "exploited",
+  "pocLabel": "실제 침해 확인(구글 GTIG·맨디언트)",
+  "title": "러시아 '콜드렐릭', 훔친 직원명부로 동료 사칭해 美 두 번째 기관 침해…패스키 등록해 비밀번호 초기화에도 잠복",
+  "summary": "구글 위협정보그룹(GTIG)과 맨디언트가 11/17 공개한 보고서에서 러시아 연계 스파이 조직 '콜드렐릭(COLD RELIC)'이 한 미국 기관 침해에서 빼낸 직원명부·계정정보로 다른 미국 기관까지 연쇄 침투한 사례를 공개했다. 콜드렐릭은 콜드리버(COLDRIVER)·UNC4057·스타블리자드·칼리스토로도 불리며 미 법무부는 러시아 연방보안국(FSB) 소속으로 평가한다. 2025년 말 첫 침해에서는 피해 기관과 지리적으로 가까운 미국 내 주거용 프록시를 거쳐 훔친 최고관리자(Super Admin) 계정으로 로그인하고 MFA 승인 알림을 반복 전송해 결국 사용자가 승인하게 만들었다. 이후 새 기기 모델을 등록하고 패스키·MFA 백업코드·공격자용 MFA 기기를 확보해 비밀번호와 세션을 초기화해도 접근이 살아남게 했다. 최고 권한으로 전사 클라우드 드라이브를 통째로 외부 메일로 공유·다운로드했고, 관리 콘솔에서 보안 조사·메일 감사 로그를 조회해 방어 측 가시성을 확인한 뒤 경고 센터 알림을 열람·수정·삭제했으며, 구글 테이크아웃(관리자용 Customer Takeout)으로 직원 명부와 전사 데이터를 반출했다. 몇 달간 잠복한 뒤 축출되자 피해 기관 직원을 사칭한 메일 계정으로 내부 직원과 같은 업무권 인물에게 다시 사회공학 공격을 걸었고, 2026년 두 번째 기관은 Entra ID를 구글 워크스페이스 SSO로 쓰는 구조였는데 첫 피해사 직원 행세로 보안 메신저에서 접근해 문서로 위장한 피싱 링크로 계정·인증 토큰을 빼낸 뒤 새 MFA 기기를 등록해 대량 다운로드했다.",
+  "pocDetail": "공격자는 정상 자격증명과 MFA 피로 공격, 합법 클라우드 기능(OAuth 메일 동기화·Customer Takeout)만 사용해 취약점 없이 침투했고, 악성코드 유포 정황은 보고서에 없다. GTIG는 2026년 11월에도 콜드렐릭의 새 피싱 작전 정황을 관측했다고 밝혔다. 피해 기관명·유출 규모는 공개되지 않았다.",
+  "action": "클라우드 관리자 계정 전수 점검(휴면·공유·개인계정), 레거시 MFA와 푸시 단독 승인 정책을 번호매칭·FIDO2로 교체하고 기기 등록 정책과 '새 기기 등록' 알림을 감시. 의심 시 세션·기기·패스키를 함께 철회(비밀번호 변경만으로는 공격자 패스키가 남음). Customer Takeout 생성(CUSTOMER_TAKEOUT_CREATED), 대량 공유·다운로드, 경고센터 알림 삭제 이벤트를 감사로그에서 탐지하고, 외부 메신저로 오는 '지인 사칭' 문서 링크는 별도 채널로 재확인.",
+  "links": [
+   {
+    "label": "Google Cloud GTIG·맨디언트 보고서(COLD RELIC)",
+    "url": "https://cloud.google.com/blog/topics/threat-intelligence/cold-relic-a-case-study-in-impersonation-and-compromise"
+   },
+   {
+    "label": "보안뉴스(국문 요약·공격 전말)",
+    "url": "https://www.boannews.com/news/articleView.html?idxno=147371"
+   },
+   {
+    "label": "SecurityWeek",
+    "url": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-tcherber-fortigate-iab",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "초기접근 브로커 · 포티게이트 VPN 계정 500여건",
+  "pocStatus": "none",
+  "pocLabel": "실제 판매·침해 정황 확인(Cyderes)",
+  "title": "포티게이트 VPN 계정 500여건 쥔 브로커 'tcherber'…내부망 접속권 팔고 인포스틸러·숨은 RDP까지",
+  "summary": "보안기업 사이더스(Cyderes)의 하울러셀 팀이 11/17(현지시간) 'tcherber'라는 초기접근 브로커를 분석한 보고서를 공개했다. 출발점은 processed_config.txt 파일에 담긴 포티넷 포티게이트 VPN 접속정보 500여건으로, IP·포트·아이디·비밀번호가 나란히 적혀 있었고 guest:guest, admin:admin, test:test 같은 기본 계정과 조직별 비밀번호가 섞여 있어 무작위 대입과 유출 정보 재사용을 함께 쓴 것으로 분석됐다. 5~6월 작업 기록에는 여러 피해 조직 내부망에 최고 권한으로 수시간씩 접속한 흔적이 남아 있었다. 공격자의 Go 언어 도구는 포티게이트 VPN 접속 후 내부 경로 파악과 액티브 디렉터리 조회를 자동화했고, 파일 공유 조회·포트 스캔 도구와 소닉월 VPN용 모듈도 따로 있었다. 접속 권한은 해킹 포럼에서 팔렸는데 독립국가연합(CIS) 국가를 표적에서 제외하고 피해 조직을 매출 1,000만달러 기준과 조직 유형으로 나눠 판매했다. 악성코드는 윈도우 업데이트 설치 파일로 위장한 setup.exe에서 시작해, 파워셸로 디펜더 검사 예외를 추가하고 러스트 로더가 분석 환경 여부를 확인한 뒤 인포스틸러와 숨은 원격 데스크톱 도구를 불러온다.",
+  "pocDetail": "분석 시점에 공격자의 관리 화면이 인증 없이 열려 있었고 감염 기기 178대가 연결돼 있었으며 마지막 접속은 화면 확인 몇 초 전이었다. 악성코드 빌드에는 2026년 9월 날짜가 찍혀 활동이 이어지는 것으로 보인다. 피해 조직명·국가는 공개되지 않았고 러시아어 사용 정황으로 러시아어권 공격자로 추정했다.",
+  "action": "인터넷에 노출된 포티게이트·소닉월 VPN의 관리자·VPN 계정을 전수 교체하고 기본계정(guest/admin/test) 제거, MFA 적용, 관리 인터페이스 외부 노출 차단. AD 조회·파일공유 열람·포트스캔 흔적과 함께 보고서의 파일 해시·네트워크 지표, 디펜더 예외 등록·숨은 RDP 설정을 점검. VPN 계정이 이미 유출됐다면 장비 펌웨어 업데이트만으로는 무효화되지 않으므로 계정 교체가 우선.",
+  "links": [
+   {
+    "label": "보안뉴스(Cyderes 보고서 요약)",
+    "url": "https://www.boannews.com/news/articleView.html?idxno=147377"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-ruby-regexp-string-rce",
+  "category": "vuln",
+  "severity": "high",
+  "severityLabel": "7건 중 5건 RCE PoC 확인 · CVSS 미부여",
+  "pocStatus": "poc",
+  "pocLabel": "PoC로 RCE 확인(유지보수팀) · 실제 악용 미확인",
+  "title": "Ruby 정규식·문자열 처리 결함 7건…5건은 RCE 재현, 4.0.10·3.4.13·3.3.14로 긴급 수정",
+  "summary": "Ruby 유지보수팀이 11/19(KST) 정규식 엔진과 문자열 대소문자 변환 코드의 메모리 안전성 결함 7건을 공지하고 4.0.10·3.4.13·3.3.14를 배포했다. CVE 번호는 아직 부여되지 않아 GHSA 식별자로 공지됐다. 정규식 컴파일 단계의 double free(GHSA-7x2q-68qv-6p8x)와 힙 버퍼 오버플로(GHSA-3p8q-wmhx-vm2w), 문자열 대소문자 변환의 1바이트 힙 오버플로(GHSA-34m4-m9fh-gqp5)와 정수 오버플로(GHSA-87fm-7w84-j2px), Regexp#to_s 힙 오버플로(GHSA-7whj-cfh7-xgm4)까지 5건은 공격자가 제어하는 패턴·문자열을 넣으면 원격 코드 실행이 가능하다는 PoC가 확인됐다. 대소문자 무시 정규식 매칭의 범위 밖 읽기 2건은 메모리 노출이나 프로세스 종료로 이어진다. 영향 범위는 3.3.13 이하, 3.4.0~3.4.12, 4.0.0~4.0.9다.",
+  "pocDetail": "유지보수팀은 '일부가 RCE에 쓰일 수 있음을 증명하는 PoC를 인지하고 있다'고만 밝혔고 공격 조건·재현 코드는 공개하지 않았다. 실제 악용 사례 보고는 아직 없다. 3.2 이하는 수명 종료로 수정판이 없고, 3.3은 이번 릴리스부터 레거시 유지보수 단계로 이름이 바뀌었지만 지원 종료 시점은 2027년 3월 말로 같다.",
+  "action": "Ruby 4.0.10·3.4.13·3.3.14 이상으로 업그레이드하고, 업그레이드 전에는 외부 입력을 정규식 패턴으로 직접 컴파일하거나 정규식 필터를 붙인 입력을 대소문자 변환하는 경로(사용자 검색어, 로그 파서, 템플릿 엔진)를 우선 점검. GitLab은 10월 정규식 RCE 4건(CVE-2026-89078 등)도 같은 엔진에서 나왔으므로 Ruby 기반 서버는 패치 이력까지 함께 확인.",
+  "links": [
+   {
+    "label": "Ruby 보안 공지(GHSA 7건·영향 버전)",
+    "url": "https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/"
+   },
+   {
+    "label": "The Hacker News(요약)",
+    "url": "https://thehackernews.com/2026/11/ruby-releases-fixes-for-7-regex-and.html"
+   },
+   {
+    "label": "Ruby 4.0.10 릴리스",
+    "url": "https://www.ruby-lang.org/en/news/2026/11/18/ruby-4-0-10-released/"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-php-critical-release-tonight",
+  "category": "vuln",
+  "severity": "high",
+  "severityLabel": "최고 심각도 CRITICAL · 오늘 23:00 KST 배포",
+  "pocStatus": "none",
+  "pocLabel": "배포 전 · 세부 미공개",
+  "title": "PHP, 오늘 밤 23:00~23:30(KST) 긴급 보안 릴리스…모든 지원 버전 영향, 최고 심각도 CRITICAL",
+  "summary": "PHP 보안팀이 11/18 공지에서 11/19 14:00~14:30 UTC(한국시간 23:00~23:30)에 정기 4주 주기에 따른 보안 릴리스를 배포한다고 예고했다. 지원 중인 모든 PHP 버전에 영향을 주는 취약점을 고치며 최고 심각도는 CRITICAL이라고 밝혔지만, CRITICAL 등급 결함은 비기본 설정이나 드문 구성이 필요하다고 덧붙였다. 기술 세부와 수정 버전은 릴리스와 함께 공개된다. 지난 10/23 정보성 공지에서 예고된 CVE-2026-115560의 정식 권고도 이번 릴리스에 포함될 예정인데, 애플리케이션이 session.serialize_handler를 php_binary나 php_serialize로 설정한 뒤 런타임에 ini_set()으로 php로 바꾸고 session_start()를 호출하는 구성에서 세션 업로드 진행 기능이 켜져 있어야 원격 코드 실행이 가능하다고 알려졌다. 같은 날 PHP 8.6.0 정식판(GA)도 배포될 예정이다.",
+  "pocDetail": "PHP 측은 구체 결함 목록·PoC를 배포 전까지 공개하지 않았고, 이번 건의 실제 악용 보고도 없다. 참고로 10월의 PHP2Shell(CVE-2026-109618·109619)은 팔로알토 관리 인터페이스와 체크포인트 게이트웨이를 노린 제한적 실제 악용이 확인된 바 있다.",
+  "action": "배포 즉시 지원 버전 최신으로 업그레이드하고, 그 전까지 php.ini·FPM 풀 설정에서 session.upload_progress.enabled=0을 적용한 뒤 워커를 재시작(ini_set·.user.ini 의존 금지). 웹에 노출된 PHP-FPM·mod_php·php-cgi 구성을 목록화해 두고, 배포 후 수정 버전과 GHSA 권고를 확인해 실제 적용 여부를 점검.",
+  "links": [
+   {
+    "label": "php.net 공지(2026-11-18 Upcoming Critical PHP Security Release)",
+    "url": "https://www.php.net/archive/2026.php#2026-11-18-1"
+   },
+   {
+    "label": "The Hacker News",
+    "url": "https://thehackernews.com/2026/11/php-warns-of-critical-security-flaws.html"
+   },
+   {
+    "label": "php.net 10/23 정보성 권고(CVE-2026-115560 배경)",
+    "url": "https://www.php.net/archive/2026.php#2026-10-23-1"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-db-engine-rce-pocs",
+  "category": "vuln",
+  "severity": "high",
+  "severityLabel": "DB 계정 권한만으로 서버 코드 실행 · PoC 공개",
+  "pocStatus": "poc",
+  "pocLabel": "PoC 공개(연구자) · 실제 악용 미확인",
+  "title": "DB 권한만 있으면 서버 장악…PostgreSQL·MySQL·오라클·ClickHouse 원격 코드 실행 PoC 공개",
+  "summary": "보안 연구자 Zheng Yu(Depthfirst)가 11/18 공개한 PoC에서 애플리케이션 테이블을 하나도 읽을 수 없는 낮은 권한의 DB 계정으로도 데이터베이스 엔진 자체의 메모리 결함에 도달해 서버에서 OS 명령을 실행할 수 있음을 보였다. 핵심은 SQL 권한이 테이블·스키마 접근만 통제할 뿐, 쿼리를 읽고 계획하고 실행하는 C·C++ 엔진 코드는 통제하지 못한다는 점이다. PostgreSQL은 임시 스키마에 객체를 만들 수 있는 기본 TEMPORARY 권한만으로 CVE-2026-116331(18.7·17.12·16.16·15.20·14.25에서 11/12 수정)을 타입 혼동으로 연결해 DB 운영 계정 권한을 얻었다. MySQL은 임시 테이블만 만들 수 있는 계정으로 쿼리 옵티마이저 결함 CVE-2026-101786(26.7.0~26.7.1, 10/20 수정)에서 코드 실행에 성공했는데, 오라클 10월 권고는 '높은 권한 필요'로 평가해 실제 조건보다 위험을 낮게 본 셈이다. 오라클 DB는 계정 없이도 가능한 경로가 제시됐다. Oracle Text 결함 CVE-2026-114819(CVSS 9.9, 11월 업데이트에서 11/17 수정)와 Oracle REST Data Services GraphQL 결함 CVE-2026-91609(10/20 수정)를 노출된 웹 엔드포인트에서 엮어 로그인 전에 엔진 코드에 도달한다. ClickHouse는 format_binary_max_string_size를 0으로 두는 것만으로 정수 오버플로가 발생해 26.7.5.10에서 셸을 얻었고, CVE도 확인된 수정 버전도 없다.",
+  "pocDetail": "공개된 것은 연구자의 재현 PoC이며 전체 공격 체인을 독립 재현한 사례는 없고 실제 공격에 쓰인 정황도 보고되지 않았다. ClickHouse 건은 벤더 확인과 수정판 배포 여부를 따로 확인해야 한다.",
+  "action": "PostgreSQL 18.7·17.12·16.16·15.20·14.25, MySQL 26.7.2 이상, 오라클 11월 CPU(Oracle Text)·ORDS 10월 패치 적용 여부를 확인. DB 운영 계정 권한을 최소화하고 임시 객체 생성 권한을 업무상 필요한 계정으로 제한, ORDS·Oracle Text 등 웹 노출 컴포넌트는 외부 노출을 줄이고 WAF 규칙 병행. ClickHouse는 벤더에 수정판 문의 후 그 전까지 신뢰 경계 안에서만 운영.",
+  "links": [
+   {
+    "label": "The Hacker News(연구 내용·영향 버전표)",
+    "url": "https://thehackernews.com/2026/11/researcher-demonstrates-database-rce.html"
+   }
+  ],
+  "date": "2026-11-19"
+ },
+ {
+  "id": "2026-11-19-savingsbank-training-leak-10244",
+  "category": "incident",
+  "severity": "high",
+  "severityLabel": "유출 규모 1만244명 · 주민번호 전체 1,118명",
+  "pocStatus": "none",
+  "pocLabel": "침해 확인 · 경로 조사 중",
+  "title": "저축은행 교육관리 사이트 유출 1만244명으로 확정…주민등록번호 전체 노출 1,118명",
+  "summary": "16시 회차에서 '직원 소속·직위·성명 유출'로 전한 KG에듀원 운영 저축은행 교육관리 사이트 침해의 규모가 1만244명으로 확정됐다. KG에듀원은 11/15 새벽 1시49분부터 4시57분까지 외부 비인가 접근이 있었고, KISA에 1만284명으로 신고한 뒤 실존하지 않는 데이터 약 40명분을 확인해 최종 1만244명으로 정정했다. 유출 항목은 저축은행 소속과 성명, 개인 연락처, 주민등록번호이며 주민등록번호 전체가 노출된 인원이 1,118명, 생년월일만 노출된 인원 22명, 뒷자리만 노출된 인원 5명으로 주민번호 관련 피해자는 모두 1,145명이다. 문제의 시스템은 2013년까지의 집합연수 이력을 보관하던 사이트로, 신규 이력은 다른 시스템에서 관리했지만 기존 이력 조회를 위해 폐쇄하지 않고 운영해왔다. KG에듀원은 15일 오후 서비스를 중단하고 KISA에 신고했으며 16일 개인정보보호위원회에도 신고했다.",
+  "pocDetail": "침해 경로와 공격 주체는 아직 공개되지 않았다. 저축은행중앙회는 유출된 소속·직위·성명을 실제로 언급하는 사칭 전화·문자 가능성을 경고하며, 대출 상담·피해보상·계좌 변경 명목의 요구와 출처 불분명 URL 클릭에 응하지 말고 공식 대표번호로 재확인하라고 안내했다.",
+  "action": "저축은행 임직원은 비밀번호 재사용 사이트 전수 변경과 2차 인증 설정, 사칭 연락은 공식 대표번호로 확인. 기관은 용도가 끝난 이력 시스템을 폐쇄·분리하고 접근 로그 보존, 개인정보 취급 최소화. 금융권 공통으로 '폐쇄하지 않은 구 시스템'을 자산 목록에서 찾아내는 점검이 필요.",
+  "links": [
+   {
+    "label": "뉴시안(유출 인원·주민번호 노출 상세)",
+    "url": "https://www.newsian.co.kr/news/articleView.html?idxno=101584"
+   },
+   {
+    "label": "뉴스핌(중앙회 주의 안내)",
+    "url": "https://www.newspim.com/news/view/20261119001300"
+   }
+  ],
+  "date": "2026-11-19"
  }
 ]
