@@ -127,6 +127,33 @@
     "date": "2026-11-20"
   },
   {
+    "id": "2026-11-20-etherpad-cve-2026-114516",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 9.8 · 무인증 임의 파일 읽기 → 관리자 세션 → RCE",
+    "pocStatus": "poc",
+    "pocLabel": "공개 PoC 포함 권고 · 실제 악용 미보고",
+    "title": "에더패드 무인증 파일 읽기(CVE-2026-114516, 9.8)…settings.json 한 번 읽으면 관리자 권한 거쳐 서버 장악, 3.3.3에서 수정",
+    "summary": "실시간 협업 편집기 에더패드(Etherpad)의 /static/* 플러그인 자산 처리기에서 인증 없이 서버 파일을 읽을 수 있는 경로 조작 결함이 공개됐다(CVE-2026-114516·GHSA-mc8w-wjhw-45x5, CVSS 3.1 9.8). 원인은 POSIX 경로 검사(sanitizePathname)가 끝난 뒤 Minify.ts가 백슬래시를 슬래시로 무조건 변환해, 인코딩된 역슬래시(%5C) 구간이 다시 상위 디렉터리 이동(../)으로 되살아나는 것이다. 이 라우트는 인증 미들웨어보다 먼저 등록되는 expressPreSession에 붙어 있어 자격증명 없이 도달할 수 있다. 공격자는 설정 파일(settings.json·credentials.json)이나 /proc/self/environ에서 관리자 비밀번호·DB 자격증명·SSO 클라이언트 시크릿·TLS 개인키를 빼낼 수 있고, 그 비밀번호로 관리자 세션을 만들어 플러그인 설치기로 서버 프로세스 안에서 코드를 실행, 서버 전체를 장악할 수 있다. 영향 버전은 1.8.14부터 3.3.3 미만이며 3.3.3에서 수정됐다(3.3.3은 7/29 보안 릴리스). CVE는 11/19 21:48 UTC(한국시간 11/20 06:48) 공개됐고 권고에 재현 절차(curl 예시)가 그대로 담겨 있다. 리버스 프록시를 두어도 %5C는 그대로 전달돼 막지 못한다.",
+    "pocDetail": "권고에 무인증 파일 읽기부터 관리자 세션 발급, 악성 플러그인 설치를 통한 코드 실행까지 단계별 재현 명령이 공개돼 있다. 실제 악용 보고나 CISA KEV 등재는 아직 없다. 인터넷에 직접 노출된 에더패드 인스턴스가 가장 위험하고, requireAuthentication 설정과 무관하게 성립한다.",
+    "action": "에더패드를 3.3.3 이상으로 올린다. 즉시 어려우면 /static/* 플러그인 경로에 대한 외부 접근을 차단하고, 노출된 인스턴스는 settings.json·credentials.json·환경변수의 관리자 비밀번호·DB 비밀번호·SSO 시크릿·TLS 키를 교체한 뒤 관리자 로그인과 플러그인 설치 기록을 점검한다.",
+    "links": [
+      {
+        "label": "Etherpad 보안 권고 GHSA-mc8w-wjhw-45x5(재현 절차·영향)",
+        "url": "https://github.com/ether/etherpad/security/advisories/GHSA-mc8w-wjhw-45x5"
+      },
+      {
+        "label": "Etherpad 3.3.3 릴리스(수정 내역)",
+        "url": "https://github.com/ether/etherpad/releases/tag/v3.3.3"
+      },
+      {
+        "label": "Rapid7 DB(CVSS 9.8·영향 버전)",
+        "url": "https://www.rapid7.com/db/vulnerabilities/cve-2026-114516/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
     "id": "2026-11-20-teamcity-2026-2-2-2026-1-6",
     "category": "vuln",
     "severity": "high",
