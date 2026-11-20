@@ -1,5 +1,182 @@
 [
   {
+    "id": "2026-11-20-cisco-expressway-cve-2026-76466-exploited",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 9.8 · 무인증 root 명령 실행 · PoC 공개 후 실제 침해 확인",
+    "pocStatus": "exploited",
+    "pocLabel": "실제 침해 확인(F6) · GitHub PoC 공개(11/5)",
+    "title": "시스코 Expressway 클러스터 root 탈취(CVE-2026-76466) 실제 악용…PoC 공개 13일 만에 러시아 기업 4개 노드 장악, 시스코 공지는 '악용 인지 못함' 그대로",
+    "summary": "시스코 Expressway Series(Expressway-C·Expressway-E, 가상·어플라이언스)의 데이터베이스 서비스 결함 CVE-2026-76466(CVSS 3.1 9.8, CWE-798)이 실제 공격에 쓰였다. 결함은 클러스터 구성 시 사용하는 영구 쿠키와 TLS Verify Mode 활성화 시 클라이언트 인증서 미검증에서 비롯되며, 네트워크 접근이 가능한 무인증 공격자가 데이터베이스 서비스에 접속해 RPC 명령을 호출하면 기저 OS에서 root 권한으로 임의 명령을 실행할 수 있다. 시스코는 10/21 권고(cisco-sa-vcs-static-cred-hr7EWZ8t)에서 X15.5.3 이하가 영향, X15.5.20에서 수정, X14 이하는 수정판으로 이전해야 하며 워크어라운드가 없다고 밝혔다. 러시아 보안업체 F6는 11/18 'CVE-2026-76466 첫 악용 사례를 조사했다'고 공개했다. 공격자는 인터넷에 노출된 X15.5.3 장비 2대를 먼저 침해한 뒤 그중 하나를 발판으로 내부망의 같은 클러스터 노드 2대에 추가 침투해 총 4대에서 root를 얻었고, 네트워크 스캔·SMB 공유 탐색·SQL Server·WinRM 통신·GitLab 저장소 검색을 하는 맞춤형 파이썬 스크립트를 준비해 자격증명과 내부 자료를 수집하려 했다. F6는 공격 중 스크립트가 즉석에서 수정됐고 소스 주석·수정 설명에 AI 어시스턴트 사용 흔적이 있었다고 밝혔다. 공개 PoC는 깃허브 dinosn/cve-2026-76466(11/5 10:57 UTC 생성, 파이썬 익스플로잇·탐지 스크립트)으로, 시스코 권고 15일 뒤이자 F6 보고 13일 전에 올라왔다. 시스코 권고는 여전히 버전 1.0으로 '공개 발표나 악용을 인지하지 못했다'는 문구가 그대로이며, CISA KEV에는 등재되지 않았다.",
+    "pocDetail": "공격 성공의 핵심 로그 지표는 Expressway의 Erlang 로그(erlang.log)에 남는 `nodeup,'[email protected]'` 항목이다. F6는 추가 지표로 IP 66.179.31[.]32·18.130.47[.]116, /mnt/harddisk/ 하위 i{0-9}{4}[a-zA-Z]? 패턴의 파이썬 파일을 제시했다. 침해 사실은 F6 단일 출처로, 시스코 확인·피해 기관명·침해 시점은 공개되지 않았고 F6도 특정 위협 조직으로 귀속하지 않았다. AI 어시스턴트 사용 주장 역시 소스 주석에 근거한 것으로 코드 원문은 공개되지 않았다.",
+    "action": "클러스터로 묶인 Expressway를 X15.5.20(또는 그 이상)으로 올린다. 즉시 어려우면 방화벽에서 TCP 4371~4372를 신뢰하는 클러스터 노드 IP 외에는 차단한다(시스코는 공식 워크어라운드가 없다고 명시). erlang.log의 nodeup 항목과 F6 지표(IP·/mnt/harddisk 파이썬 파일)를 점검하고, 침해가 의심되면 클러스터 노드 자격증명과 내부 연결 계정을 교체한다.",
+    "links": [
+      {
+        "label": "Cisco 권고(cisco-sa-vcs-static-cred-hr7EWZ8t·수정 X15.5.20)",
+        "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-vcs-static-cred-hr7EWZ8t"
+      },
+      {
+        "label": "SecurityWeek(F6 침해 분석·횡적 이동 도구)",
+        "url": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/"
+      },
+      {
+        "label": "Severity Daily(PoC 저장소 생성 시각·지표 정리)",
+        "url": "https://severitydaily.com/cisco-expressway-cve-2026-76466-f6-november-18-2026-four-cluster-nodes-root-x15-5-3-fix-x15-5-20-advisory-v1-0-october-21-not-aware-of-malicious-use-poc-november-5-no-configurations-ssvc-exploitation/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-mitel-micollab-cve-2026-133323",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 3.1 10.0 · 무인증 블라인드 명령 주입(AWV) · 5건 연쇄 가능",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미확인",
+    "title": "미텔 MiCollab 최고 심각도(CVE-2026-133323, CVSS 10.0)…화상회의(AWV) 구성요소 무인증 명령 주입, 10.3.0.18 이하 영향",
+    "summary": "미텔이 MiCollab의 오디오·웹·화상회의(AWV) 구성요소에서 5건의 취약점을 고쳐 MISA-2026-0012로 공개했다. 가장 위험한 것은 매개변수 정제 부족으로 생긴 블라인드 명령 주입(MTLVULN-1864, CVE-2026-133323, CVSS 3.1 10.0)으로, 무인증 공격자가 시스템 권한으로 임의 명령을 실행할 수 있다. 함께 고친 4건은 XML 주입(MTLVULN-1862, 9.0), 무단 접근(1863, 5.9), 임의 파일 업로드(1861, 5.3), 인증 우회(1877, 5.3)이며, 미텔은 이들 결함을 연쇄하면 영향이 크게 커진다고 밝혔다. 영향을 받는 버전은 MiCollab 10.3(10.3.0.18) 이하다. CVE는 11/19 NVD·깃허브 권고 데이터베이스에 등재됐고, 영국 NHS England 디지털은 11/19 위험도를 '높음'으로 상향하며 즉시 패치와 AWV 구성요소의 외부 접근 제한을 권고했다. 통합 커뮤니케이션 서버가 무인증 원격 명령 실행까지 이어질 수 있는 구성이라 기업 내부망·원격근무 환경에서 우선순위가 높다.",
+    "pocDetail": "공개 PoC나 실제 악용 보고는 아직 확인되지 않았고 CISA KEV에도 없다. 다만 결함 자체가 인증 없이 도달 가능한 AWV 구성요소에 있고, 미텔 스스로 연쇄 악용 가능성을 명시했다.",
+    "action": "MiCollab을 최신 버전으로 올린다(10.3.0.18 대상 패치는 KB000129195, 그 이상 버전으로 업그레이드 권고). 즉시 어려우면 AWV 구성요소에 대한 외부 접근을 차단한다. AWV를 인터넷에 직접 노출한 조직은 웹서버·애플리케이션 로그에서 비정상 명령 실행 흔적과 신규 생성 계정을 점검한다.",
+    "links": [
+      {
+        "label": "Mitel 보안 권고 MISA-2026-0012",
+        "url": "https://www.mitel.com/support/security-advisories/mitel-product-security-advisory-misa-2026-0012"
+      },
+      {
+        "label": "NHS England Digital 경보(11/19 상향·조치)",
+        "url": "https://digital.nhs.uk/cyber-alerts/2026/cc-4894"
+      },
+      {
+        "label": "CVE-2026-133323 상세(Rapid7 DB)",
+        "url": "https://www.rapid7.com/db/vulnerabilities/cve-2026-133323/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-splunk-november-2026-advisories",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "최고 CVSS 9.9 · 빈 공유키 인증 우회 2건 · 제품군 139건 일괄 수정",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미보고",
+    "title": "스플렁크 11월 정기 패치 139건…엔터프라이즈 무인증 인증 우회(CVE-2026-76536 9.4·CVE-2026-76535 9.1)와 SOAR 코드 실행(9.9) 포함",
+    "summary": "스플렁크가 11/18 Splunk Enterprise(SVD-2026-1103)·Enterprise Security와 PCI Compliance 앱(SVD-2026-1106)·SOAR(SVD-2026-1108) 권고를 한꺼번에 내고 자사 결함 139건(엔터프라이즈 38건·ES 42건·SOAR 59건)을 고쳤다. 관리자에게 가장 급한 것은 무인증 인증 우회 2건이다. CVE-2026-76536(CVSS 9.4)은 클러스터링을 끈 단독 인스턴스에서 빈 클러스터링 공유키(pass4SymmKey)를 공유 인증 후보로 받아들여, 무인증 사용자가 클러스터 구성 REST API로 구성을 읽고 바꿀 수 있게 한다. CVE-2026-76535(CVSS 9.1)는 RapidDiag 작업 수집 요청에서 빈 공유키를 허용해 무인증 사용자가 인증된 사용자 권한으로 임의 SPL 검색을 실행하게 한다. SOAR에서는 앱 편집 권한이 있는 사용자가 App Wizard로 코드를 실행하는 CVE-2026-131253(9.9)과 REST API 경유 CVE-2026-131287(9.6), Enterprise Security에서는 ess_admin 역할이 REST API 경로 조작으로 코드를 실행하는 CVE-2026-131202(9.1)가 치명적이다. 그 밖에 저권한 사용자가 권한 상승 검색을 실행하는 SPL 주입 계열(High 13건, CVE-2026-76544는 저장 자격증명 평문 열람까지 가능)과 무인증 서비스 거부(CVE-2026-131196, 7.5) 등이 포함됐다. 수정판은 Enterprise 10.6.1·10.4.5·10.2.9·10.0.12·9.4.17, ES·PCI 앱 8.7.0, SOAR 8.8.0이다.",
+    "pocDetail": "스플렁크 권고에는 악용 정황이 없고 CISA KEV에도 오르지 않았다. 빈 공유키 조건이 갖춰진 단독 인스턴스만 무인증 노출 대상이며, 그 밖의 결함은 대부분 인증된 저권한 계정이 필요하다. SPL 주입 계열은 업데이트 외에는 완화책이 없다.",
+    "action": "Enterprise·ES·SOAR를 위 수정판으로 올린다. 즉시 어려우면 server.conf의 [clustering] 스탠자를 포함해 모든 노드(클러스터링을 끈 단독 인스턴스 포함)에 12자 이상의 강력한 pass4SymmKey를 설정하고 재시작한다. ES 관리자(ess_admin) 계정과 SOAR 플레이북 편집 권한 보유자를 최소화하고, 최근 클러스터 설정 변경 이력과 RapidDiag 실행 기록을 확인한다.",
+    "links": [
+      {
+        "label": "Splunk 권고 SVD-2026-1103(Enterprise·CVE 목록)",
+        "url": "https://advisory.splunk.com/advisories/SVD-2026-1103"
+      },
+      {
+        "label": "Splunk 권고 SVD-2026-1108(SOAR)",
+        "url": "https://advisory.splunk.com/advisories/SVD-2026-1108"
+      },
+      {
+        "label": "Kyberkit(139건 구성·완화책 정리)",
+        "url": "https://kyberkit.com/en/articles/splunk-november-2026-auth-bypass-soar-rce"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-ubiquiti-unifi-access-bulletin-073",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "CVSS 9.9 3건 포함 치명 5건 · 호스트 root 코드 실행·SQLi·SSRF",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미보고",
+    "title": "유비퀴티 UniFi Access 치명 5건…호스트 root 코드 실행(9.9)·인증된 SQL 주입·SSRF로 UniFi OS 권한 상승, 4.3.24에서 수정",
+    "summary": "유비퀴티가 11/18 Security Advisory Bulletin 073을 통해 UniFi Access Application의 결함 7건(치명 5건·높음 2건)을 공개했다. 4.3.22 이하가 영향, 4.3.24 이상에서 수정된다. 가장 심각한 것은 파일 접근 전 부적절한 링크 해석(CVE-2026-132802, CVSS 3.1 9.9)으로, 네트워크 접근과 낮은 권한을 가진 공격자가 호스트 장치에서 root 권한으로 임의 코드를 실행할 수 있다. 같은 9.9 등급으로 인증된 SQL 주입 연쇄로 호스트 권한을 올리는 CVE-2026-132803, SSRF로 UniFi OS 내 권한을 상승시키는 CVE-2026-132804, 부적절한 인가로 채택된 출입장치에서 임의 명령을 실행하는 CVE-2026-132808이 있다. 높은 등급에는 인증서 검증 미흡으로 출입장치 정보를 빼내거나 무단 변경하는 CVE-2026-132807(9.0) 등이 포함됐다. 출입통제 애플리케이션이 호스트 root까지 이어지는 결함이라 건물 출입·근태 인프라를 운영하는 조직은 노출 범위를 먼저 확인해야 한다.",
+    "pocDetail": "유비퀴티 공지에는 실제 악용 정황이 없고 PoC 공개도 확인되지 않았다. 다만 대부분 결함이 관리 인터페이스에 도달 가능한 네트워크와 최소한의 계정(낮은 권한)만 있으면 성립해 내부망 침해 이후 2차 상승 경로로 쓰일 수 있다.",
+    "action": "UniFi Access Application을 4.3.24 이상으로 올리고 각 호스트에서 실제 버전을 확인한다(수정 대상은 애플리케이션이며 리더·인터콤 펌웨어와 별개). 즉시 어려우면 관리 인터페이스 접근을 신뢰 네트워크·허가된 사용자로 제한한다. 관리자 계정 목록과 최근 권한 변경·명령 실행 흔적을 점검한다.",
+    "links": [
+      {
+        "label": "Ubiquiti Security Advisory Bulletin 073(전체 7건·CVE)",
+        "url": "https://community.ui.com/releases/Security-Advisory-Bulletin-073/677d5551-5ad9-4c85-86e9-4cdd9636a1e2"
+      },
+      {
+        "label": "CyberSecurity News(치명 5건 표·조치)",
+        "url": "https://cybersecuritynews.com/ubiquiti-warns-critical-unifi-access-flaws/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-drupal-sa-core-2026-017",
+    "category": "vuln",
+    "severity": "critical",
+    "severityLabel": "Drupal Critical 18/25 · 설치 스크립트 재설치로 사이트 장악 · PoC 존재",
+    "pocStatus": "poc",
+    "pocLabel": "PoC 기록됨(E:Proof) · 실제 악용 미보고",
+    "title": "드루팔 코어 치명 RCE(SA-CORE-2026-017, CVE-2026-132165)…남아 있는 install.php로 재설치 시도해 사이트 장악, 10.6.22·11.3.22·11.4.13에서 수정",
+    "summary": "드루팔 보안팀이 11/18 SA-CORE-2026-017을 내고 코어에 기본 포함된 설치 스크립트(install.php) 결함을 고쳤다. 특정 조건에서 공격자가 인증 없이 설치 관리자를 호출해 드루팔을 다시 설치하도록 시도할 수 있고, 결과적으로 사이트 장악이나 원격 코드 실행으로 이어진다. 위험도는 드루팔 자체 척도로 Critical 18/25이며, 공격 복잡도가 높고 영향 조건이 흔치 않다고 평가했다. 영향 버전은 10.6.22 미만, 11.0.0 이상 11.3.22 미만, 11.4.0 이상 11.4.13 미만이고, 수정판은 10.6.22·11.3.22·11.4.13이다. 같은 날 배포본에는 직접 악용은 불가능하지만 다른 결함과 결합될 수 있는 가젯 체인(SA-CORE-2026-018, CVE-2026-132166, 14/25) 수정도 포함됐다. 이 결함은 앤트로픽의 오픈소스 취약점 스캐너(OSS Scanner)가 ANT-2026-GMRPK0BU로 찾아냈다. 드루팔은 사전 예고에서 '익스플로잇이 수 시간~수일 내 개발될 수 있다'고 경고했고, 권고에는 PoC 존재가 기록돼 있다.",
+    "pocDetail": "권고 기준 공격 복잡도는 높음(AC:Complex)이고 실제 공격 보고는 없다. 웹서버가 settings.php에 쓰기·권한 변경을 할 수 없으면 일부 공격 경로가 차단된다. 운영 중인 사이트에 install.php가 남아 있는지와 .htaccess 기본 규칙이 이를 막지 못한다는 점이 핵심 위험이다.",
+    "action": "드루팔 코어를 10.6.22·11.3.22·11.4.13(또는 그 이상)으로 올린다. 업데이트 후에도 설치 스크립트를 차단·삭제하는 것이 권장 사항이다(웹서버 deny 규칙, .htaccess 규칙, 파일 제거 후 Composer 스크립트로 유지). 즉시 어려우면 설치 관리자 접근을 먼저 막고, Drupal Steward를 쓰는 사이트도 추가 공격 경로에 대비해 업데이트한다.",
+    "links": [
+      {
+        "label": "Drupal 권고 SA-CORE-2026-017(영향·수정 버전)",
+        "url": "https://www.drupal.org/sa-core-2026-017"
+      },
+      {
+        "label": "The Hacker News(조건·PoC·설치 관리자 차단)",
+        "url": "https://thehackernews.com/2026/11/drupal-patches-critical-installer-flaw.html"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-teamcity-2026-2-2-2026-1-6",
+    "category": "vuln",
+    "severity": "high",
+    "severityLabel": "Kotlin DSL 샌드박스 RCE 등 다수 · 2026.2.2·2026.1.6에서 수정(2026.1.3 부족)",
+    "pocStatus": "none",
+    "pocLabel": "공개 PoC·실제 악용 미보고",
+    "title": "젯브레인스 TeamCity 보안 수정 40건 공개…Kotlin DSL 샌드박스 탈출 RCE(CVE-2026-133086·133087 등), 2026.2.2·2026.1.6으로 올려야",
+    "summary": "젯브레인스가 TeamCity 2026.2.2(빌드 239308, 11/3 배포)와 2026.1.6 릴리스 노트에서 보안 문제 40건을 고쳤다고 밝혔고, 해당 CVE들이 11/19 NVD·깃허브 권고 데이터베이스에 등재됐다. 핵심은 Kotlin DSL 샌드박스를 우회하는 원격 코드 실행 계열이다. CVE-2026-133086은 URL 스트림 핸들러로(8.8), CVE-2026-133087은 타임존 콜백으로(8.8), CVE-2026-133078은 보안 컨텍스트 스푸핑으로(7.2) 샌드박스 안의 코드가 CI 서버 권한으로 실행된다. CVE-2026-133083은 Server Health 보고서의 저장형 XSS(8.0)다. 모두 네트워크 접근과 낮은 권한의 프로젝트 사용자 권한을 전제로 하지만, 빌드 서버가 배포·서명·클라우드 키를 쥐는 경우가 많아 성공 시 파급이 크다. 수정판은 2026.2.2 이상(2026.1 계열은 2026.1.6 이상)이다.",
+    "pocDetail": "공개 PoC나 실제 악용 보고는 확인되지 않았고 CISA KEV에도 없다. 앞선 11/19 브리핑에서 다룬 TeamCity RCE 4건(CVSS 9.9, 2026.1.3 수정)과는 별개 CVE 묶음으로, 2026.1.3까지만 올린 환경은 이번 결함에 그대로 노출된다.",
+    "action": "TeamCity On-Premises를 2026.2.2 이상(2026.1 계열은 2026.1.6 이상)으로 올린다. 프로젝트의 Kotlin DSL·VCS 설정 변경 권한을 최소화하고, 최근 버전 설정 저장소의 커밋과 비정상 빌드 스텝·에이전트 명령 실행 흔적을 점검한다. CI 서버가 보유한 배포·클라우드 자격증명은 별도 보관·교체 절차를 확인한다.",
+    "links": [
+      {
+        "label": "TeamCity 2026.2.2 릴리스 노트(보안 40건)",
+        "url": "https://www.jetbrains.com/help/teamcity/teamcity-2026-2-2-release-notes.html"
+      },
+      {
+        "label": "CVE-2026-133086 권고(GitHub Advisory)",
+        "url": "https://github.com/advisories/GHSA-fcrv-vpcr-6h9q"
+      },
+      {
+        "label": "JetBrains 보안 수정 목록",
+        "url": "https://www.jetbrains.com/privacy-security/issues-fixed/"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
+    "id": "2026-11-20-civil-servant-discipline-amendment",
+    "category": "global",
+    "severity": "info",
+    "severityLabel": "정책 · 공공 개인정보 유출 시 기관장까지 문책 · 최저 징계 감봉",
+    "pocStatus": "none",
+    "pocLabel": "해당 없음(정책·제도)",
+    "title": "공공기관 개인정보 유출 땐 기관장도 징계…'공무원 징계령 시행규칙' 개정안 11/20 입법예고, 최저 수위 견책→감봉",
+    "summary": "인사혁신처가 11/20부터 '공무원 징계령 시행규칙' 개정안을 입법예고한다. 지난달 행정안전부·국가정보원·인사혁신처·개인정보보호위원회가 합동 발표한 '공공부문 사이버보안 책임성 강화 방안'의 후속 조치다. 개정안은 보안 관련 법령 위반으로 비밀이나 개인정보가 유출·침해된 경우를 감독자 문책 대상에 새로 넣어, 정보보호 관리·감독 의무를 소홀히 한 실무자와 상급 감독자는 물론 징계 규정이 적용되는 비정무직 기관장까지 책임을 물을 수 있게 했다. 정보 유출 관련 비위의 최저 징계 수위도 견책에서 감봉(1~3개월 보수의 3분의 1 삭감)으로 올라가고, 정도가 중대하면 파면까지 가능하다. 배경에는 2021년 1월부터 올해 5월까지 공공기관 사이버 공격 유출 사고 247건 가운데 징계로 이어진 사례가 9건뿐이고 기관장 징계는 한 건도 없었다는 점이 있다.",
+    "pocDetail": "입법예고 단계로 최종 시행령 확정 전이며, 적용 대상·시점은 의견 수렴과 법제처 심사 결과에 따라 달라질 수 있다.",
+    "action": "공공기관·지자체 보안 담당자는 개인정보·비밀 유출 사고 대응 절차와 보고 체계를 기관장 보고선까지 정비하고, 사고 시 문책 기준이 강화된 점을 내부 규정·교육에 반영할 준비를 한다.",
+    "links": [
+      {
+        "label": "뉴데일리(개정안 내용·배경)",
+        "url": "https://biz.newdaily.co.kr/site/data/html/2026/11/20/2026112050028.html"
+      },
+      {
+        "label": "국민일보(입법예고 일정·징계 수위)",
+        "url": "https://www.kmib.co.kr/article/20261119502296"
+      }
+    ],
+    "date": "2026-11-20"
+  },
+  {
     "id": "2026-11-20-vmware-vcenter-cve-2026-123890",
     "category": "vuln",
     "severity": "critical",
