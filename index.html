@@ -318,15 +318,22 @@
     .badge {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 4px;
-      padding: 4px 10px;
+      padding: 3px 10px;
       border-radius: 999px;
       font-size: 0.74rem;
       font-weight: 700;
-      /* 아주 좁은 화면에서는 배지도 줄바꿈되게 한다. */
+      line-height: 1.5;
+      /* 배지에는 짧은 등급명만 넣고 한 줄 알약으로 고정한다(설명형 문장은 .meta-note로 내려간다).
+         혹시 긴 이름이 들어와도 알약 밖으로 글자가 새지 않도록 잘라낸다. */
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
       max-width: 100%;
-      white-space: normal;
-      text-align: start;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
     }
     .badge.critical { background: var(--danger-soft); color: var(--danger); }
     .badge.high, .badge.incident { background: var(--warn-soft); color: var(--warn); }
@@ -341,6 +348,27 @@
       color: var(--muted);
       font-weight: 500;
       flex-shrink: 0;
+    }
+
+    /* 배지에서 내려온 등급 근거(설명형 문장)를 카드 안의 읽기 좋은 보조 줄로 보여 준다. */
+    .meta-note {
+      margin: 10px 0 0;
+      padding: 8px 11px;
+      border-left: 3px solid var(--border-strong);
+      border-radius: 0 10px 10px 0;
+      background: var(--panel-soft);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #5f6470;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      max-width: 100%;
+    }
+    .meta-note strong {
+      display: inline-block;
+      margin-right: 5px;
+      color: var(--text);
+      font-weight: 700;
     }
 
     .card h3 {
@@ -391,6 +419,16 @@
       display: inline-block;
       margin-right: 4px;
       color: var(--text);
+    }
+    /* PoC 항목의 한 줄 요지(예전 배지에 있던 압축 설명)를 본문 위에 작게 둔다. */
+    .meta-box .poc-flag {
+      margin-bottom: 5px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      font-weight: 600;
+      color: #8a6470;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
 
     .card-footer {
@@ -617,6 +655,57 @@
       return status === "wild" || status === "yes" || status === "exploited" || status === "poc";
     }
 
+    // ── 배지 라벨 정리 ───────────────────────────────────────
+    // 데이터의 severityLabel·pocLabel에는 출처·규모·시점 같은 설명형 문장이 들어오는 경우가 많다.
+    // 그런 문장을 알약 배지에 그대로 넣으면 여러 줄로 넘치므로, 배지에는 짧은 등급명만 넣고
+    // 원문은 카드 안의 보조 줄(.meta-note, .poc-flag)로 내려서 읽기 좋게 보여 준다.
+    const SEVERITY_SHORT = {
+      critical: "긴급",
+      high: "높음",
+      medium: "보통",
+      info: "참고",
+      incident: "사고",
+      advisory: "주의"
+    };
+
+    function isShortLabel(text) {
+      if (!text) return false;
+      // 12자 이하면서 구분자·마침표·괄호·줄바꿈이 없는 것만 "짧은 이름"으로 본다.
+      if (text.length > 12) return false;
+      return !/[·.,，、()\[\]\n]/.test(text);
+    }
+
+    function rawLabel(value) {
+      return String(value == null ? "" : value).replace(/\s+/g, " ").trim();
+    }
+
+    function shortSeverityLabel(item) {
+      const raw = rawLabel(item.severityLabel);
+      if (isShortLabel(raw)) return raw;
+      return SEVERITY_SHORT[getSeverityClass(item.severity)] || "긴급";
+    }
+
+    // 배지에 담기지 않은 등급 설명(원문)을 돌려준다. 짧은 등급명만 있으면 빈 문자열.
+    function severityNote(item) {
+      const raw = rawLabel(item.severityLabel);
+      return isShortLabel(raw) ? "" : raw;
+    }
+
+    function shortPocLabel(item) {
+      const raw = rawLabel(item.pocLabel);
+      if (isShortLabel(raw)) return raw;
+      const cls = getPocBadgeClass(item.pocStatus);
+      if (cls === "poc-wild") return "악용 확인";
+      if (cls === "poc-yes") return "공개 PoC";
+      return "악용 정황 없음";
+    }
+
+    // PoC 배지에 담기지 않은 원문 설명. 있으면 카드의 PoC 상자 위에 작게 보여 준다.
+    function pocNote(item) {
+      const raw = rawLabel(item.pocLabel);
+      return isShortLabel(raw) ? "" : raw;
+    }
+
     function renderStats(list) {
       const total = list.length;
       const crit = list.filter(i => i.severity === "critical").length;
@@ -638,20 +727,27 @@
         grid.innerHTML = `<div class="card notice-card">조건에 맞는 보안 동향이 없어요.</div>`;
         return;
       }
-      grid.innerHTML = list.map(item => `
+      grid.innerHTML = list.map(item => {
+        const gradeNote = severityNote(item);
+        const pocFlag = pocNote(item);
+        return `
         <article class="card">
           <div>
             <div class="card-top">
               <div class="badge-group">
-                <span class="badge ${getSeverityClass(item.severity)}">${item.severityLabel}</span>
-                <span class="badge ${getPocBadgeClass(item.pocStatus)}">${item.pocLabel}</span>
+                <span class="badge ${getSeverityClass(item.severity)}">${shortSeverityLabel(item)}</span>
+                <span class="badge ${getPocBadgeClass(item.pocStatus)}">${shortPocLabel(item)}</span>
               </div>
               <span class="date-tag">${item.date}</span>
             </div>
             <h3>${item.title}</h3>
             <p>${item.summary}</p>
+            ${gradeNote ? `<p class="meta-note"><strong>등급 근거</strong>${gradeNote}</p>` : ""}
             <div class="info-stack">
-              <div class="meta-box poc"><strong>🔍 PoC · 정황:</strong> ${item.pocDetail}</div>
+              <div class="meta-box poc">
+                ${pocFlag ? `<div class="poc-flag">${pocFlag}</div>` : ""}
+                <div><strong>🔍 PoC · 정황:</strong> ${item.pocDetail}</div>
+              </div>
               <div class="meta-box action"><strong>🛡️ 실무 대응:</strong> ${item.action}</div>
             </div>
           </div>
@@ -662,7 +758,8 @@
             <button onclick="copyOne('${item.id}')">복사</button>
           </div>
         </article>
-      `).join("");
+      `;
+      }).join("");
     }
 
     function showToast(msg) {
@@ -682,7 +779,8 @@
       const item = items.find(i => i.id === id);
       if (!item) return;
       const urls = (item.links || []).map(l => `- ${l.url}`).join("\n");
-      copyText(`[${item.severityLabel}] ${item.title}\n- 요약: ${item.summary}\n- PoC/정황: ${item.pocDetail}\n- 대응: ${item.action}\n${urls}`, "항목이 복사되었어요!");
+      const gradeNote = severityNote(item);
+      copyText(`[${shortSeverityLabel(item)}] ${item.title}\n${gradeNote ? `- 등급 근거: ${gradeNote}\n` : ""}- 요약: ${item.summary}\n- PoC/정황: ${item.pocDetail}\n- 대응: ${item.action}\n${urls}`, "항목이 복사되었어요!");
     }
 
     function copySummary() {
@@ -719,7 +817,9 @@
         return;
       }
       const md = list.map(i =>
-        `## [${i.date}] ${i.title}\n- 분류: ${i.severityLabel} (${i.pocLabel})\n- 요약: ${i.summary}\n- PoC/정황: ${i.pocDetail}\n- 대응: ${i.action}\n` +
+        `## [${i.date}] ${i.title}\n- 분류: ${shortSeverityLabel(i)} (${i.pocLabel})` +
+        (severityNote(i) ? `\n- 등급 근거: ${severityNote(i)}` : "") +
+        `\n- 요약: ${i.summary}\n- PoC/정황: ${i.pocDetail}\n- 대응: ${i.action}\n` +
         (i.links || []).map(l => `- [${l.label}](${l.url})`).join("\n")
       ).join("\n\n");
       downloadFile("daily-security-briefing.md", md, "text/markdown");
