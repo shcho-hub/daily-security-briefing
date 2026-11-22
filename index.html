@@ -22,6 +22,8 @@
       --danger-soft: #ffe8ec;
       --warn: #b45309;
       --warn-soft: #fef3c7;
+      --medium: #6f52a8;
+      --medium-soft: #f1edfb;
       --blue: #2563eb;
       --blue-soft: #eaf2ff;
       --ok: #059669;
@@ -328,6 +330,7 @@
     }
     .badge.critical { background: var(--danger-soft); color: var(--danger); }
     .badge.high, .badge.incident { background: var(--warn-soft); color: var(--warn); }
+    .badge.medium { background: var(--medium-soft); color: var(--medium); }
     .badge.info, .badge.advisory { background: var(--blue-soft); color: var(--blue); }
     .badge.poc-yes { background: var(--pink-soft); color: var(--pink-dark); }
     .badge.poc-wild { background: var(--danger-soft); color: var(--danger); }
@@ -592,12 +595,14 @@
       });
     }
 
-    // severity: critical|high|info (현재) · critical|incident|advisory (이전 데이터)
+    // severity: critical|high|medium|info (현재) · critical|incident|advisory (이전 데이터)
     function getSeverityClass(severity) {
-      if (severity === "high") return "high";
-      if (severity === "incident") return "incident";
-      if (severity === "info") return "info";
-      if (severity === "advisory") return "advisory";
+      const s = String(severity == null ? "" : severity).trim().toLowerCase();
+      if (s === "high") return "high";
+      if (s === "medium" || s === "moderate") return "medium";
+      if (s === "incident") return "incident";
+      if (s === "info") return "info";
+      if (s === "advisory") return "advisory";
       return "critical";
     }
 
