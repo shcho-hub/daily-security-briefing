@@ -339,6 +339,7 @@
     .badge.high, .badge.incident { background: var(--warn-soft); color: var(--warn); }
     .badge.medium { background: var(--medium-soft); color: var(--medium); }
     .badge.info, .badge.advisory { background: var(--blue-soft); color: var(--blue); }
+    .badge.low { background: var(--blue-soft); color: var(--blue); }
     .badge.poc-yes { background: var(--pink-soft); color: var(--pink-dark); }
     .badge.poc-wild { background: var(--danger-soft); color: var(--danger); }
     .badge.poc-none { background: #f3f4f6; color: #6b7280; }
@@ -639,6 +640,7 @@
       if (s === "high") return "high";
       if (s === "medium" || s === "moderate") return "medium";
       if (s === "incident") return "incident";
+      if (s === "low") return "low";
       if (s === "info") return "info";
       if (s === "advisory") return "advisory";
       return "critical";
