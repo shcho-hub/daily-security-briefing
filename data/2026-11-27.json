@@ -699,5 +699,140 @@
    }
   ],
   "date": "2026-11-27"
+ },
+ {
+  "id": "2026-11-27-sap-github-token-source-code-incident",
+  "category": "global",
+  "severity": "high",
+  "severityLabel": "SAP 확인·슈피겔 단독(현지 11/26)·연합뉴스(11/27 18:00) · 직원 GitHub 인증 토큰 탈취로 소스코드 복사·조작 보도 · '프로젝트 그래니트'로 서명키 교체·GitHub 접근 제한·개발 자동화 중단 · 고객 업무데이터 접근 증거는 없다고 밝혀 · AI 지원 공격 가능성은 미확인",
+  "pocStatus": "exploited",
+  "pocLabel": "SAP가 '의심스러운 활동' 탐지와 대응 조치를 공식 확인 · 토큰 악용·소스코드 조작은 슈피겔 소식통 보도로 SAP 미확인 · 변조 코드가 고객 배포 제품에 포함됐다는 보도 없음 · 침입 경로·배후·유출 범위 미공개",
+  "title": "SAP, 직원 GitHub 토큰 탈취로 소스코드 조작…서명키 교체·개발 자동화 중단",
+  "summary": "유럽 최대 소프트웨어 기업 SAP가 개발 인프라에서 보안 사고를 겪고 있다고 확인했다. 독일 슈피겔이 11월 26일(현지시간) 사내 공지와 내부 소식통을 인용해 처음 보도했고, SAP는 SecurityWeek에 \"의심스러운 활동을 탐지해 고객과 서비스를 보호하기 위한 조치를 시행했다\"며 \"현재까지 조사에서 고객 업무데이터에 대한 무단 접근 증거는 발견하지 못했다\"고 밝혔다.\n\n보도에 따르면 공격자는 SAP 직원의 GitHub 인증 토큰을 확보해 SAP가 GitHub에 올린 소스코드를 복사·조작했다. 독일 dpa가 확인한 사내 공지에서도 의심 활동이 GitHub 안에서 식별됐다. SAP는 '프로젝트 그래니트(Project Granite)'라는 내부 이름으로 서명키(signing key)를 교체하고 GitHub 접근을 제한했으며 소프트웨어 개발 자동화 작업을 중단한 것으로 전해졌다. 핸델스블라트는 이 조치로 여러 팀이 영향을 받았다고 전했다.\n\nSAP는 GitHub에 개발자 도구·샘플 애플리케이션·오픈소스 프로젝트를 공개해 왔다. 독점 코드까지 접근했는지는 확인되지 않았고, 조작된 코드가 고객에게 배포되는 제품에 포함됐다는 보도도 아직 없다. 슈피겔 소식통은 공격이 AI의 도움을 받았을 가능성을 제기했지만 확인되지 않았으며, 침입 경로와 배후도 공개되지 않았다. 10월 말 랜섬웨어 조직 더 젠틀맨이 SAP 중남미 사업을 유출 사이트에 올린 사안과 이번 사건의 연관성도 확인되지 않는다.",
+  "pocDetail": "이번 사건의 핵심은 소스코드 유출 자체보다 '배포 신뢰 사슬'이다. 공격자가 코드를 읽는 것만으로 고객 시스템이 뚫리지는 않지만, 서명키와 빌드 파이프라인에 손을 대면 정상 업데이트처럼 보이는 악성 릴리스를 만들 수 있다. SAP가 서명키를 교체하고 개발 자동화를 멈춘 것은 그 경로를 끊으려는 조치로 읽힌다.\n\nGitHub 개인 액세스 토큰(PAT)은 사람의 비밀번호와 달리 만료 기한과 권한 범위가 제각각이고, 개발자 단말·CI·서드파티 앱에 흩어져 있어 회수 목록을 만드는 것부터 어렵다. 최근 확인된 GitHub 표적 공격도 개인 토큰이나 계정 탈취 뒤 저장소 권한으로 코드를 변조하는 방식이 반복됐다(PolinRider, 1Password 사례). SAP 사례는 토큰 하나가 대규모 개발 조직의 코드 무결성을 흔들 수 있음을 보여준다.\n\n다만 지금 확인된 것은 '의심 활동'과 '사내 조치'이고, 접근한 코드의 범위·변조 여부·고객 영향은 공개되지 않았다. '소스코드 조작'은 보도에 기반한 주장이며 SAP가 확인해 주지 않았다는 점을 구분해 읽어야 한다.",
+  "action": "① SAP 제품을 쓰는 조직은 SAP 지원 포털의 보안 노트와 서명키 교체 관련 공지를 확인하고, 배포 파일의 서명·해시 검증이 실제로 동작하는지 점검한다. ② SAP 관련 오픈소스·샘플 코드를 사내에서 참조·빌드한다면 최근 커밋과 의존성 잠금 상태를 대조하고, 사내 미러에 반영된 버전의 출처를 확인한다. ③ GitHub 조직의 PAT·OAuth 앱·GitHub App 권한을 전수 점검하고, 만료 없는 토큰과 광범위한 repo 권한을 회수·회전한다. ④ 릴리스 파이프라인에 코드 서명·해시 검증과 빌드 재현성 확인을 넣고, 서명키 교체 시 고객 배포분까지 영향 범위를 산정한다. ⑤ GitHub 감사로그에서 비정상 push·force push·릴리스 생성·토큰 사용 이력을 조회하고, 개발자 단말의 자격증명 탈취를 가정해 회전 계획을 세운다.",
+  "links": [
+   {
+    "label": "연합뉴스: AI에 뚫렸나…유럽 1위 SW업체 SAP 보안사고(11/27 18:00)",
+    "url": "https://www.yna.co.kr/view/AKR20261127153300082"
+   },
+   {
+    "label": "SecurityWeek: SAP confirms cyberattack, source code reportedly compromised(11/27 02:36 ET)",
+    "url": "https://www.securityweek.com/sap-confirms-cyberattack-source-code-reportedly-compromised/"
+   },
+   {
+    "label": "Handelsblatt: SAP IT-Sicherheitsvorfall, 개발 조직 대상(11/27 00:21 현지)",
+    "url": "https://www.handelsblatt.com/technik/ki/sap-it-sicherheitsvorfall-haben-verdaechtige-aktivitaeten-identifiziert/100273138.html"
+   },
+   {
+    "label": "Der Spiegel 단독 보도(현지 11/26)",
+    "url": "https://www.spiegel.de/netzwelt/sap-wird-opfer-von-hackerangriff-a-6648b5ce-5d74-48dc-86ea-9469705bb91d"
+   }
+  ],
+  "date": "2026-11-27"
+ },
+ {
+  "id": "2026-11-27-realvnc-cve-2026-137738-udp-rce",
+  "category": "vuln",
+  "severity": "high",
+  "severityLabel": "RVNC-2026-001(11/20 공지)·CVE-2026-137738(11/27 부여)·CVSS 9.8(CWE-787) · UDP 연결 사전 인증 원격 코드 실행, 일부 플랫폼 root · 서버뿐 아니라 Viewer·Connect 앱·iOS/Android 앱까지 영향 · TCP 전용 직접 연결은 영향 없음 · 악용 정황·공개 PoC 없음",
+  "pocStatus": "none",
+  "pocLabel": "제조사 '악용 인지 못함'(공지 시점) · 공개 PoC 없음 · 11/20 공지 때 CVE 'Pending'이었고 11/27 MITRE가 CVE 부여 · 공격 조건은 UDP 도달 가능성이라 노출면 점검이 관건",
+  "title": "RealVNC 9.8 결함 CVE-2026-137738…UDP로 무인증 원격 코드 실행, 7.19.1 패치",
+  "summary": "원격 접속 소프트웨어 RealVNC의 UDP 연결 처리에서 메모리 안전성 결함이 발견됐다. 제조사 권고 RVNC-2026-001은 위험도를 Critical, CVSS 9.8로 매겼고 11월 20일 공개됐다. 공지 시점에는 CVE가 'Pending'이었으며 MITRE가 11월 27일 CVE-2026-137738을 부여했다.\n\n결함은 인증 전 단계에서 악용될 수 있어 원격 코드 실행이나 서비스 거부로 이어질 수 있고, 일부 플랫폼에서는 root 권한으로 코드가 실행될 수 있다. 영향 범위가 넓다. 데스크톱은 RealVNC Server 6.4.0~7.19.0, RealVNC Viewer 8.4.0~8.6.1, Classic Viewer 6.4.0~7.18.2, Connect App 8.6.1 이하, On-Demand Assist 3.4.1 이하이며, 모바일은 iOS Viewer 3.7.0~4.9.5, Android Viewer 3.5.0~4.9.5, iOS Server 2.8.1 이하, Android Server 2.8.3 이하다.\n\n해결 버전은 Server 7.19.1, Viewer·Connect App 8.6.2, Classic Viewer 7.18.3, On-Demand Assist 3.5.0, 모바일 Viewer 4.9.6·Server iOS 2.8.2·Android 2.8.4다. 클라우드 연결과 수동으로 설정한 직접 연결이 모두 해당하며, TCP만 쓰는 직접 연결은 노출되지 않는다. 제조사는 공지 시점에 실제 악용을 인지하지 못했다고 밝혔고 공개 PoC도 확인되지 않는다.",
+  "pocDetail": "VNC는 서버·네트워크 장비 원격 지원 통로로 널리 쓰인다. 원격 접속 소프트웨어 한 대가 뚫리면 그 뒤의 내부 시스템으로 넘어가는 발판이 되고, 사전 인증 단계에서 코드 실행이 가능하다는 점이 위험을 키운다. RealVNC가 서버와 함께 Viewer·모바일 앱까지 영향 제품으로 올린 것도 특징이다. 연결 양 끝단 어느 쪽이든 UDP로 도달 가능하면 공격면이 되므로, Viewer를 설치한 관리자 PC·모바일도 점검 대상이다.\n\n공격 조건은 해당 단말의 UDP 포트에 닿을 수 있는지다. 인터넷에 직접 노출된 VNC 서버가 아니더라도 클라우드 연결을 쓰거나 사내망이 넓게 열려 있으면 조건이 성립할 수 있다. 다만 아직 악용 정황과 PoC가 없고, 기술 세부는 제조사 권고와 연구자(Wakefield) 자료에만 있다.",
+  "action": "① 자산 목록에서 RealVNC 제품과 버전을 확인하고 Server는 7.19.1, Viewer·Connect App은 8.6.2, Classic Viewer는 7.18.3, On-Demand Assist는 3.5.0 이상으로 올린다. ② 모바일 Viewer·Server 앱도 4.9.6·2.8.2·2.8.4 이상인지 확인한다(자동 업데이트 여부 점검). ③ 패치 전까지 인터넷과 비신뢰 구간에서 RealVNC 단말로 향하는 UDP 접근을 차단하고, VNC 포트를 사내 관리망으로 제한한다. ④ 외주·협력사가 원격 지원용으로 쓰는 RealVNC 인스턴스를 함께 조사하고, On-Demand Assist 구버전 설치 파일이 사용자 PC에 남아 있는지 확인한다. ⑤ 패치 후 VNC 인증 로그에서 비정상 접속·반복 연결 시도를 확인한다.",
+  "links": [
+   {
+    "label": "RealVNC 보안 권고 RVNC-2026-001(11/20 공지·영향/해결 버전)",
+    "url": "https://help.realvnc.com/hc/en-us/articles/40824627217949-Security-Advisory-UDP-based-connection-vulnerability"
+   },
+   {
+    "label": "CVE-2026-137738 레코드(11/27 부여·CVSS 9.8)",
+    "url": "https://www.cve.org/CVERecord?id=CVE-2026-137738"
+   },
+   {
+    "label": "Rapid7 취약점 DB 항목",
+    "url": "https://www.rapid7.com/db/vulnerabilities/cve-2026-137738/"
+   }
+  ],
+  "date": "2026-11-27"
+ },
+ {
+  "id": "2026-11-27-ocam-fake-installer-silverfox-gh0strat",
+  "category": "global",
+  "severity": "medium",
+  "severityLabel": "보안뉴스(11/27 18:00)·와치가드 레드셀 분석(11/25) · 오캠 위장 설치파일이 정품과 함께 악성 구성요소 설치 · 실행 38초 만에 디펜더 예외·폴더 보호 해제 시도, 55초에 차단 · 메모리 상주형 Gh0stRAT, C2 156.234.43.98",
+  "pocStatus": "exploited",
+  "pocLabel": "레드셀 표본에서 실제 유포·감염 시도 확인 · 피해 PC에서는 91초에 악성 DLL 격리, 네트워크 활동 없음 · 실버폭스 연관은 설치 구조 유사성에 근거한 추정 · 검색결과 조작 여부는 미확인",
+  "title": "정품 오캠 설치파일에 악성 DLL…실버폭스 Gh0stRAT 유포, 55초에 차단",
+  "summary": "화면 녹화 프로그램 오캠(oCam) 설치 파일로 위장해 원격 조종 악성코드를 심으려 한 공격이 확인됐다. 와치가드 레드셀 연구팀이 11월 25일 공개한 분석에 따르면, 지난 9월 중순 한 이용자가 구글에서 오캠을 검색해 외부 다운로드 사이트를 열었고, 내려받은 약 114MB 설치 파일은 진짜 오캠을 정상 설치하면서 악성 구성요소도 함께 심었다.\n\n설치 파일은 실행 38초 뒤 파워셸을 띄워 랜섬웨어 차단 기능인 '제어된 폴더 액세스'를 끄고 마이크로소프트 디펜더에 ProgramData·Program Files·Users·AppData\\Roaming 전역 검사 예외를 추가하려 했다. 보안 제품의 행위 탐지가 55초에 파워셸 실행을 막았고, 악성 DLL은 71초에 로드가 차단돼 91초에 격리됐다. 이후 재시도도 모두 실패했고 이 PC에서는 네트워크 연결이 관측되지 않았다.\n\n연구팀은 설치 구조와 감염 흐름이 중국계 해킹 조직 '실버폭스'(Silver Fox, SwimSnake·Valley Thief·Void Arachne)의 특징과 맞아떨어진다고 분석했다. 같은 오캠을 미끼로 쓴 별도 표본에서는 피해 PC에 설치된 중국 백신(360, QQ PC매니저, 훠룽) 종류에 따라 악성 파일 묶음을 네 갈래로 나눠 배포했고, 최종 단계로 원격 조종 기능을 갖춘 고스트랫(Gh0stRAT)이 나왔다. 공격에 쓰인 클라우드플레어 워커스 주소의 하위 도메인 68개가 확인됐고 대부분 탐지되지 않은 상태였다.",
+  "pocDetail": "정상 프로그램이 실제로 설치된다는 점이 이 사례의 핵심이다. 사용자는 앱이 제대로 동작하는 것을 보고 안심하지만, 별도 설치 프로그램이 백그라운드에서 보안 기능을 끄고 DLL 사이드로딩으로 악성 코드를 불러온다. 실행 파일(TaskLoad.exe)에는 만료됐지만 정상 발급 이력이 있는 넷이즈 서명이 붙어 있었고, 악성 파일의 첫 두 바이트를 일부러 망가뜨려 정적 탐지를 피했다.\n\n2단계는 디스크에 남지 않고 메모리에서만 동작했다. 설치 파일(instal.ini) 끝 140바이트를 Base64·감산·XOR로 풀어 C2 156[.]234[.]43[.]98을 얻고, 분석 환경을 탐지하면 쓸데없는 연산으로 시간을 끈 뒤 10분간 잠들었다. 뮤텍스는 Run2019·Run201902를 썼고, 일부 캠페인에서는 중국어 텔레그램을 실행해 미리 심어 둔 계정을 여는 동작도 관측됐다.\n\n최종 고스트랫은 40개 명령 중 35개를 지원하고, PNG로 위장한 플러그인으로 화면·영상·오디오 캡처, 키로깅, 셸 실행, 레지스트리·서비스 제어, 디도스, 프록시 기능을 갖췄다. 연구팀은 오캠이 여러 미끼 중 하나일 수 있다고 봤다. 같은 DLL을 실행하는 파일 50개 가운데 다른 앱 이름을 단 설치 파일도 있었다.",
+  "action": "① 디펜더 검사 예외 목록과 '제어된 폴더 액세스' 설정이 최근 임의로 바뀌었는지 전수 점검한다(ProgramData·Program Files·Users·AppData\\Roaming 전역 예외가 있으면 삭제). ② C:\\Users\\Public\\Documents에 TaskLoad.exe·Setup.tmp·dll1.dll·_8 같은 낯선 파일이 있는지 확인하고, 뮤텍스 Run2019·Run201902와 C2 156.234.43.98 통신을 탐지·차단한다. ③ 오캠은 제조사 공식 사이트(ohsoft)나 사내 소프트웨어 카탈로그에서만 받도록 안내하고, 검색 상위에 노출된 외부 다운로드 사이트·광고 링크를 차단 목록에 넣는다. ④ EDR에 서명이 만료된 정상 인증서를 단 실행 파일의 DLL 사이드로딩과 공용 문서 폴더 실행을 탐지 규칙으로 추가한다. ⑤ 감염이 의심되는 PC는 계정 자격증명·브라우저 저장 비밀번호를 회전하고, 같은 계정을 쓰는 다른 시스템도 함께 점검한다.",
+  "links": [
+   {
+    "label": "보안뉴스: '오캠' 위장 설치 파일로 원격 조종 악성코드(11/27 18:00)",
+    "url": "https://www.boannews.com/news/articleView.html?idxno=147593"
+   },
+   {
+    "label": "WatchGuard Red Cell: Silver Fox SEO Poisoning·Gh0stRAT 분석(11/25)",
+    "url": "https://www.watchguard.com/wgrd-security-hub/secplicity-blog/silver-fox-seo-poisoning-how-fake-software-downloads-spread"
+   },
+   {
+    "label": "Cyber Security News: Silver Fox fake downloads·공격 타임라인(11/26)",
+    "url": "https://cybersecuritynews.com/silver-fox-hackers/"
+   }
+  ],
+  "date": "2026-11-27"
+ },
+ {
+  "id": "2026-11-27-zodia-custody-client-contact-exposure",
+  "category": "global",
+  "severity": "medium",
+  "severityLabel": "보안뉴스(11/27 15:00)·조디아 성명(11/26) · 11/23 플랫폼 탐색 시도 탐지 후 B2B API 일시 중단, 11/24 무단 접근 확인 · 공개된 고객사 정보와 일부 고객·직원 업무용 이름·이메일 · 무단 거래는 없음 · 침입 경로·피해 인원·신고 당국 미공개",
+  "pocStatus": "exploited",
+  "pocLabel": "회사 성명으로 무단 접근 확인 · 자산·개인키 유출은 없다고 밝힘 · 침입 경로·규모·공격 주체 미공개 · 스탠다드차타드 지분 100% 인수 직후 시점",
+  "title": "스탠다드차타드 자회사 조디아 커스터디, 고객·직원 업무 연락처 노출",
+  "summary": "스탠다드차타드의 가상자산 수탁 자회사 조디아 커스터디(Zodia Custody)가 보안 사고로 일부 고객과 직원의 업무용 연락처가 외부에 노출됐다고 밝혔다. 리처드 클라크 CEO는 11월 26일 회사 홈페이지 성명에서 사고 경위를 공개했다.\n\n조디아는 11월 23일 자사 플랫폼을 탐색하는 수상한 시도를 탐지하고, 예방 차원에서 기업 고객용(B2B) API 연결을 일시 중단한 뒤 추가 보안 조치를 적용해 서비스를 재개했다. 회사는 API를 침입 경로로 지목하지는 않았다. 이튿날인 24일 감시를 이어가던 중 허가받지 않은 외부인이 일부 고객 정보에 접근한 사실을 확인했다.\n\n접근이 확인된 정보는 공개돼 있던 고객사 정보와 일부 고객·직원의 업무용 이름과 이메일 주소다. 조디아는 고객에게 알리고 관계 규제 당국에도 신고했다고 밝혔지만, 어느 당국인지, 노출된 인원이 몇 명인지, 침입자가 어떻게 들어왔는지는 공개하지 않았다. 현재까지 조사에서 무단 거래는 확인되지 않았다. 이번 사고는 스탠다드차타드가 조디아 지분을 100%로 늘린 지 몇 주 만에 발생했다.",
+  "pocDetail": "노출된 것이 개인키나 자산이 아니라 연락처라는 점은 피해 범위를 좁히지만, 위험이 사라진 것은 아니다. 기관 고객 담당자의 실제 이름과 업무 이메일은 표적 스피어피싱의 정확도를 높이고, 수탁사·거래소를 오가는 업무 특성상 'API 재연결', '계정 정보 공유', '송금 승인 확인' 요청이 자연스럽게 읽힌다.\n\n조디아는 지갑을 분리한 아키텍처와 키 관리 체계를 쓰기 때문에 경계 수준 침해가 콜드 스토리지와 분리돼 있다고 설명한다. 다만 이는 회사의 설명이고, 침입 체류 시간과 접근 범위는 공개되지 않아 독립적으로 확인할 수 없다.",
+  "action": "① 조디아·스탠다드차타드와 디지털자산 수탁 거래가 있는 부서는 API 재연결 요청, 계정 정보 공유, 송금·출금 승인 변경 요청을 받으면 기존에 알던 창구로 아웃오브밴드 재확인한다. ② 수탁사 API 키·웹훅 시크릿·IP 허용목록을 점검하고, 노출 가능성을 가정해 회전 일정을 잡는다. ③ 업무 이메일을 노출한 담당자에게 조디아·거래소 사칭 메일과 첨부파일 주의를 안내하고, 송금 승인은 2인 승인으로 유지한다. ④ 거래·잔액 대조를 평소보다 촘촘히 하고, 규제 보고 의무가 있는 해외 법인은 현지 당국 공지 여부를 확인한다.",
+  "links": [
+   {
+    "label": "보안뉴스: 가상자산 수탁사 조디아, 고객·직원 연락처 노출(11/27 15:00)",
+    "url": "https://www.boannews.com/news/articleView.html?idxno=147589"
+   },
+   {
+    "label": "Zodia Custody CEO 성명: recent security incident(11/26)",
+    "url": "https://zodia-custody.com/statement-on-recent-security-incident/"
+   },
+   {
+    "label": "블록미디어: 스탠다드차타드 자회사 해킹·무단 거래 없음(11/27 11:23)",
+    "url": "https://www.blockmedia.co.kr/archives/1171313"
+   }
+  ],
+  "date": "2026-11-27"
+ },
+ {
+  "id": "2026-11-27-windows-server-2025-hotpatch-oob-kb5138318",
+  "category": "global",
+  "severity": "low",
+  "severityLabel": "MS OOB KB5138318(11/25)·BleepingComputer(11/27 18:08 KST) · 11월 보안 핫패치 KB5131077 이후 IPv6 RA 시간제한 경로 만료 때 0x139 중지 오류 · 핫패치 등록 서버에 자동 적용, 재부팅 불필요 · Windows 11 핫패치의 앱 설치·실행·인쇄 문제는 별도 진행",
+  "pocStatus": "none",
+  "pocLabel": "보안 결함이 아닌 패치 회귀 · 악용 개념 없음 · MS는 영향을 받는 서버를 '일부'로 한정 · 0x139는 KERNEL_SECURITY_CHECK_FAILURE",
+  "title": "MS, 11월 핫패치로 멈춘 Windows Server 2025 긴급 수정…재부팅 없이 적용",
+  "summary": "마이크로소프트가 11월 보안 핫패치를 설치한 뒤 일부 Windows Server 2025가 멈추는 문제를 고치는 긴급 대역외(OOB) 업데이트 KB5138318을 배포했다. 대상은 11월 보안 핫패치 KB5131077을 적용한 뒤 라우터 광고(RA)가 켜져 있고 시간 제한이 있는 IPv6 경로를 받는 서버다. 경로 타이머가 만료될 때 0x139(KERNEL_SECURITY_CHECK_FAILURE) 중지 오류가 나면서 서버가 예고 없이 멈출 수 있다.\n\nKB5138318은 보안 업데이트가 아니라 이 회귀를 고치는 수정이며, 핫패치 업데이트에 등록된 Windows Server 2025 기기에 윈도우 업데이트를 통해 자동으로 내려간다. 관리자나 사용자가 재부팅하지 않아도 적용된다. 같은 달 핫패치로 Windows 11에서는 오피스·서드파티 앱 설치·실행 문제와 포스포인트 DLP 에이전트 환경의 인쇄 문제도 보고됐다.",
+  "pocDetail": "보안 패치가 가용성을 깨는 전형적인 회귀 사례다. 핫패치는 재부팅 없이 커널 수준 변경을 적용하는 방식이라, 관리자가 패치 시점과 상태를 눈으로 확인하기 어렵고 문제가 생겨도 '무엇이 바뀌었는지' 추적이 늦어진다. IPv6 라우터 광고 기반 경로는 클라우드·가상 스위치·일부 네트워크 장비 환경에서 흔히 쓰인다.\n\n마이크로소프트는 영향을 받는 서버를 '일부'로 한정했지만, 자동 적용되는 수정이라는 점은 장애 원인 분석 때 기준선(baseline)이 필요하다는 뜻이다. 서버가 멈춘 시점과 KB 적용 시점, 이벤트 로그의 0x139 기록을 함께 봐야 원인을 특정할 수 있다.",
+  "action": "① Windows Server 2025 자산에서 핫패치(KB5131077) 적용 여부와 KB5138318 설치 상태를 확인하고, 미적용 서버는 자동 배포 상태를 점검한다. ② 최근 예고 없이 재부팅·중지된 서버의 이벤트 로그에서 0x139(KERNEL_SECURITY_CHECK_FAILURE)와 IPv6 경로 만료 시점을 대조한다. ③ 핫패치 적용 기준선을 자산 관리대장에 기록하고, 핫패치·일반 패치 경로를 함께 추적한다. ④ Windows 11 핫패치 환경의 오피스·앱 설치·인쇄(포스포인트 DLP) 문제 여부를 사용자 신고로 확인한다. ⑤ 핫패치는 테스트 링을 거쳐 단계 배포하고, 서버 역할별로 가용성 영향이 큰 장비는 배포 순서를 분리한다.",
+  "links": [
+   {
+    "label": "BleepingComputer: MS emergency hotpatch fixes Windows Server crashes(11/27 18:08 KST)",
+    "url": "https://www.bleepingcomputer.com/news/microsoft/new-out-of-band-oob-emergency-hotpatch-fixes-windows-server-2025-crashes/"
+   },
+   {
+    "label": "Microsoft KB5138318 지원 문서",
+    "url": "https://support.microsoft.com/help/5138318"
+   }
+  ],
+  "date": "2026-11-27"
  }
 ]
